@@ -1,6 +1,11 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
+import Navbar from './Components/Navbar'
+import DashBoard from './Components/DashBoard'
+import LoginPage from './Components/Login';
+import {  BrowserRouter,Routes, Route, } from 'react-router-dom';
+
 // Removed import of App.css to avoid Tailwind CSS processing error
 // import './App.css'
 
@@ -9,13 +14,17 @@ function App() {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-        <div className="bg-purple-500 text-white p-4 rounded-lg shadow-lg">
-          Tailwind CSS is working!
-        </div>
-        <button className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
-          Test Button
-        </button>
+      <Navbar />
+      <div style={{ paddingTop: '4rem' }}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<DashBoard />} />
+
+            {/* Add other routes here */}
+            <Route path="/login" element={<LoginPage />} />
+            {/* <Route path="/Register" element={<RegisterPage />} /> */}
+          </Routes>
+        </BrowserRouter>
       </div>
     </>
   )

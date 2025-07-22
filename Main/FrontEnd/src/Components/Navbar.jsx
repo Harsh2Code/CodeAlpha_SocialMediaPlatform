@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar, AvatarImage } from '@/components/ui/avatar'
+import { Avatar, AvatarImage } from '/src/components/ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuContent,
-} from '@/components/ui/dropdown-menu'
+} from '/src/components/ui/dropdown-menu'
 import {
   ArrowRightStartOnRectangleIcon,
   ChevronDownIcon,
@@ -22,7 +22,7 @@ import {
 
 function Navbar() {
   return (
-    <div style={{ width: '96vw', height: '60px',borderBottom: '1px solid #6366f1', color: 'white', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: '0 16px', position: 'fixed', top: 0, left: '1%', right: '1%', zIndex: 50 }}>
+    <div className='bg-muted' style={{ width: '96vw', height: '60px',backgroundColor: '#212121ff', overflow: 'hidden' ,borderBottom: '1px solid #6366f1', color: 'white', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: '0 16px', position: 'fixed', top: 0, left: '1%', right: '1%', zIndex: 50 }}>
       <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
         <Avatar square="true" >
           <AvatarImage src="/Profile-Photo.jpeg" alt="Profile" style={{width: '26px', height: '26px'}}/>

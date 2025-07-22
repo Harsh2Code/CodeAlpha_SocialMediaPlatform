@@ -1,5 +1,5 @@
 import React from "react"
-import { Avatar } from '@/components/ui/avatar.jsx'
+import { Avatar } from '/src/components/ui/avatar.jsx'
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuContent,
-} from '@/components/ui/dropdown-menu'
+} from '/src/components/ui/dropdown-menu'
 import {
   ArrowRightStartOnRectangleIcon,
   ChevronDownIcon,
