@@ -8,27 +8,34 @@ import { BiSolidLike } from "react-icons/bi";
 import { BiCommentDetail } from "react-icons/bi";
 import { ShareIcon } from '@heroicons/react/24/solid';
 
-
-export default function Post() {
+export default function Post(props) {
+  const hideUserInfo = props.hideUserInfo;
+  const value = props.user;
+  if (!value) {
+    return null;
+  }
   return (
     <div>
-        <div className='flex flex-row justify-start items-center'>
-        <Avatar square="true" className="mx-auto my-auto my-[20%]" style={{ marginTop: '1rem' }} >
-          <AvatarImage src="/Profile-Photo.jpeg" alt="Profile" style={{ width: '6rem', height: '6rem' }} />
-        </Avatar>
-        <div className='flex flex-col justify-center items-start mx-auto' style={{ height: '100px', width: '30vw', border: '2px solid white' }}>
-          <div className='ml-[2%] font-bold text-[2rem]'><span className='text-2xl w- ml-[2%]'>Name_Here </span></div>
-          <div className='flex flex-row justify-between items-center w-full'>
-            <div className='ml-[2%]'>
-              <span className='text-gray-700 ml-[2%]'>Date here</span> |
-              <span className='text-muted ml-1'>Day Here</span>
+      <div className='flex flex-row justify-start items-center'>
+        {!hideUserInfo && (
+          <>
+            <Avatar square="true" className="mx-auto my-auto my-[20%]" style={{ marginTop: '1rem' }} >
+              <AvatarImage src="/Profile-Photo.jpeg" alt="Profile" style={{ width: '6rem', height: '6rem' }} />
+            </Avatar>
+            <div className='flex flex-col justify-center items-start mx-auto' style={{ height: '100px', width: '30vw', border: '2px solid white' }}>
+              <div className='ml-[2%] font-bold text-[2rem]'><span className='text-2xl w- ml-[2%]'>Name_Here </span></div>
+              <div className='flex flex-row justify-between items-center w-full'>
+                <div className='ml-[2%]'>
+                  <span className='text-gray-700 ml-[2%]'>Date here</span> |
+                  <span className='text-muted ml-1'>Day Here</span>
+                </div>
+                <div className='mr-[4%] my-auto'>
+                  <Button>Follow +</Button>
+                </div>
+              </div>
             </div>
-            <div className='mr-[4%] my-auto'>
-              <Button>Follow +</Button>
-            </div>
-
-          </div>
-        </div>
+          </>
+        )}
       </div>
       <hr className='w-[95%]' style={{ border: '1px solid grey' }} />
       <Card style={{ marginBottom: '20px' }}>
