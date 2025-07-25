@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+
 import { Card } from "./ui/card";
 import { Avatar } from "./ui/avatar";
 import { Label } from "./ui/label";
@@ -7,11 +9,20 @@ import { Button } from "./ui/button";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "./ui/dropdown-menu";
 
 const CreatePost = () => {
+  const { token } = useContext(AuthContext);
   const [postContent, setPostContent] = useState("");
+  const [postImage, setPostImage] = useState(null);
+  const [postLink, setPostLink] = useState("");
   const [postVisibility, setPostVisibility] = useState("Public");
 
   const handlePostChange = (e) => {
     setPostContent(e.target.value);
+  };
+  const handleImageChange = (e) => {
+    setPostImage(e.target.files[0]);
+  };
+  const handleLinkChange = (e) => {
+    setPostLink(e.target.value);
   };
 
   const handleVisibilityChange = (visibility) => {
@@ -21,15 +32,23 @@ const CreatePost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const formData = new FormData();
+      formData.append("content", postContent);
+      formData.append("visibility", postVisibility);
+      if (postImage) {
+        formData.append("image", postImage);
+      }
+      if (postLink) {
+        formData.append("link", postLink);
+      }
+
       const response = await fetch("http://localhost:8000/api/posts/", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Authorization": `Token ${token}`,
         },
-        body: JSON.stringify({
-          content: postContent,
-          visibility: postVisibility,
-        }),
+        body: formData,
+        credentials: "include"
       });
       if (!response.ok) {
         throw new Error("Failed to create post");
@@ -37,6 +56,8 @@ const CreatePost = () => {
       const data = await response.json();
       console.log("Post created:", data);
       setPostContent("");
+      setPostImage(null);
+      setPostLink("");
     } catch (error) {
       console.error("Error creating post:", error);
     }
@@ -61,31 +82,27 @@ const CreatePost = () => {
               placeholder="What's on your mind?"
               className="resize-none h-24"
               required
-            />
-            <Label htmlFor="postContent" className="block mb-1 font-medium" style={{ color: "#6663f1" }}>
+              />
+            <Label htmlFor="postImage" className="block mb-1 font-medium" style={{ color: "#6663f1" }}>
               Upload Image
             </Label>
             <input
               type="file"
-              id="postContent"
-              value={postContent}
-              onChange={handlePostChange}
-              placeholder="What's on your mind?"
-              className="resize-none h-[24px] w-[96%]"
-              required
+              id="postImage"
+              onChange={handleImageChange}
+              className="h-[24px] w-[96%]"
             />
             <hr />
-            <Label htmlFor="postContent" className="block mb-1 font-medium" style={{ color: "#6663f1" }}>
+            <Label htmlFor="postLink" className="block mb-1 font-medium" style={{ color: "#6663f1" }}>
               Paste Link
             </Label>
             <Input
               as="textarea"
-              id="postContent"
-              value={postContent}
-              onChange={handlePostChange}
+              id="postLink"
+              value={postLink}
+              onChange={handleLinkChange}
               placeholder="What's on your mind?"
               className="resize-none h-24"
-              required
             />
             <div className="flex items-center justify-between">
               <DropdownMenu>

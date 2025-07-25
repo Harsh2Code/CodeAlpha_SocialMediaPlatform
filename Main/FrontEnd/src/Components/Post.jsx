@@ -15,7 +15,7 @@ export default function Post(props) {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/posts/");
+        const response = await fetch("http://localhost:8000/api/postslisttest/");
         if (!response.ok) {
           throw new Error("Failed to fetch posts");
         }
@@ -66,6 +66,9 @@ export default function Post(props) {
               <Label className="overflow-hidden">
                 {post.image_url && <img className='w-5/6 mx-auto my-auto rounded-[2%] block overflow-hidden object-cover' src={post.image_url} alt="" />}
               </Label>
+              <p>
+                {post.content}
+              </p>
             </CardContent>
           </Card>
           <hr className='w-[95%]' style={{ border: '1px solid grey' }} />
