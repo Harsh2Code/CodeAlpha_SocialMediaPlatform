@@ -6,15 +6,19 @@ import DashBoard from './Components/DashBoard'
 import LoginPage from './Components/Login';
 import {  BrowserRouter,Routes, Route, } from 'react-router-dom';
 import Account from './Components/Account'
+import CreatePost from './Components/CreatePost'
+import Register from './Components/Register'
 
 // Removed import of App.css to avoid Tailwind CSS processing error
 // import './App.css'
+
+import { AuthProvider } from './contexts/AuthContext'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <>
+    <AuthProvider>
       <Navbar />
       <div style={{ paddingTop: '4rem' }}>
         <BrowserRouter>
@@ -23,12 +27,13 @@ function App() {
 
             {/* Add other routes here */}
             <Route path="/login" element={<LoginPage />} />
-            {/* <Route path="/Register" element={<RegisterPage />} /> */}
+            <Route path="/Register" element={<Register />} />
             <Route path="/account" element={<Account />} />
+            <Route path='/create' element={<CreatePost />} />
           </Routes>
         </BrowserRouter>
       </div>
-    </>
+    </AuthProvider>
   )
 }
 

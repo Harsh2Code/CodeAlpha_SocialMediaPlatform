@@ -1,17 +1,19 @@
 import * as React from "react";
 import { cn } from "/src/lib/utils";
 
-function Input({ className, type = "text", ...props }) {
+const Input = React.forwardRef(({ as: Component = "input", className, type = "text", ...props }, ref) => {
   return (
-    <div className="mt-2" style={{marginTop: '10px', marginBottom: '20px'}}>
-      <div className="mt-2">
-        <div className="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
-          <input id="price" type="text" name="price" className="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6" />
-        </div>
-      </div>
-    </div>
+    <Component
+      type={Component === "input" ? type : undefined}
+      className={cn(
+        "block w-[96%] rounded-[0.5rem] border border-[#6663f1]-600 bg-white px-4 py-2 text-gray-900 placeholder:text-gray-400 focus:border-[#6664f1] focus:outline-none focus:ring-1 focus:ring-[#6664f1] sm:text-sm",
+        
+      )}
+      ref={ref}
+      {...props}
+    />
   );
-}
+});
+Input.displayName = "Input";
 
 export { Input };
-

@@ -24,7 +24,7 @@ const iconSize = 26
 const navItems = [
   { label: 'Home', url: '/' },
   { label: 'Events', url: '/events' },
-  { label: 'Orders', url: '/orders' },
+  { label: 'Create', url: '/create' },
   { label: 'Broadcasts', url: '/broadcasts' },
   { label: 'Settings', url: '/settings' },
 ]
