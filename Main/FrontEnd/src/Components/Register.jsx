@@ -12,7 +12,10 @@ import { Label } from "/src/components/ui/label.jsx";
 
 export default function Register({ className, ...props }) {
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [gender, setGender] = useState("");
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
@@ -26,15 +29,18 @@ export default function Register({ className, ...props }) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ username, email, password, date_of_birth: dateOfBirth, gender }),
       });
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(errorText);
       }
       setSuccess("Registration successful! You can now log in.");
+      setUsername("");
       setEmail("");
       setPassword("");
+      setDateOfBirth("");
+      setGender("");
     } catch (err) {
       setError(err.message);
     }
@@ -56,39 +62,81 @@ export default function Register({ className, ...props }) {
           <form onSubmit={handleSubmit}>
             <div className="grid gap-6 mt-2">
               <div className="mt-2 grid gap-3 has-[input:focus-within]:outline-indigo-600">
-                <Label className="mt-[40px] ml-[2%]" htmlFor="email" style={{ color: "#6663f1" }}>
-                  Email
+                <Label className="mt-[40px] ml-[2%]" htmlFor="username" style={{ color: "#6663f1" }}>
+                  User Name
                 </Label>
                 <input
+                  id="username"
+                  type="text"
+                  name="username"
+                  required
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="block w-[96%] h-[1.5rem] mx-auto mt-[10px] mb-[20px] border bg-white px-3 py-1.5 text-white text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                  style={{ borderRadius: "8px" }}
+                />
+              </div>
+              <div>
+                <Label className="mt-[40px] ml-[2%]" htmlFor="username" style={{ color: "#6663f1" }}>
+                  Email Address
+                </Label>
+                <Input
                   id="email"
-                  type="email"
+                  type="text"
                   name="email"
                   required
-                  autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="block w-[96%] h-[1.5rem] mx-auto mt-[10px] mb-[20px] border bg-white px-3 py-1.5 text-white text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                   style={{ borderRadius: "8px" }}
                 />
               </div>
-              <div className="grid gap-3">
-                <div className="flex items-center">
-                  <Label className="mt-[20px] ml-[2%]" htmlFor="password" style={{ color: "#6663f1" }}>
-                    Password
-                  </Label>
-                </div>
+              <div>
+                <Label className="mt-[40px] ml-[2%]" htmlFor="username" style={{ color: "#6663f1" }}>
+                  Password
+                </Label>
                 <input
                   id="password"
                   type="password"
                   name="password"
                   required
-                  autoComplete="current-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="block w-[96%] h-[1.5rem] mx-auto mt-[10px] mb-[20px] border bg-white px-3 py-1.5 text-white text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                   style={{ borderRadius: "8px" }}
                 />
               </div>
+              <div>
+                <Label className="mt-[40px] ml-[2%]" htmlFor="username" style={{ color: "#6663f1" }}>
+                  Gender
+                </Label>
+                <input
+                  id="gender"
+                  type="text"
+                  name="gender"
+                  required
+                  value={gender}
+                  onChange={(e) => setGender(e.target.value)}
+                  className="block w-[96%] h-[1.5rem] mx-auto mt-[10px] mb-[20px] border bg-white px-3 py-1.5 text-white text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                  style={{ borderRadius: "8px" }}
+                />
+              </div>
+              <div className="mt-2 grid gap-3 has-[input:focus-within]:outline-indigo-600">
+                <Label className="mt-[40px] ml-[2%]" htmlFor="dateOfBirth" style={{ color: "#6663f1" }}>
+                  Date of Birth
+                </Label>
+                <input
+                  id="dateOfBirth"
+                  type="date"
+                  name="dateOfBirth"
+                  required
+                  value={dateOfBirth || ""}
+                  onChange={(e) => setDateOfBirth(e.target.value)}
+                  className="block w-[96%] h-[1.5rem] mx-auto mt-[10px] mb-[20px] border bg-white px-3 py-1.5 text-white text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                  style={{ borderRadius: "8px" }}
+                />
+              </div>
+              
               {error && <div className="text-red-600 text-center">{error}</div>}
               {success && <div className="text-green-600 text-center">{success}</div>}
               <Button type="submit" className="w-full my-[20px]">
