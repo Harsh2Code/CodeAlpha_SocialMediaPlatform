@@ -1,2 +1,6 @@
-BackEnd
 token_auth_test.py
+db.sqlite3
+list_db_tables.py
+token_auth_test.py
+venv
+.gitignore
