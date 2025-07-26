@@ -39,7 +39,7 @@ const CreatePost = () => {
         formData.append("image", postImage);
       }
       if (postLink) {
-        formData.append("link", postLink);
+        formData.append("image_url", postLink);
       }
 
       const response = await fetch("http://localhost:8000/api/posts/", {
