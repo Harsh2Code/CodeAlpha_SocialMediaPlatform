@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
 import { Avatar, AvatarImage } from '/src/components/ui/avatar'
 import {
@@ -20,9 +20,63 @@ import {
   InboxIcon,
   MagnifyingGlassIcon,
 } from '@heroicons/react/24/solid'
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { Button } from './ui/button'
+import {Label} from '@/Components/ui/label'
+ 
+const frameworks = []
 
 function Navbar() {
-  const { user, logout } = useContext(AuthContext)
+  const { user, logout, token } = useContext(AuthContext)
+  const [open, setOpen] = useState(false)
+  const [value, setValue] = useState("")
+  const [users, setUsers] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      setLoading(true)
+      setError(null)
+      try {
+        console.log("Fetching users with token:", token)
+        const response = await fetch('http://localhost:8000/api/users/', {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`,
+          },
+        })
+        console.log("Response status:", response.status)
+        if (!response.ok) {
+          const text = await response.text()
+          console.error("Response text on error:", text)
+          throw new Error('Failed to fetch users')
+        }
+        const data = await response.json()
+        setUsers(data)
+      } catch (err) {
+        console.error("Fetch users error:", err)
+        setError(err.message)
+      } finally {
+        setLoading(false)
+      }
+    }
+    if (token) {
+      fetchUsers()
+    }
+  }, [token])
 
   const handleLogout = () => {
     logout()
@@ -34,10 +88,10 @@ function Navbar() {
       style={{
         width: '96vw',
         height: '60px',
-        backgroundColor: '#212121ff',
+        backgroundColor: '#1f2b2dff',
         overflow: 'hidden',
         borderBottom: '1px solid #6366f1',
-        boxShadow: '2px 2px 5px #6663f1',
+        boxShadow: '2px 2px 5px #CDB384',
         color: 'white',
         display: 'flex',
         flexDirection: 'row',
@@ -46,8 +100,8 @@ function Navbar() {
         padding: '0 16px',
         position: 'fixed',
         top: 0,
-        left: '1%',
-        right: '1%',
+        left: '0.25%',
+        right: '0.5%',
         zIndex: 50,
       }}
     >
@@ -60,28 +114,66 @@ function Navbar() {
           />
         </Avatar>
         <span style={{ marginLeft: '8px', color: '#6363f1' }}>Main</span>
-        {/* <ChevronDownIcon style={{ width: 26, height: 26, marginLeft: '4px' }} /> */}
       </div>
       <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '20px' }}>
-        <a href="/" style={{ color: '#6663f1', textDecoration: 'none' }}>
+        <a href="/" style={{ color: '#CDB384', textDecoration: 'none' }}>
           Home
         </a>
-        <a href="/events" style={{ color: '#6663f1', textDecoration: 'none' }}>
+        <a href="/events" style={{ color: '#CDB384', textDecoration: 'none' }}>
           Events
         </a>
-        <a href="/create" style={{ color: '#6663f1', textDecoration: 'none' }}>
+        <a href="/create" style={{ color: '#CDB384', textDecoration: 'none' }}>
           Create
         </a>
       </div>
       <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '12px' }}>
-        <MagnifyingGlassIcon style={{ width: 26, height: 26, color: '#6663f1' }} />
-        <InboxIcon style={{ width: 26, height: 26, color: '#6663f1' }} />
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              role="combobox"
+              aria-expanded={open}
+              className="w-[200px] justify-between"
+              style={{ backgroundColor: '#273638ae', color: '#CDB384' }}
+            >
+              {value
+                ? users.find((user) => user.id === value)?.username
+                : "Select user..."}
+              <MagnifyingGlassIcon style={{ width: 26, height: 26, color: '#CDB384' }} />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-[200px] p-0" style={{ backgroundColor: '#1f2b2dff' }}>
+            <Command>
+              <CommandInput placeholder="Search user..." />
+              <CommandList>
+                <CommandEmpty>No user found.</CommandEmpty>
+                <CommandGroup>
+                  {loading && <div className="p-2 text-center text-gray-400">Loading...</div>}
+                  {error && <div className="p-2 text-center text-red-500">{error}</div>}
+                  {!loading && !error && users.map((user) => (
+                    <CommandItem
+                      key={user.id}
+                      value={user.id}
+                      onSelect={(currentValue) => {
+                        setValue(currentValue === value ? "" : currentValue)
+                        setOpen(false)
+                      }}
+                    >
+                      {user.username}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+        <InboxIcon style={{ width: 26, height: 26, color: '#CDB384' }} />
         {!user ? (
           <>
-            <a href="/login" style={{ color: '#6663f1', textDecoration: 'none', marginRight: '12px' }}>
+            <a href="/login" style={{ color: '#CDB384', textDecoration: 'none', marginRight: '12px' }}>
               Login
             </a>
-            <a href="/register" style={{ color: '#6663f1', textDecoration: 'none' }}>
+            <a href="/register" style={{ color: '#CDB384', textDecoration: 'none' }}>
               Register
             </a>
           </>
@@ -95,9 +187,19 @@ function Navbar() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>{user.name || 'User'}</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={handleLogout}>
-                <ArrowRightStartOnRectangleIcon className="mr-2 h-4 w-4" />
-                Logout
+              <DropdownMenuItem onClick={handleLogout} >
+                <Label style={{backgroiund: 'red'}}>
+                  <ArrowRightStartOnRectangleIcon className="mr-2 h-4 w-4" width={25} height={25} />
+                  Logout
+                </Label>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout} >
+                <Label >
+                  <ArrowRightStartOnRectangleIcon className=" block mr-2 h-4 w-4" width={25} height={25} />
+                <a href="/account" style={{ color: '#CDB384', textDecoration: 'none' }}>
+                  Accounts
+                </a>
+                </Label>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

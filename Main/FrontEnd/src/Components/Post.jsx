@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { AuthContext } from '../contexts/AuthContext'
 import { Avatar, AvatarImage } from '/src/Components/ui/avatar';
 import { Card, CardContent, CardTitle, CardHeader } from '/src/Components/ui/card';
 import { Label } from '/src/Components/ui/label';
@@ -7,8 +8,11 @@ import { Input } from '/src/Components/ui/input';
 import { BiSolidLike } from "react-icons/bi";
 import { BiCommentDetail } from "react-icons/bi";
 import { ShareIcon } from '@heroicons/react/24/solid';
+import { IoCloseSharp } from "react-icons/io5";
+import { FollowButton } from './ui/FollowButton';
 
 export default function Post(props) {
+  const { token } = useContext(AuthContext)
   const hideUserInfo = props.hideUserInfo;
   const [posts, setPosts] = useState([]);
   const [visibleComments, setVisibleComments] = useState({});
@@ -17,8 +21,13 @@ export default function Post(props) {
 
   useEffect(() => {
     const fetchPosts = async () => {
+      if (!token) return;
       try {
-        const response = await fetch("http://localhost:8000/api/postslisttest/");
+        const response = await fetch("http://localhost:8000/api/postslisttest/", {
+          headers: {
+            'Authorization': `Token ${token}`,
+          },
+        });
         if (!response.ok) {
           throw new Error("Failed to fetch posts");
         }
@@ -29,7 +38,7 @@ export default function Post(props) {
       }
     };
     fetchPosts();
-  }, []);
+  }, [token]);
 
   const toggleComments = async (postId) => {
     if (!visibleComments[postId]) {
@@ -37,7 +46,7 @@ export default function Post(props) {
       try {
         const response = await fetch(`http://localhost:8000/api/comments/?post=${postId}`, {
           headers: {
-            'Authorization': `Token ${props.token}`,
+            'Authorization': `Token ${token}`,
           },
         });
         if (!response.ok) {
@@ -65,16 +74,38 @@ export default function Post(props) {
     }));
   };
 
-  const handleCommentSubmit = (postId) => {
+  const handleCommentSubmit = async (postId) => {
     const comment = commentInputs[postId];
     if (!comment) return;
-    // TODO: Implement comment submission logic (e.g., API call)
-    console.log(`Submitting comment for post ${postId}: ${comment}`);
-    // Clear input after submission
-    setCommentInputs((prev) => ({
-      ...prev,
-      [postId]: '',
-    }));
+    try {
+      const response = await fetch("http://localhost:8000/api/comments/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Token ${token}`,
+        },
+        body: JSON.stringify({
+          post: postId,
+          text: comment,
+        }),
+      });
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Comment submission error response:", errorText);
+        throw new Error("Failed to submit comment");
+      }
+      const newComment = await response.json();
+      setComments((prev) => ({
+        ...prev,
+        [postId]: prev[postId] ? [newComment, ...prev[postId]] : [newComment],
+      }));
+      setCommentInputs((prev) => ({
+        ...prev,
+        [postId]: '',
+      }));
+    } catch (error) {
+      console.error("Error submitting comment:", error);
+    }
   };
 
   if (!posts.length) {
@@ -83,86 +114,127 @@ export default function Post(props) {
 
   return (
     <>
-    <div className= "my-[1em]"  >
-      {posts.map((post) => (
-        <div key={post.id}  style={{padding: "1em", width: '80%', margin: '1em auto' , border: '1px solid #6663f1', borderRadius: '0.8em'}}>
-          <div className='flex flex-row justify-start items-center w-[100%]' style={{backgroundColor: 'rgba(95, 95, 95, 1)', padding: '18px 0px', borderRadius: '1rem'}}>
-            {!hideUserInfo && (
-              <>
-                <Avatar square="true" className="mx-auto my-auto my-[20%]" style={{ marginTop: '1rem' }} >
-                  <AvatarImage src="/Profile-Photo.jpeg" alt="Profile" style={{ width: '6rem', height: '6rem' }} />
-                </Avatar>
-                <div className='flex flex-row justify-between items-start mx-auto' style={{ height: '100px', width: '70%' }}>
-                  <div className="flex flex-col justify-center">
-                    <div className='ml-[2%] font-bold text-[2rem]'><span className='text-2xl w- ml-[2%]'>{post.user || "Anonymous"}</span></div>
-                    <span className='text-[1em] w- mt-[10%] ml-[4%]' style={{color: 'rgba(255, 248, 255, 0.67)'}}>{post.gender || "PNTS"} | {post.age || "?"}</span>
-                  </div>
-                  
-                  <div className='flex flex-row justify-between items-center w-full'>
-                    <div className='ml-[2%]'>
+      <div className="my-[1em]" >
+        {posts.map((post) => (
+          <div key={post.id} style={{ padding: "1em 1em 0em 1em", width: '80%', margin: '1em  auto ', border: '1px solid #CDB384', borderRadius: '0.4em', /*backgroundColor: '#F7F7F8'*/ backgroundColor: '#1f2b2dff' }}>
+            <div className='flex flex-row justify-start items-center w-[100%]' style={{ backgroundColor: '#324446', padding: '18px 0px', borderRadius: '0.25rem' }}>
+              {!hideUserInfo && (
+                <>
+                  <Avatar square="true" className="mx-auto my-[4%]" style={{ marginTop: '1rem' }} >
+                    <AvatarImage src="/Profile-Photo.jpeg" alt="Profile" style={{ width: '6rem', height: '6rem' }} />
+                  </Avatar>
+                  <div className='flex flex-row justify-between items-start mx-auto' style={{ height: '100px', width: '43rem' }}>
+                    <div className="flex flex-col justify-center">
+                      <div className='ml-[2%] font-bold text-[2rem]'><span className='text-2xl w- ml-[2%]'>{post.user || "Anonymous"}</span></div>
+                      <span className='text-[1em] w- mt-[10%] ml-[4%]' style={{ color: 'rgba(255, 248, 255, 0.67)' }}>{post.gender || "PNTS"} | {post.age || "?"}</span>
                     </div>
-                    <div className='mr-[0 %] flex flex-col items-end my-auto' style={({width: '200px',color: 'rgba(255, 248, 255, 0.67)'})}>
-                      <span className='text-[0.9em] mt-[2%] mr-[10%]'>{new Date(post.timestamp).toLocaleDateString()}</span>
-                      {/* <span className='text-muted ml-1'>{new Date(post.timestamp).toLocaleTimeString()}</span> */}
-                      {post.user !== props.currentUser && <Button className="mt-[10%] mr-[10%]">Follow +</Button>}
+
+                    <div className='flex flex-row justify-between items-center w-full'>
+                      <div className='ml-[2%]'>
+                      </div>
+                      <div className='mr-[0 %] flex flex-col items-end my-auto' style={({ width: '200px', color: 'rgba(255, 248, 255, 0.67)' })}>
+                        <span className='text-[0.9em] mt-[2%] mr-[10%]'>{new Date(post.timestamp).toLocaleDateString()}</span>
+                        {/* <span className='text-muted ml-1'>{new Date(post.timestamp).toLocaleTimeString()}</span> */}
+                        {post.user && post.user.trim().toLowerCase() !== "anonymous" && post.user !== props.currentUser && <FollowButton userId={post.user.trim()} />}
+                      </div>
                     </div>
                   </div>
+                </>
+              )}
+            </div>
+            <Card style={{ marginBottom: '20px', backgroundColor: '#1f2b2dff' }}>
+              <CardHeader className="text-center text-inidigo-600" style={{ marginTop: '20px', backgroundColor: '#1f2b2dff !important' }}>
+                <CardTitle className="text-xl text-indigo-600" style={{ color: "#CDB384" }}>{post.title}</CardTitle>
+              </CardHeader>
+              <CardContent className="overflow-hidded block rounded-lg" >
+                <Label className="overflow-hidden">
+                  {post.image_url && <img className='w-5/6 mx-auto my-[2%] rounded-[2%] block overflow-hidden object-cover' src={post.image_url} style={{ boxShadow: '2px 2px 4px #20271eff ' }} alt="" />}
+                </Label>
+                { post.title &&
+                <Label style={{backgroundColor: '#324446',borderRadius: '0.5rem'}} >
+                  <h2 style={{color: '#CDB384'}}>
+                    {post.title}
+                  </h2>
+                  <p>
+                    {post.content}
+                  </p>
+                </Label>
+}
+              </CardContent>
+            </Card>
+            <div className="flex justify-around align-center mx-auto w-[100%]" style={{ backgroundColor: '#BA8263', padding: '18px 0px', borderRadius: '0.25rem' }}>
+              <button
+                style={{ backgroundColor: '#1f2b2dff' }}
+                onClick={() => {
+                  // Increase like count on click
+                  const updatedPosts = posts.map((p) => {
+                    if (p.id === post.id) {
+                      return { ...p, like_count: (p.like_count || 0) + 1 };
+                    }
+                    return p;
+                  });
+                  setPosts(updatedPosts);
+                }}
+              >
+                <label htmlFor="like"><BiSolidLike style={{ width: 26, height: 26, color: '#F7F7F8' }} /></label>
+              </button>
+              <button style={{ backgroundColor: '#1f2b2dff' }} onClick={() => toggleComments(post.id)}>
+                <label htmlFor="Comment"><BiCommentDetail style={{ width: 26, height: 26, color: '#F7F7F8' }} /></label>
+              </button>
+              <button style={{ backgroundColor: '#1f2b2dff' }}>
+                <label htmlFor="share"><ShareIcon style={{ width: 26, height: 26, color: '#F7F7F8' }} /></label>
+              </button>
+            </div>
+            {visibleComments[post.id] && (
+              <div style={{ maxHeight: '28rem', overflowY: 'auto', border: '1px solid #CDB384', marginTop: '10px', padding: '10px', borderRadius: '8px', backgroundColor: '#A3AEA2' }}>
+                <div className="flex flex-row justify-between items-center">
+                  <span className='text-[1rem]' style={{ color: '#1f2b2dff' }}>
+                    Comments
+                  </span>
+                  <div> <button onClick={() => toggleComments(post.id)}><IoCloseSharp style={{ width: '0.8rem', height: '0.8rem', color: '#CDB384' }} /></button></div>
                 </div>
-              </>
+                <hr className='w-[96%] mx-auto' style={{ color: '#CDB384' }} />
+                <div className="flex justify-around">
+                  <Input
+                    type="text"
+                    placeholder="Add a comment..."
+                    value={commentInputs[post.id] || ''}
+                    onChange={(e) => handleCommentChange(post.id, e.target.value)}
+                    className="w-[70rem] p-2 rounded border border-gray-300"
+                    style={{ width: '35rem', padding: '1rem' }}
+                  />
+                  <Button onClick={() => handleCommentSubmit(post.id)} className="mt-2" style={{ color: '#CDB384' }}>
+                    Submit ✔️
+                  </Button>
+                </div>
+                <hr />
+                {comments[post.id] && comments[post.id].length > 0 ? (
+                  comments[post.id].map((comment) => (
+                    <div key={comment.id} style={{ marginBottom: '8px', borderBottom: '1px solid #ccc', paddingBottom: '4px', height: '5em', backgroundColor: '#60755A', borderRadius: '0.6em', padding: '0 1em 0 0' }}>
+                      <div className="flex flex-row justify-between items-center">
+                        <div className='w-[7em]'>
+                          <Avatar square="true" className="mx-[0.5em] my-auto my-[10%]" style={{ marginTop: '0.4rem' }} >
+                            <AvatarImage src="/Profile-Photo.jpeg" alt="Profile" style={{ width: '1.5em', height: '1.5em' }} />
+                            <div className='ml-[8%]'>{comment.user_name}</div>
+                          </Avatar>
+                        </div>
+                        <div className='text-[0.7em]' style={{ color: 'rgba(255, 248, 255, 0.67)', height: '1em' }}>
+                          <span>{new Date(comment.timestamp).toLocaleDateString()}  |  {new Date(comment.timestamp).toLocaleTimeString().toUpperCase()}</span>
+                        </div>
+                      </div>
+                      <p className='w-[85%] mx-auto my-[0%]' style={{ height: '0.5em', marginTop: '1rem' }}>
+                        {comment.text}
+                      </p>
+                    </div>
+                  ))
+                ) : (
+                  <p>No comments yet.</p>
+                )}
+              </div>
             )}
           </div>
-          <Card style={{ marginBottom: '20px' }}>
-            <CardHeader className="text-center text-inidigo-600" style={{ marginTop: '20px' }}>
-              <CardTitle className="text-xl text-indigo-600" style={{ color: "#6663f1" }}>{post.content}</CardTitle>
-            </CardHeader>
-            <CardContent className="overflow-hidded block rounded-lg" >
-              <Label className="overflow-hidden">
-                {post.image_url && <img className='w-5/6 mx-auto my-auto rounded-[2%] block overflow-hidden object-cover' src={post.image_url} alt="" />}
-              </Label>
-              <p>
-                {post.content}
-              </p>
-            </CardContent>
-          </Card>
-          <hr className='w-[95%]' style={{ border: '1px solid grey' }} />
-          <div className="flex justify-between align-center w-5/6 mx-auto my-[3%]">
-            <button>
-              <label htmlFor="like"><BiSolidLike style={{ width: 26, height: 26, color: '#6366f1' }} /></label>
-            </button>
-            <button onClick={() => toggleComments(post.id)}>
-              <label htmlFor="Comment"><BiCommentDetail style={{ width: 26, height: 26, color: '#6366f1' }} /></label>
-            </button>
-            <button>
-              <label htmlFor="share"><ShareIcon style={{ width: 26, height: 26, color: '#6366f1' }} /></label>
-            </button>
-          </div>
-          {visibleComments[post.id] && (
-            <div style={{ maxHeight: '200px', overflowY: 'auto', border: '1px solid #6663f1', marginTop: '10px', padding: '10px', borderRadius: '8px' }}>
-              {comments[post.id] && comments[post.id].length > 0 ? (
-                comments[post.id].map((comment) => (
-                  <div key={comment.id} style={{ marginBottom: '8px', borderBottom: '1px solid #ccc', paddingBottom: '4px' }}>
-                    <strong>{comment.user}</strong>: {comment.text}
-                  </div>
-                ))
-              ) : (
-                <p>No comments yet.</p>
-              )}
-              <Input
-                type="text"
-                placeholder="Add a comment..."
-                value={commentInputs[post.id] || ''}
-                onChange={(e) => handleCommentChange(post.id, e.target.value)}
-                className="w-full p-2 rounded border border-gray-300"
-              />
-              <Button onClick={() => handleCommentSubmit(post.id)} className="mt-2">
-                Submit
-              </Button>
-            </div>
-          )}
-        </div>
-      ))}
-    </div>
-    <hr style={{border: '1px solid white'}}/>
+        ))}
+      </div>
     </>
   )
 };

@@ -1,8 +1,11 @@
 from rest_framework import viewsets
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth import get_user_model
 from .models import Post, Like, Comment
-from .serializers import PostSerializer, LikeSerializer, CommentSerializer
+from .serializers import PostSerializer, LikeSerializer, CommentSerializer, UserSerializer
+
+User = get_user_model()
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
@@ -46,3 +49,8 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]

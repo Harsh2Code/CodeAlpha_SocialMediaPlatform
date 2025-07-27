@@ -13,7 +13,7 @@ import Post from './Post';
 export default function Account() {
     return (
         <>
-            <div className='w-[80%] mx-auto mt-[2%] border-1 block' style={{ borderColor: '#6663f1', borderRadius: '4px' }} >
+            <div className='w-[80%] mx-auto mt-[2%] border-1 block' style={{ borderColor: '#CDB384', borderRadius: '4px' }} >
                 <div className='flex flex-row justify-start items-center'>
                     <Avatar square="true" className="mx-auto my-auto my-[20%]" style={{ marginTop: '1rem' }} >
                         <AvatarImage src="/Profile-Photo.jpeg" alt="Profile" style={{ width: '12rem', height: '12rem' }} />

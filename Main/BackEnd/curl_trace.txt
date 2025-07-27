@@ -1,0 +1,48 @@
+== Info: Host localhost:8000 was resolved.
+== Info: IPv6: ::1
+== Info: IPv4: 127.0.0.1
+== Info:   Trying [::1]:8000...
+== Info:   Trying 127.0.0.1:8000...
+== Info: Connected to localhost (127.0.0.1) port 8000
+== Info: using HTTP/1.x
+=> Send header, 149 bytes (0x95)
+0000: POST /api/api-token-auth/ HTTP/1.1
+0024: Host: localhost:8000
+003a: User-Agent: curl/8.14.1
+0053: Accept: */*
+0060: Content-Type: application/json
+0080: Content-Length: 2
+0093: 
+=> Send data, 2 bytes (0x2)
+0000: {\
+== Info: upload completely sent off: 2 bytes
+<= Recv header, 26 bytes (0x1a)
+0000: HTTP/1.1 400 Bad Request
+<= Recv header, 37 bytes (0x25)
+0000: Date: Sun, 27 Jul 2025 08:06:22 GMT
+<= Recv header, 39 bytes (0x27)
+0000: Server: WSGIServer/0.2 CPython/3.13.5
+<= Recv header, 32 bytes (0x20)
+0000: Content-Type: application/json
+<= Recv header, 22 bytes (0x16)
+0000: Vary: Accept, origin
+<= Recv header, 22 bytes (0x16)
+0000: Allow: POST, OPTIONS
+<= Recv header, 23 bytes (0x17)
+0000: X-Frame-Options: DENY
+<= Recv header, 21 bytes (0x15)
+0000: Content-Length: 107
+<= Recv header, 33 bytes (0x21)
+0000: X-Content-Type-Options: nosniff
+<= Recv header, 30 bytes (0x1e)
+0000: Referrer-Policy: same-origin
+<= Recv header, 41 bytes (0x29)
+0000: Cross-Origin-Opener-Policy: same-origin
+<= Recv header, 2 bytes (0x2)
+0000: 
+<= Recv data, 107 bytes (0x6b)
+0000: {"detail":"JSON parse error - Expecting property name enclosed i
+0040: n double quotes: line 1 column 2 (char 1)"}
+== Info: Connection #0 to host localhost left intact
+== Info: URL rejected: Malformed input to a URL function
+== Info: closing connection #-1

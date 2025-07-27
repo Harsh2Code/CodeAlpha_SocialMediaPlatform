@@ -1,14 +1,16 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import PostViewSet, LikeViewSet, CommentViewSet
+from .views import PostViewSet, LikeViewSet, CommentViewSet, UserViewSet
 from .views_custom_auth import CustomObtainAuthToken, RegisterUser, PostsListTest
+from .views_follow import FollowViewSet
 
 router = DefaultRouter()
 router.register(r'posts', PostViewSet, basename='post')
 
 router.register(r'likes', LikeViewSet)
 router.register(r'comments', CommentViewSet)
-
+router.register(r'users', UserViewSet)
+router.register(r'follows', FollowViewSet, basename='follow')
 
 urlpatterns = [
     path('', include(router.urls)),

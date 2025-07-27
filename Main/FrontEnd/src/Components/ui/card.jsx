@@ -10,7 +10,7 @@ function Card({ className, ...props }) {
         "bg-card text-card-foreground flex flex-col gap-6 rounded-xl py-6 shadow-sm ",
         className
       )}
-      style={{ borderColor: "#6663f1" }}
+      style={{ borderColor: "#CDB384", backgroundColor: '#1f2b2dff' }}
       {...props}
     />
   )
@@ -67,6 +67,7 @@ function CardContent({ className, ...props }) {
     <div
       data-slot="card-content"
       className={cn("px-6", className)}
+      style={{backgroundColor: '#1f2b2dff'}}
       {...props}
     />
   )

@@ -10,10 +10,15 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 
 const CreatePost = () => {
   const { token } = useContext(AuthContext);
+  const [postTitle, setPostTitle] = useState("");
   const [postContent, setPostContent] = useState("");
   const [postImage, setPostImage] = useState(null);
   const [postLink, setPostLink] = useState("");
   const [postVisibility, setPostVisibility] = useState("Public");
+
+  const handleTitleChange = (e) => {
+    setPostTitle(e.target.value);
+  };
 
   const handlePostChange = (e) => {
     setPostContent(e.target.value);
@@ -33,6 +38,7 @@ const CreatePost = () => {
     e.preventDefault();
     try {
       const formData = new FormData();
+      formData.append("title", postTitle);
       formData.append("content", postContent);
       formData.append("visibility", postVisibility);
       if (postImage) {
@@ -55,6 +61,7 @@ const CreatePost = () => {
       }
       const data = await response.json();
       console.log("Post created:", data);
+      setPostTitle("");
       setPostContent("");
       setPostImage(null);
       setPostLink("");
@@ -64,14 +71,26 @@ const CreatePost = () => {
   };
 
   return (
-    <Card className="p-4 max-w-5/6 mt-[4%] mx-auto" style={{ borderColor: "#6663f1" }}>
-      <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+    <Card className="p-4 max-w-5/6 mt-[4%] mx-auto" style={{ borderColor: "#CDB384", backgroundColor: '#60755A', borderRadius: "1rem" }}>
+      <form onSubmit={handleSubmit} className="flex flex-col space-y-4" style={{boxShadow: 'rgba(0, 0, 0, 0.17) 0px -24px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -16px 15px 0px inset, rgba(0, 0, 0, 0.1) 0px -36px 20px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 16px 8px', borderRadius: "1rem"}}>
+        <h1 className="mx-auto" style={{marginTop: "-60px"}}> Create a Post </h1>
         <div className="flex items-start space-x-4 p-[4%]" style={{
-          borderRadius: '8px',
-          boxShadow: 'rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -16px 15px 0px inset, rgba(0, 0, 0, 0.1) 0px -36px 20px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 16px 8px'
+         
         }}>
           <div className="flex-1">
-            <Label htmlFor="postContent" className="block mb-1 font-medium" style={{ color: "#6663f1" }}>
+            <Label htmlFor="postContent" className="block mb-1 font-medium" style={{ color: "#CDB384" }}>
+              Title
+            </Label>
+            <Input
+              as="textarea"
+              id="postTitle"
+              value={postTitle}
+              onChange={handleTitleChange}
+              placeholder="what should be the title, Hmmm!..."
+              className="resize-none h-24"
+              required
+              />
+            <Label htmlFor="postContent" className="block mb-1 font-medium" style={{ color: "#CDB384" }}>
               About
             </Label>
             <Input
@@ -79,11 +98,12 @@ const CreatePost = () => {
               id="postContent"
               value={postContent}
               onChange={handlePostChange}
-              placeholder="What's on your mind?"
-              className="resize-none h-24"
+              placeholder="There should be something that sets the story! Right?.."
+              className="resize-none h-[30px]"
+              style={{height: "5rem"}}
               required
               />
-            <Label htmlFor="postImage" className="block mb-1 font-medium" style={{ color: "#6663f1" }}>
+            <Label htmlFor="postImage" className="block mb-1 font-medium" style={{ color: "#CDB384" }}>
               Upload Image
             </Label>
             <input
@@ -92,8 +112,12 @@ const CreatePost = () => {
               onChange={handleImageChange}
               className="h-[24px] w-[96%]"
             />
-            <hr />
-            <Label htmlFor="postLink" className="block mb-1 font-medium" style={{ color: "#6663f1" }}>
+            <div className="flex justify-start items-center mx-auto">
+              <hr style={{width: "33%"}}/>
+              Either Post Link Or Upload Image
+              <hr style={{width: "33%"}}/>
+            </div>
+            <Label htmlFor="postLink" className="block mb-1 font-medium" style={{ color: "#CDB384" }}>
               Paste Link
             </Label>
             <Input
@@ -101,10 +125,10 @@ const CreatePost = () => {
               id="postLink"
               value={postLink}
               onChange={handleLinkChange}
-              placeholder="What's on your mind?"
+              placeholder="Hello!, if you have the link then I eat Link! please let me have it!"
               className="resize-none h-24"
             />
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mt-[1rem]">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" size="sm">

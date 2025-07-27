@@ -48,7 +48,7 @@ export function LoginForm({ className, ...props }) {
     >
       <Card>
         <CardHeader className="text-center gap-3 text-inidigo-600" style={{ marginTop: "40px" }}>
-          <CardTitle className="text-xl text-indigo-600" style={{ color: "#6663f1" }}>
+          <CardTitle className="text-xl text-indigo-600" style={{ color: "#CDB384" }}>
             Welcome back
           </CardTitle>
         </CardHeader>
@@ -56,7 +56,7 @@ export function LoginForm({ className, ...props }) {
           <form onSubmit={handleSubmit}>
             <div className="grid gap-6 mt-2">
               <div className="mt-2 grid gap-3 has-[input:focus-within]:outline-indigo-600">
-                <Label className="mt-[40px] ml-[2%] " htmlFor="email" style={{ color: "#6663f1" }}>
+                <Label className="mt-[40px] ml-[2%] " htmlFor="email" style={{ color: "#CDB384" }}>
                   Email
                 </Label>
                 <input
@@ -73,7 +73,7 @@ export function LoginForm({ className, ...props }) {
               </div>
               <div className="grid gap-3">
                 <div className="flex items-center">
-                  <Label className="mt-[20px] ml-[2%]" htmlFor="password" style={{ color: "#6663f1" }}>
+                  <Label className="mt-[20px] ml-[2%]" htmlFor="password" style={{ color: "#CDB384" }}>
                     Password
                   </Label>
                   <a href="#" className="ml-auto mt-[20px] text-sm underline-offset-4 hover:underline">

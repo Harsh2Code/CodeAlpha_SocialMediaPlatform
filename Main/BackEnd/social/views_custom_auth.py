@@ -37,6 +37,7 @@ class RegisterUser(APIView):
         password = request.data.get('password')
         date_of_birth = request.data.get('date_of_birth')
         gender = request.data.get('gender')
+        nationality = request.data.get('nationality')
         if not username or not email or not password:
             return Response({'error': 'Username, email and password are required'}, status=status.HTTP_400_BAD_REQUEST)
         if User.objects.filter(email=email).exists():
@@ -46,6 +47,7 @@ class RegisterUser(APIView):
             email=email,
             date_of_birth=date_of_birth,
             gender=gender,
+            nationality=nationality,
             password=make_password(password)
         )
         user.save()

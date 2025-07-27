@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import Navbar from './Components/Navbar'
@@ -16,6 +16,13 @@ import { AuthProvider } from './contexts/AuthContext'
 
 function App() {
   const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    document.body.style.backgroundColor = '#F7F7F8';
+    return () => {
+      document.body.style.backgroundColor = '#F7F7F8';
+    };
+  }, []);
 
   return (
     <AuthProvider>

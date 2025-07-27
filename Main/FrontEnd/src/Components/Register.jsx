@@ -54,7 +54,7 @@ export default function Register({ className, ...props }) {
     >
       <Card>
         <CardHeader className="text-center gap-3 text-inidigo-600" style={{ marginTop: "40px" }}>
-          <CardTitle className="text-xl text-indigo-600" style={{ color: "#6663f1" }}>
+          <CardTitle className="text-xl text-indigo-600" style={{ color: "#CDB384" }}>
             We are glad to have you!
           </CardTitle>
         </CardHeader>
@@ -62,7 +62,7 @@ export default function Register({ className, ...props }) {
           <form onSubmit={handleSubmit}>
             <div className="grid gap-6 mt-2">
               <div className="mt-2 grid gap-3 has-[input:focus-within]:outline-indigo-600">
-                <Label className="mt-[40px] ml-[2%]" htmlFor="username" style={{ color: "#6663f1" }}>
+                <Label className="mt-[40px] ml-[2%]" htmlFor="username" style={{ color: "#CDB384" }}>
                   User Name
                 </Label>
                 <input
@@ -77,7 +77,7 @@ export default function Register({ className, ...props }) {
                 />
               </div>
               <div>
-                <Label className="mt-[40px] ml-[2%]" htmlFor="username" style={{ color: "#6663f1" }}>
+                <Label className="mt-[40px] ml-[2%]" htmlFor="username" style={{ color: "#CDB384" }}>
                   Email Address
                 </Label>
                 <Input
@@ -92,7 +92,7 @@ export default function Register({ className, ...props }) {
                 />
               </div>
               <div>
-                <Label className="mt-[40px] ml-[2%]" htmlFor="username" style={{ color: "#6663f1" }}>
+                <Label className="mt-[40px] ml-[2%]" htmlFor="username" style={{ color: "#CDB384" }}>
                   Password
                 </Label>
                 <input
@@ -107,7 +107,7 @@ export default function Register({ className, ...props }) {
                 />
               </div>
               <div>
-                <Label className="mt-[40px] ml-[2%]" htmlFor="username" style={{ color: "#6663f1" }}>
+                <Label className="mt-[40px] ml-[2%]" htmlFor="username" style={{ color: "#CDB384" }}>
                   Gender
                 </Label>
                 <input
@@ -122,7 +122,7 @@ export default function Register({ className, ...props }) {
                 />
               </div>
               <div className="mt-2 grid gap-3 has-[input:focus-within]:outline-indigo-600">
-                <Label className="mt-[40px] ml-[2%]" htmlFor="dateOfBirth" style={{ color: "#6663f1" }}>
+                <Label className="mt-[40px] ml-[2%]" htmlFor="dateOfBirth" style={{ color: "#CDB384" }}>
                   Date of Birth
                 </Label>
                 <input
