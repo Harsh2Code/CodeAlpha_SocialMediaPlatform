@@ -1,47 +1,31 @@
-import React, { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import Navbar from './Components/Navbar'
-import DashBoard from './Components/DashBoard'
-import LoginPage from './Components/Login';
-import {  BrowserRouter,Routes, Route, } from 'react-router-dom';
-import Account from './Components/Account'
-import CreatePost from './Components/CreatePost'
-import Register from './Components/Register'
-
-// Removed import of App.css to avoid Tailwind CSS processing error
-// import './App.css'
-
-import { AuthProvider } from './contexts/AuthContext'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from './Components/Navbar';
+import Login from './Components/Login';
+import Register from './Components/Register';
+import Account from './Components/Account';
+import Users from './Components/Users';
+import UserProfile from './Components/UserProfile';
+import { AuthProvider } from './contexts/AuthContext';
+import Post from './Components/Post';
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  useEffect(() => {
-    document.body.style.backgroundColor = '#F7F7F8';
-    return () => {
-      document.body.style.backgroundColor = '#F7F7F8';
-    };
-  }, []);
-
   return (
     <AuthProvider>
-      <Navbar />
-      <div style={{ paddingTop: '4rem' }}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<DashBoard />} />
-
-            {/* Add other routes here */}
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/Register" element={<Register />} />
-            <Route path="/account" element={<Account />} />
-            <Route path='/create' element={<CreatePost />} />
-          </Routes>
-        </BrowserRouter>
-      </div>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Post />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/users/:userId" element={<UserProfile />} />
+        </Routes>
+      </Router>
     </AuthProvider>
-  )
+  );
 }
 
-export default App
+export default App;

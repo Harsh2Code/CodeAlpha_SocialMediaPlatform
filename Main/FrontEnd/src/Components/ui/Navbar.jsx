@@ -42,7 +42,7 @@ function TeamDropdownMenu() {
         <DropdownMenuLabel>Tailwind Labs</DropdownMenuLabel>
       </DropdownMenuItem>
       <DropdownMenuItem href="/teams/2">
-        <Avatar slot="icon" initials="WC" className="bg-purple-500 text-white" />
+        <Avatar slot="icon" initials="WC" className="bg-purple-500 text-dark" />
         <DropdownMenuLabel>Workcation</DropdownMenuLabel>
       </DropdownMenuItem>
       <DropdownMenuSeparator />

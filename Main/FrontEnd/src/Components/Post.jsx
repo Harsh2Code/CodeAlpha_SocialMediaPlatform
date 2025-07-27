@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
-import { Avatar, AvatarImage } from '/src/Components/ui/avatar';
-import { Card, CardContent, CardTitle, CardHeader } from '/src/Components/ui/card';
-import { Label } from '/src/Components/ui/label';
-import { Button } from '/src/Components/ui/button';
-import { Input } from '/src/Components/ui/input';
+import { Avatar, AvatarImage } from './ui/avatar';
+import { Card, CardContent, CardTitle, CardHeader } from './ui/card';
+import { Label } from './ui/label';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
 import { BiSolidLike } from "react-icons/bi";
 import { BiCommentDetail } from "react-icons/bi";
 import { ShareIcon } from '@heroicons/react/24/solid';
@@ -116,8 +116,8 @@ export default function Post(props) {
     <>
       <div className="my-[1em]" >
         {posts.map((post) => (
-          <div key={post.id} style={{ padding: "1em 1em 0em 1em", width: '80%', margin: '1em  auto ', border: '1px solid #CDB384', borderRadius: '0.4em', /*backgroundColor: '#F7F7F8'*/ backgroundColor: '#1f2b2dff' }}>
-            <div className='flex flex-row justify-start items-center w-[100%]' style={{ backgroundColor: '#324446', padding: '18px 0px', borderRadius: '0.25rem' }}>
+          <div key={post.id} style={{ padding: "1em 1em 0em 1em", width: '60%', margin: '1em  auto ', border: '1px solid #CDB384', borderRadius: '0.4em', /*backgroundColor: '#F7F7F8'*/ backgroundColor: '#200054' }}>
+            <div className='flex flex-row justify-start items-center w-[100%]' style={{ padding: '18px 0px', borderRadius: '0.25rem' }}>
               {!hideUserInfo && (
                 <>
                   <Avatar square="true" className="mx-auto my-[4%]" style={{ marginTop: '1rem' }} >
@@ -142,27 +142,27 @@ export default function Post(props) {
                 </>
               )}
             </div>
-            <Card style={{ marginBottom: '20px', backgroundColor: '#1f2b2dff' }}>
-              <CardHeader className="text-center text-inidigo-600" style={{ marginTop: '20px', backgroundColor: '#1f2b2dff !important' }}>
-                <CardTitle className="text-xl text-indigo-600" style={{ color: "#CDB384" }}>{post.title}</CardTitle>
+            <Card style={{ marginBottom: '20px', backgroundColor: "#330087"}}>
+              <CardHeader className="text-center text-inidigo-600" style={{ marginTop: '20px', backgroundColor: '#330087 !important' }}>
+                <CardTitle className="text-xl text-indigo-600" style={{ color: "#CDB384" }}><h1>{post.title}</h1></CardTitle>
               </CardHeader>
-              <CardContent className="overflow-hidded block rounded-lg" >
+              <CardContent className="overflow-hidded block rounded-lg" style={{backgroundColor: '#330087'}}>
                 <Label className="overflow-hidden">
-                  {post.image_url && <img className='w-5/6 mx-auto my-[2%] rounded-[2%] block overflow-hidden object-cover' src={post.image_url} style={{ boxShadow: '2px 2px 4px #20271eff ' }} alt="" />}
+                  {post.image_url && <img className='w-5/6 mx-auto my-[2%] rounded-[2%] block overflow-hidden object-cover' src={post.image_url} style={{ boxShadow: '2px 2px 4px #51007c ' }} alt="" />}
                 </Label>
                 { post.title &&
-                <Label style={{backgroundColor: '#324446',borderRadius: '0.5rem'}} >
-                  <h2 style={{color: '#CDB384'}}>
+                <div style={{backgroundColor: '#200054',borderRadius: '0.5rem', margin: "1rem 5rem", padding: '1rem', color: '#5A8DB2'}} >
+                  <h2 style={{color: '#d8d8d8' , margin: '0 0'}}>
                     {post.title}
                   </h2>
-                  <p>
+                  <p style={{marginTop:'1rem'}}>
                     {post.content}
                   </p>
-                </Label>
+                </div>
 }
               </CardContent>
             </Card>
-            <div className="flex justify-around align-center mx-auto w-[100%]" style={{ backgroundColor: '#BA8263', padding: '18px 0px', borderRadius: '0.25rem' }}>
+            <div className="flex justify-around align-center mx-auto w-[100%]" style={{  padding: '18px 0px', borderRadius: '0.25rem' }}>
               <button
                 style={{ backgroundColor: '#1f2b2dff' }}
                 onClick={() => {

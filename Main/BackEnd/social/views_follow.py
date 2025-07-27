@@ -91,3 +91,10 @@ class FollowViewSet(viewsets.ViewSet):
         following_users = user.following.all()
         serializer = UserSerializer(following_users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['get'])
+    def followers(self, request):
+        user = request.user
+        followers_users = user.followers.all()
+        serializer = UserSerializer(followers_users, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

@@ -19,7 +19,8 @@ html, body, #root {
   font-weight: 400;
 
   color: rgba(255, 255, 255, 0.87);
-  background-color: #324446 !important;
+  background-color: #5A8DB2 !important;
+  /* background-color: #324446 !important; */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;

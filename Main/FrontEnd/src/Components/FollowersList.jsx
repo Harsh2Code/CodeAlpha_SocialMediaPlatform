@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { AuthContext } from '../contexts/AuthContext';
+import { AuthContext } from '../../contexts/AuthContext';
 
-const Users = () => {
+const FollowersList = () => {
   const { token } = useContext(AuthContext);
-  const [users, setUsers] = useState([]);
+  const [followers, setFollowers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchFollowers = async () => {
       if (!token) {
         setError('User not authenticated');
         setLoading(false);
@@ -17,7 +16,7 @@ const Users = () => {
       }
 
       try {
-        const response = await fetch('http://localhost:8000/api/users/', {
+        const response = await fetch('http://localhost:8000/api/followers/', {
           headers: {
             'Authorization': `Token ${token}`
           }
@@ -25,22 +24,22 @@ const Users = () => {
 
         if (response.ok) {
           const data = await response.json();
-          setUsers(data);
+          setFollowers(data);
         } else {
-          setError('Failed to fetch users');
+          setError('Failed to fetch followers');
         }
       } catch (err) {
-        setError('Error fetching users');
+        setError('Error fetching followers');
       } finally {
         setLoading(false);
       }
     };
 
-    fetchUsers();
+    fetchFollowers();
   }, [token]);
 
   if (loading) {
-    return <div>Loading users...</div>;
+    return <div>Loading followers...</div>;
   }
 
   if (error) {
@@ -49,20 +48,18 @@ const Users = () => {
 
   return (
     <div>
-      <h2>Users</h2>
-      {users.length > 0 ? (
+      <h3>Followers</h3>
+      {followers.length > 0 ? (
         <ul>
-          {users.map(user => (
-            <li key={user.id}>
-              <Link to={`/users/${user.id}`}>{user.username}</Link>
-            </li>
+          {followers.map(follower => (
+            <li key={follower.id}>{follower.username}</li>
           ))}
         </ul>
       ) : (
-        <p>No users found.</p>
+        <p>You have no followers yet.</p>
       )}
     </div>
   );
 };
 
-export default Users;
+export default FollowersList;

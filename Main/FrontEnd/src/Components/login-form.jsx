@@ -1,14 +1,14 @@
 import React, { useState, useContext } from "react";
-import { Button } from "/src/components/ui/button.jsx";
+import { Button } from "./ui/button.jsx";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "/src/components/ui/card.jsx";
-import { Input } from "/src/components/ui/input.jsx";
-import { Label } from "/src/components/ui/label.jsx";
+} from "./ui/card.jsx";
+import { Input } from "./ui/input.jsx";
+import { Label } from "./ui/label.jsx";
 import { AuthContext } from "../contexts/AuthContext";
 
 export function LoginForm({ className, ...props }) {

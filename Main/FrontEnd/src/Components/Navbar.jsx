@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../contexts/AuthContext'
-import { Avatar, AvatarImage } from '/src/components/ui/avatar'
+import { Avatar, AvatarImage } from './ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -8,7 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuContent,
-} from '/src/components/ui/dropdown-menu'
+} from './ui/dropdown-menu'
 import {
   ArrowRightStartOnRectangleIcon,
   ChevronDownIcon,
@@ -25,21 +26,22 @@ import {
   CommandEmpty,
   CommandGroup,
   CommandInput,
-  CommandItem,
   CommandList,
-} from "@/components/ui/command"
+  CommandItem,
+} from "./ui/command"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "./ui/popover"
 import { Button } from './ui/button'
-import {Label} from '@/Components/ui/label'
+import {Label} from './ui/label'
  
 const frameworks = []
 
 function Navbar() {
   const { user, logout, token } = useContext(AuthContext)
+  const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState("")
   const [users, setUsers] = useState([])
@@ -88,7 +90,7 @@ function Navbar() {
       style={{
         width: '96vw',
         height: '60px',
-        backgroundColor: '#1f2b2dff',
+        backgroundColor: '#330087',
         overflow: 'hidden',
         borderBottom: '1px solid #6366f1',
         boxShadow: '2px 2px 5px #CDB384',
@@ -113,7 +115,7 @@ function Navbar() {
             style={{ width: '26px', height: '26px' }}
           />
         </Avatar>
-        <span style={{ marginLeft: '8px', color: '#6363f1' }}>Main</span>
+        <span style={{ marginLeft: '8px', color: '#cdb384' }}>Main</span>
       </div>
       <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '20px' }}>
         <a href="/" style={{ color: '#CDB384', textDecoration: 'none' }}>
@@ -144,19 +146,30 @@ function Navbar() {
           </PopoverTrigger>
           <PopoverContent className="w-[200px] p-0" style={{ backgroundColor: '#1f2b2dff' }}>
             <Command>
-              <CommandInput placeholder="Search user..." />
+              <CommandInput
+                placeholder="Search user..."
+                value={value}
+                onValueChange={(searchQuery) => setValue(searchQuery)}
+                style="color: '#CDB384"
+              />
               <CommandList>
                 <CommandEmpty>No user found.</CommandEmpty>
                 <CommandGroup>
                   {loading && <div className="p-2 text-center text-gray-400">Loading...</div>}
                   {error && <div className="p-2 text-center text-red-500">{error}</div>}
-                  {!loading && !error && users.map((user) => (
+                  {!loading && !error && users.filter((user) =>
+                    user.username.toLowerCase().includes(value.toLowerCase())
+                  ).map((user) => (
                     <CommandItem
                       key={user.id}
                       value={user.id}
                       onSelect={(currentValue) => {
-                        setValue(currentValue === value ? "" : currentValue)
-                        setOpen(false)
+                        const selectedUser = users.find(user => user.id === currentValue);
+                        if (selectedUser) {
+                          navigate(`/users/${selectedUser.id}`);
+                          setValue(""); // Clear search bar after selection
+                          setOpen(false);
+                        }
                       }}
                     >
                       {user.username}
@@ -193,9 +206,9 @@ function Navbar() {
                   Logout
                 </Label>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleLogout} >
+              <DropdownMenuItem onClick={() => navigate('/account')} >
                 <Label >
-                  <ArrowRightStartOnRectangleIcon className=" block mr-2 h-4 w-4" width={25} height={25} />
+                  <UserIcon className=" block mr-2 h-4 w-4" width={25} height={25} />
                 <a href="/account" style={{ color: '#CDB384', textDecoration: 'none' }}>
                   Accounts
                 </a>
