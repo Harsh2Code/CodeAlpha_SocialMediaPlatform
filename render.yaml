@@ -16,11 +16,9 @@ services:
       - key: DEBUG
         value: "False"
     autoDeploy: true
-    healthCheckPath: /admin/login/ # Or any other public endpoint
-    # Optional: If you have static files to collect, add a postBuild command
-    # postBuild: "python Main/BackEnd/manage.py collectstatic --noinput"
+    healthCheckPath: /admin/login/
 
-  - type: postgres
-    name: social-media-db
+databases:
+  - name: social-media-db
     databaseName: social_media_db
     plan: free
