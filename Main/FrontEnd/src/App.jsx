@@ -8,21 +8,24 @@ import Users from './Components/Users';
 import UserProfile from './Components/UserProfile';
 import { AuthProvider } from './contexts/AuthContext';
 import Post from './Components/Post';
+import CreatePost from './Components/CreatePost';
 
 function App() {
   return (
     <AuthProvider>
       <Router>
         <Navbar />
-        <Routes>
-          <Route path="/" element={<Post />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/users/:userId" element={<UserProfile />} />
-        </Routes>
+        <div style={{ marginTop: '6em' }}>
+          <Routes>
+            <Route path="/" element={<Post />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/create" element={<CreatePost />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/account" element={<Account />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="/users/:userId" element={<UserProfile />} />
+          </Routes>
+        </div>
       </Router>
     </AuthProvider>
   );

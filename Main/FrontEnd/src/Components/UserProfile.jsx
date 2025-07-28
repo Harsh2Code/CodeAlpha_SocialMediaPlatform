@@ -7,8 +7,6 @@ const UserProfile = () => {
   const { token } = useContext(AuthContext);
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
-  const [followers, setFollowers] = useState([]);
-  const [following, setFollowing] = useState([]);
   const [view, setView] = useState('posts'); // 'posts', 'followers', 'following'
 
   const [loadingUser, setLoadingUser] = useState(true);
@@ -47,11 +45,13 @@ const UserProfile = () => {
       setLoadingPosts(true);
       setErrorPosts(null);
       try {
+        console.log("Fetching posts for userId:", userId);
         const response = await fetch(`http://localhost:8000/api/posts/?author_id=${userId}`, {
           headers: {
             'Authorization': `Token ${token}`
           }
         });
+        console.log("Posts API URL:", `http://localhost:8000/api/posts/?author_id=${userId}`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -65,54 +65,54 @@ const UserProfile = () => {
       }
     };
 
-    const fetchFollowers = async () => {
-      setLoadingFollowers(true);
-      setErrorFollowers(null);
-      try {
-        const response = await fetch(`http://localhost:8000/api/follows/followers/`, {
-          headers: {
-            'Authorization': `Token ${token}`
-          }
-        });
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        setFollowers(data);
-      } catch (error) {
-        console.error('Error fetching followers:', error);
-        setErrorFollowers(error.message);
-      } finally {
-        setLoadingFollowers(false);
-      }
-    };
+    // const fetchFollowers = async () => {
+    //   setLoadingFollowers(true);
+    //   setErrorFollowers(null);
+    //   try {
+    //     const response = await fetch(`http://localhost:8000/api/follows/${userId}/user_followers/`, {
+    //       headers: {
+    //         'Authorization': `Token ${token}`
+    //       }
+    //     });
+    //     if (!response.ok) {
+    //       throw new Error(`HTTP error! status: ${response.status}`);
+    //     }
+    //     const data = await response.json();
+    //     setFollowers(data);
+    //   } catch (error) {
+    //     console.error('Error fetching followers:', error);
+    //     setErrorFollowers(error.message);
+    //   } finally {
+    //     setLoadingFollowers(false);
+    //   }
+    // };
 
-    const fetchFollowing = async () => {
-      setLoadingFollowing(true);
-      setErrorFollowing(null);
-      try {
-        const response = await fetch(`http://localhost:8000/api/follows/following/`, {
-          headers: {
-            'Authorization': `Token ${token}`
-          }
-        });
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        setFollowing(data);
-      } catch (error) {
-        console.error('Error fetching following:', error);
-        setErrorFollowing(error.message);
-      } finally {
-        setLoadingFollowing(false);
-      }
-    };
+    // const fetchFollowing = async () => {
+    //   setLoadingFollowing(true);
+    //   setErrorFollowing(null);
+    //   try {
+    //     const response = await fetch(`http://localhost:8000/api/follows/${userId}/user_following/`, {
+    //       headers: {
+    //         'Authorization': `Token ${token}`
+    //       }
+    //     });
+    //     if (!response.ok) {
+    //       throw new Error(`HTTP error! status: ${response.status}`);
+    //     }
+    //     const data = await response.json();
+    //     setFollowing(data);
+    //   } catch (error) {
+    //     console.error('Error fetching following:', error);
+    //     setErrorFollowing(error.message);
+    //   } finally {
+    //     setLoadingFollowing(false);
+    //   }
+    // };
 
     fetchUser();
     fetchPosts();
-    fetchFollowers();
-    fetchFollowing();
+    // fetchFollowers();
+    // fetchFollowing();
   }, [userId, token]);
 
   const renderContent = () => {
@@ -135,44 +135,44 @@ const UserProfile = () => {
             )}
           </div>
         );
-      case 'followers':
-        if (loadingFollowers) return <p>Loading followers...</p>;
-        if (errorFollowers) return <p className="text-red-500">Error loading followers: {errorFollowers}</p>;
-        return (
-          <div>
-            <h2 className="text-2xl font-bold mb-4">Followers</h2>
-            {followers.length > 0 ? (
-              <ul>
-                {followers.map(follower => (
-                  <li key={follower.id} className="border p-4 rounded-lg mb-4">
-                    {follower.username}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>This user has no followers yet.</p>
-            )}
-          </div>
-        );
-      case 'following':
-        if (loadingFollowing) return <p>Loading following...</p>;
-        if (errorFollowing) return <p className="text-red-500">Error loading following: {errorFollowing}</p>;
-        return (
-          <div>
-            <h2 className="text-2xl font-bold mb-4">Following</h2>
-            {following.length > 0 ? (
-              <ul>
-                {following.map(followed => (
-                  <li key={followed.id} className="border p-4 rounded-lg mb-4">
-                    {followed.username}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>This user is not following anyone.</p>
-            )}
-          </div>
-        );
+      // case 'followers':
+      //   if (loadingFollowers) return <p>Loading followers...</p>;
+      //   if (errorFollowers) return <p className="text-red-500">Error loading followers: {errorFollowers}</p>;
+      //   return (
+      //     <div>
+      //       <h2 className="text-2xl font-bold mb-4">Followers</h2>
+      //       {followers.length > 0 ? (
+      //         <ul>
+      //           {followers.map(follower => (
+      //             <li key={follower.id} className="border p-4 rounded-lg mb-4">
+      //               {follower.username}
+      //             </li>
+      //           ))}
+      //         </ul>
+      //       ) : (
+      //         <p>This user has no followers yet.</p>
+      //       )}
+      //     </div>
+      //   );
+      // case 'following':
+      //   if (loadingFollowing) return <p>Loading following...</p>;
+      //   if (errorFollowing) return <p className="text-red-500">Error loading following: {errorFollowing}</p>;
+      //   return (
+      //     <div>
+      //       <h2 className="text-2xl font-bold mb-4">Following</h2>
+      //       {following.length > 0 ? (
+      //         <ul>
+      //           {following.map(followed => (
+      //             <li key={followed.id} className="border p-4 rounded-lg mb-4">
+      //               {followed.username}
+      //             </li>
+      //           ))}
+      //         </ul>
+      //       ) : (
+      //         <p>This user is not following anyone.</p>
+      //       )}
+      //     </div>
+      //   );
       default:
         return null;
     }
@@ -202,8 +202,8 @@ const UserProfile = () => {
 
       <div className="flex justify-center mb-8">
         <button onClick={() => setView('posts')} className={`px-4 py-2 ${view === 'posts' ? 'border-b-2 border-blue-500' : ''}`}>Posts</button>
-        <button onClick={() => setView('followers')} className={`px-4 py-2 ${view === 'followers' ? 'border-b-2 border-blue-500' : ''}`}>Followers</button>
-        <button onClick={() => setView('following')} className={`px-4 py-2 ${view === 'following' ? 'border-b-2 border-blue-500' : ''}`}>Following</button>
+        {/* <button onClick={() => setView('followers')} className={`px-4 py-2 ${view === 'followers' ? 'border-b-2 border-blue-500' : ''}`}>Followers</button> */}
+        {/* <button onClick={() => setView('following')} className={`px-4 py-2 ${view === 'following' ? 'border-b-2 border-blue-500' : ''}`}>Following</button> */}
       </div>
 
       <div>

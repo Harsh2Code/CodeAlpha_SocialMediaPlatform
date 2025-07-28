@@ -34,7 +34,17 @@ export function LoginForm({ className, ...props }) {
         throw new Error("Invalid credentials: " + errorText);
       }
       const data = await response.json();
-      login(data.token, { email }); // Store token and user email in context
+      // Fetch full user data after login
+      const userResponse = await fetch("http://localhost:8000/api/users/me/", {
+        headers: {
+          'Authorization': `Token ${data.token}`,
+        },
+      });
+      if (!userResponse.ok) {
+        throw new Error("Failed to fetch user data");
+      }
+      const userData = await userResponse.json();
+      login(data.token, userData); // Store token and full user data in context
     } catch (err) {
       setError(err.message);
     }
@@ -42,24 +52,24 @@ export function LoginForm({ className, ...props }) {
 
   return (
     <div
-      className={`h-96 w-[400px] flex flex-col mx-auto gap-6 border-1 rounded-[0.5vw] ${className}`}
+      className={`h-[600px] w-[400px] flex flex-col mx-auto gap-6 border-1 rounded-[0.5vw] ${className}`}
       {...props}
-      style={{ height: "450px", borderColor: "#6563f1bc" }}
+      style={{ height: "450px", borderColor: "#6563f1bc", backgroundColor: '#200054' }}
     >
-      <Card>
+      <Card style={{backgroundColor: '#200054',padding : '0 1rem', height: ''}}>
         <CardHeader className="text-center gap-3 text-inidigo-600" style={{ marginTop: "40px" }}>
           <CardTitle className="text-xl text-indigo-600" style={{ color: "#CDB384" }}>
             Welcome back
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent style={{backgroundColor: '#200054'}}>
           <form onSubmit={handleSubmit}>
             <div className="grid gap-6 mt-2">
               <div className="mt-2 grid gap-3 has-[input:focus-within]:outline-indigo-600">
                 <Label className="mt-[40px] ml-[2%] " htmlFor="email" style={{ color: "#CDB384" }}>
                   Email
                 </Label>
-                <input
+                <Input
                   id="email"
                   type="email"
                   name="email"
@@ -80,7 +90,7 @@ export function LoginForm({ className, ...props }) {
                     Forgot your password?
                   </a>
                 </div>
-                <input
+                <Input
                   id="password"
                   type="password"
                   name="password"
@@ -93,7 +103,7 @@ export function LoginForm({ className, ...props }) {
                 />
               </div>
               {error && <div className="text-red-600 text-center">{error}</div>}
-              <Button type="submit" className="w-full my-[20px]">
+              <Button type="submit" className="w-[30%] mx-auto my-[20px]">
                 Login
               </Button>
             </div>

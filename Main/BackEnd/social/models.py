@@ -12,7 +12,7 @@ class CustomUser(AbstractUser):
     def following(self):
         from django.contrib.auth import get_user_model
         User = get_user_model()
-        return User.objects.filter(followers_set__follower=self)
+        return User.objects.filter(followers_set__follower_id=self.id)
 
 class Post(models.Model):
     VISIBILITY_CHOICES = [

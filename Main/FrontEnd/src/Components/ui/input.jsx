@@ -6,11 +6,12 @@ const Input = React.forwardRef(({ as: Component = "input", className, type = "te
     <Component
       type={Component === "input" ? type : undefined}
       className={cn(
-        "block w-[96%] rounded-[0.5rem] border border-[#CDB384]-600 bg-white px-4 py-2 text-gray-900 placeholder:text-gray-400 focus:border-[#6664f1] focus:outline-none focus:ring-1 focus:ring-[#6664f1] sm:text-sm",
+        "block w-[90%] mx-auto rounded-[0.5rem] border border-[#CDB384]-600 bg-white px-[2%] py-[1rem] text-gray-900 placeholder:text-gray-400 focus:border-[#6664f1] focus:outline-none focus:ring-1 focus:ring-[#6664f1] sm:text-sm",
         
       )}
       ref={ref}
       {...props}
+      style={{backgroundColor: '#330087'}}
     />
   );
 });

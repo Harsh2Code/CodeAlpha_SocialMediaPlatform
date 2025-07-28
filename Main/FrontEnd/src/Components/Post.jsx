@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useContext } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
 import { Avatar, AvatarImage } from './ui/avatar';
@@ -18,11 +19,13 @@ export default function Post(props) {
   const [visibleComments, setVisibleComments] = useState({});
   const [commentInputs, setCommentInputs] = useState({});
   const [comments, setComments] = useState({});
+  const [likedPosts, setLikedPosts] = useState({});
 
   useEffect(() => {
     const fetchPosts = async () => {
       if (!token) return;
       try {
+        // Remove author_id param to avoid sending undefined
         const response = await fetch("http://localhost:8000/api/postslisttest/", {
           headers: {
             'Authorization': `Token ${token}`,
@@ -32,9 +35,25 @@ export default function Post(props) {
           throw new Error("Failed to fetch posts");
         }
         const data = await response.json();
+
+        const likesResponse = await fetch("http://localhost:8000/api/likes/", {
+          headers: {
+            'Authorization': `Token ${token}`,
+          },
+        });
+        if (!likesResponse.ok) {
+          throw new Error("Failed to fetch likes");
+        }
+        const likesData = await likesResponse.json();
+        const likedPostIds = {};
+        likesData.forEach(like => {
+          likedPostIds[like.post] = true;
+        });
+
+        setLikedPosts(likedPostIds);
         setPosts(data);
       } catch (error) {
-        console.error("Error fetching posts:", error);
+        console.error("Error fetching posts or likes:", error);
       }
     };
     fetchPosts();
@@ -72,7 +91,7 @@ export default function Post(props) {
       ...prev,
       [postId]: value,
     }));
-  };
+  }; 
 
   const handleCommentSubmit = async (postId) => {
     const comment = commentInputs[postId];
@@ -116,7 +135,7 @@ export default function Post(props) {
     <>
       <div className="my-[1em]" >
         {posts.map((post) => (
-          <div key={post.id} style={{ padding: "1em 1em 0em 1em", width: '60%', margin: '1em  auto ', border: '1px solid #CDB384', borderRadius: '0.4em', /*backgroundColor: '#F7F7F8'*/ backgroundColor: '#200054' }}>
+          <div key={post.id} style={{ padding: "1em 1em 0em 1em", width: '50%', margin: '1em  auto ', border: '1px solid #CDB384', borderRadius: '0.4em', /*backgroundColor: '#F7F7F8'*/ backgroundColor: '#200054' }}>
             <div className='flex flex-row justify-start items-center w-[100%]' style={{ padding: '18px 0px', borderRadius: '0.25rem' }}>
               {!hideUserInfo && (
                 <>
@@ -132,10 +151,10 @@ export default function Post(props) {
                     <div className='flex flex-row justify-between items-center w-full'>
                       <div className='ml-[2%]'>
                       </div>
-                      <div className='mr-[0 %] flex flex-col items-end my-auto' style={({ width: '200px', color: 'rgba(255, 248, 255, 0.67)' })}>
+                      <div className='mr-[0 %] flex flex-col justify-between items-end my-auto' style={({ width: '200px',height : '80px', color: 'rgba(255, 248, 255, 0.67)' })}>
                         <span className='text-[0.9em] mt-[2%] mr-[10%]'>{new Date(post.timestamp).toLocaleDateString()}</span>
                         {/* <span className='text-muted ml-1'>{new Date(post.timestamp).toLocaleTimeString()}</span> */}
-                        {post.user && post.user.trim().toLowerCase() !== "anonymous" && post.user !== props.currentUser && <FollowButton userId={post.user.trim()} />}
+                        {post.user && post.user.trim().toLowerCase() !== "anonymous" && post.user !== props.currentUser && <FollowButton userId={post.user.trim()} style={{backgroundColor: '#1f1e1eff'}}/>}
                       </div>
                     </div>
                   </div>
@@ -144,9 +163,9 @@ export default function Post(props) {
             </div>
             <Card style={{ marginBottom: '20px', backgroundColor: "#330087"}}>
               <CardHeader className="text-center text-inidigo-600" style={{ marginTop: '20px', backgroundColor: '#330087 !important' }}>
-                <CardTitle className="text-xl text-indigo-600" style={{ color: "#CDB384" }}><h1>{post.title}</h1></CardTitle>
+                <CardTitle className="text-xl text-indigo-600 my-[0px]" style={{ color: "#CDB384" }}><h1 style={{margin: '0% 0%'}} >{post.title}</h1></CardTitle>
               </CardHeader>
-              <CardContent className="overflow-hidded block rounded-lg" style={{backgroundColor: '#330087'}}>
+              <CardContent className="overflow-hidded block rounded-lg" style={{backgroundColor: '#330087' , marginTop: '0px 0px', padding: '0px'}}>
                 <Label className="overflow-hidden">
                   {post.image_url && <img className='w-5/6 mx-auto my-[2%] rounded-[2%] block overflow-hidden object-cover' src={post.image_url} style={{ boxShadow: '2px 2px 4px #51007c ' }} alt="" />}
                 </Label>
@@ -162,21 +181,13 @@ export default function Post(props) {
 }
               </CardContent>
             </Card>
-            <div className="flex justify-around align-center mx-auto w-[100%]" style={{  padding: '18px 0px', borderRadius: '0.25rem' }}>
+            <div className="flex justify-around align-center mx-auto w-[100%]" style={{  padding: '18px 0px', borderRadius: '0.25rem', backgroundColor: '#330087' }}>
               <button
-                style={{ backgroundColor: '#1f2b2dff' }}
-                onClick={() => {
-                  // Increase like count on click
-                  const updatedPosts = posts.map((p) => {
-                    if (p.id === post.id) {
-                      return { ...p, like_count: (p.like_count || 0) + 1 };
-                    }
-                    return p;
-                  });
-                  setPosts(updatedPosts);
-                }}
+                style={{ backgroundColor: '#1f2b2dff', display: 'flex', alignItems: 'center', gap: '6px' }}
+                onClick={() => handleLikeToggle(post)}
               >
-                <label htmlFor="like"><BiSolidLike style={{ width: 26, height: 26, color: '#F7F7F8' }} /></label>
+                <BiSolidLike style={{ width: 26, height: 26, color: likedPosts[post.id] ? '#ff0000' : '#F7F7F8' }} />
+                <span style={{ color: '#F7F7F8', fontWeight: 'bold' }}>{post.likes_count || 0}</span>
               </button>
               <button style={{ backgroundColor: '#1f2b2dff' }} onClick={() => toggleComments(post.id)}>
                 <label htmlFor="Comment"><BiCommentDetail style={{ width: 26, height: 26, color: '#F7F7F8' }} /></label>

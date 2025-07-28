@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
+import { Card, CardContent, CardTitle, CardHeader } from './ui/card';
 
 
 const Account = () => {
@@ -18,7 +19,7 @@ const Account = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      if (user) {
+      if (user && user.id) { // Ensure user and user.id are defined
         setLoadingPosts(true);
         setErrorPosts(null);
         try {
@@ -104,9 +105,9 @@ const Account = () => {
             <h2 className="text-2xl font-bold mb-4">My Posts</h2>
             {posts.length > 0 ? (
               posts.map(post => (
-                <div key={post.id} className="border p-4 rounded-lg mb-4">
-                  <h3 className="text-xl font-bold">{post.title}</h3>
-                  <p>{post.content}</p>
+                <div key={post.id} className="p-[1%] rounded-[1rem] mb-4" style={{backgroundColor: '#340087'}}>
+                  <h3 className="text-xl font-[2em]">{post.title}</h3>
+                  <p style={{color: '#A0C5EF'}}>{post.content}</p>
                 </div>
               ))
             ) : (
@@ -119,15 +120,14 @@ const Account = () => {
         if (errorFollowers) return <p className="text-red-500">Error loading followers: {errorFollowers}</p>;
         return (
           <div>
-            <h2 className="text-2xl font-bold mb-4">Followers</h2>
-            {followers.length > 0 ? (
-              <ul>
-                {followers.map(follower => (
-                  <li key={follower.id} className="border p-4 rounded-lg mb-4">
-                    {follower.username}
-                  </li>
-                ))}
-              </ul>
+            <h2 className="text-2xl font-bold mb-4">My Followers</h2>
+            {posts.length > 0 ? (
+              posts.map(post => (
+                <div key={post.id} className="p-[1%] rounded-[1rem] mb-4" style={{backgroundColor: '#340087'}}>
+                  <h3 className="text-xl font-[2em]">{post.title}</h3>
+                  <p style={{color: '#A0C5EF'}}>{post.content}</p>
+                </div>
+              ))
             ) : (
               <p>You have no followers yet.</p>
             )}
@@ -138,11 +138,11 @@ const Account = () => {
         if (errorFollowing) return <p className="text-red-500">Error loading following: {errorFollowing}</p>;
         return (
           <div>
-            <h2 className="text-2xl font-bold mb-4">Following</h2>
+            <h2 className="text-2xl font-bold mb-4">I am Following</h2>
             {following.length > 0 ? (
-              <ul>
+              <ul  style={{backgroundColor: '#340087'}}>
                 {following.map(followed => (
-                  <li key={followed.id} className="border p-4 rounded-lg mb-4">
+                  <li key={followed.id} className="p-[1rem] rounded-[1rem] mb-4" style={{color: '#A0C5EF'}}>
                     {followed.username}
                   </li>
                 ))}
@@ -167,18 +167,28 @@ const Account = () => {
         <img src={user.profile_picture_url || '/Profile-Photo.jpeg'} alt="Profile" className="w-24 h-24 rounded-full mr-8" />
         <div>
           <h1 className="text-3xl font-bold">{user.username}</h1>
-          <p className="text-gray-600">{user.bio}</p>
+          <p className="text-gray-600">{user.first_name} {user.last_name}</p>
+          <p className="text-gray-600">{user.nationality}</p>
         </div>
       </div>
 
-      <div className="flex justify-center mb-8">
-        <button onClick={() => setView('posts')} className={`px-4 py-2 ${view === 'posts' ? 'border-b-2 border-blue-500' : ''}`}>Posts</button>
-        <button onClick={() => setView('followers')} className={`px-4 py-2 ${view === 'followers' ? 'border-b-2 border-blue-500' : ''}`}>Followers</button>
-        <button onClick={() => setView('following')} className={`px-4 py-2 ${view === 'following' ? 'border-b-2 border-blue-500' : ''}`}>Following</button>
+      <div className="flex justify-center my--[2rem]">
+        <button onClick={() => setView('posts')} className={`px-[1rem] mx-auto my-[1em] py-[1rem] ${view === 'posts' ? 'border-b-[2] border-[blue]-500' : ''}`}>Posts</button>
+        <button onClick={() => setView('followers')} className={`px-4 py-2 mx-auto my-[1em] ${view === 'followers' ? 'border-b-2 border-blue-500' : ''}`}>Followers</button>
+        <button onClick={() => setView('following')} className={`px-4 py-2 mx-auto my-[1em] ${view === 'following' ? 'border-b-2 border-blue-500' : ''}`}>Following</button>
       </div>
 
       <div>
-        {renderContent()}
+        <Card>
+          <CardHeader>
+            <CardTitle></CardTitle>
+          </CardHeader>
+          <CardContent>
+            {renderContent()}
+          </CardContent>
+        </Card>
+
+
       </div>
     </div>
   );

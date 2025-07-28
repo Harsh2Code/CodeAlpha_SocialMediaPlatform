@@ -11,8 +11,25 @@ export const AuthProvider = ({ children }) => {
     const savedToken = localStorage.getItem("authToken");
     const savedUser = localStorage.getItem("authUser");
     if (savedToken && savedUser) {
+      try {
+        const parsedUser = JSON.parse(savedUser);
+        // Ensure all expected user fields are present, provide defaults if missing
+        const completeUser = {
+          id: parsedUser.id || null,
+          username: parsedUser.username || '',
+          first_name: parsedUser.first_name || '',
+          last_name: parsedUser.last_name || '',
+          nationality: parsedUser.nationality || '',
+          profile_picture_url: parsedUser.profile_picture_url || '',
+          email: parsedUser.email || '',
+          ...parsedUser,
+        };
+        setUser(completeUser);
+      } catch (e) {
+        console.error("Failed to parse authUser from localStorage", e);
+        setUser(null);
+      }
       setToken(savedToken);
-      setUser(JSON.parse(savedUser));
     }
   }, []);
 

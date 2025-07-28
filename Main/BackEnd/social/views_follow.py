@@ -88,13 +88,33 @@ class FollowViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['get'])
     def following(self, request):
         user = request.user
-        following_users = user.following.all()
+        following_users = [follow.following for follow in user.following_set.all()]
         serializer = UserSerializer(following_users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['get'])
     def followers(self, request):
         user = request.user
-        followers_users = user.followers.all()
+        followers_users = [follow.follower for follow in user.followers_set.all()]
         serializer = UserSerializer(followers_users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=['get'])
+    def user_followers(self, request, pk=None):
+        try:
+            user = User.objects.get(pk=pk)
+            followers_users = user.followers_set.all()
+            serializer = UserSerializer(followers_users, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response({'detail': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    @action(detail=True, methods=['get'])
+    def user_following(self, request, pk=None):
+        try:
+            user = User.objects.get(pk=pk)
+            following_users = user.following.all()
+            serializer = UserSerializer(following_users, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response({'detail': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)

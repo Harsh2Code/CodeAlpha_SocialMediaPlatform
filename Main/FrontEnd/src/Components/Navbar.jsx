@@ -93,13 +93,13 @@ function Navbar() {
         backgroundColor: '#330087',
         overflow: 'hidden',
         borderBottom: '1px solid #6366f1',
-        boxShadow: '2px 2px 5px #CDB384',
+        boxShadow: '2px 2px 5px #646cff',
         color: 'white',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: '0 16px',
+        padding: '0em 16px',
         position: 'fixed',
         top: 0,
         left: '0.25%',
@@ -115,16 +115,16 @@ function Navbar() {
             style={{ width: '26px', height: '26px' }}
           />
         </Avatar>
-        <span style={{ marginLeft: '8px', color: '#cdb384' }}>Main</span>
+        <span style={{ marginLeft: '8px', color: '#646cff', fontWeight:'bolder', fontSize: '2em'}}>SPOTT</span>
       </div>
       <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '20px' }}>
-        <a href="/" style={{ color: '#CDB384', textDecoration: 'none' }}>
+        <a href="/" style={{ color: '#646cff', textDecoration: 'none' }}>
           Home
         </a>
-        <a href="/events" style={{ color: '#CDB384', textDecoration: 'none' }}>
+        <a href="/events" style={{ color: '#646cff', textDecoration: 'none' }}>
           Events
         </a>
-        <a href="/create" style={{ color: '#CDB384', textDecoration: 'none' }}>
+        <a href="/create" style={{ color: '#646cff', textDecoration: 'none' }}>
           Create
         </a>
       </div>
@@ -136,12 +136,12 @@ function Navbar() {
               role="combobox"
               aria-expanded={open}
               className="w-[200px] justify-between"
-              style={{ backgroundColor: '#273638ae', color: '#CDB384' }}
+              style={{ backgroundColor: '#273638ae', color: '#646cff' }}
             >
               {value
                 ? users.find((user) => user.id === value)?.username
                 : "Select user..."}
-              <MagnifyingGlassIcon style={{ width: 26, height: 26, color: '#CDB384' }} />
+              <MagnifyingGlassIcon style={{ width: 26, height: 26, color: '#646cff' }} />
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-[200px] p-0" style={{ backgroundColor: '#1f2b2dff' }}>
@@ -150,7 +150,7 @@ function Navbar() {
                 placeholder="Search user..."
                 value={value}
                 onValueChange={(searchQuery) => setValue(searchQuery)}
-                style="color: '#CDB384"
+                style={{ color: '#646cff' }}
               />
               <CommandList>
                 <CommandEmpty>No user found.</CommandEmpty>
@@ -162,9 +162,9 @@ function Navbar() {
                   ).map((user) => (
                     <CommandItem
                       key={user.id}
-                      value={user.id}
+                      value={user.username}
                       onSelect={(currentValue) => {
-                        const selectedUser = users.find(user => user.id === currentValue);
+                        const selectedUser = users.find(user => user.username === currentValue);
                         if (selectedUser) {
                           navigate(`/users/${selectedUser.id}`);
                           setValue(""); // Clear search bar after selection
@@ -180,13 +180,13 @@ function Navbar() {
             </Command>
           </PopoverContent>
         </Popover>
-        <InboxIcon style={{ width: 26, height: 26, color: '#CDB384' }} />
+        <InboxIcon style={{ width: 26, height: 26, color: '#646cff' }} />
         {!user ? (
           <>
-            <a href="/login" style={{ color: '#CDB384', textDecoration: 'none', marginRight: '12px' }}>
+            <a href="/login" style={{ color: '#646cff', textDecoration: 'none', marginRight: '12px' }}>
               Login
             </a>
-            <a href="/register" style={{ color: '#CDB384', textDecoration: 'none' }}>
+            <a href="/register" style={{ color: '#646cff', textDecoration: 'none' }}>
               Register
             </a>
           </>
@@ -201,7 +201,7 @@ function Navbar() {
               <DropdownMenuLabel>{user.name || 'User'}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleLogout} >
-                <Label style={{backgroiund: 'red'}}>
+                <Label style={{background: 'red'}}>
                   <ArrowRightStartOnRectangleIcon className="mr-2 h-4 w-4" width={25} height={25} />
                   Logout
                 </Label>
@@ -209,7 +209,7 @@ function Navbar() {
               <DropdownMenuItem onClick={() => navigate('/account')} >
                 <Label >
                   <UserIcon className=" block mr-2 h-4 w-4" width={25} height={25} />
-                <a href="/account" style={{ color: '#CDB384', textDecoration: 'none' }}>
+                <a href="/account" style={{ color: '#646cff', textDecoration: 'none' }}>
                   Accounts
                 </a>
                 </Label>

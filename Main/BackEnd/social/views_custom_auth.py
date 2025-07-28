@@ -7,7 +7,7 @@ from .authentication import EmailBackend
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from .models import Post
-from .serializers import PostSerializer
+from .serializers import PostSerializer, UserSerializer
 
 User = get_user_model()
 
@@ -25,7 +25,8 @@ class CustomObtainAuthToken(APIView):
         if not user:
             return Response({'error': 'Invalid Credentials'}, status=status.HTTP_400_BAD_REQUEST)
         token, created = Token.objects.get_or_create(user=user)
-        return Response({'token': token.key})
+        serializer = UserSerializer(user)
+        return Response({'token': token.key, 'user': serializer.data})
 
 class RegisterUser(APIView):
     """
@@ -35,6 +36,8 @@ class RegisterUser(APIView):
         username = request.data.get('username')
         email = request.data.get('email')
         password = request.data.get('password')
+        first_name = request.data.get('first_name', '')
+        last_name = request.data.get('last_name', '')
         date_of_birth = request.data.get('date_of_birth')
         gender = request.data.get('gender')
         nationality = request.data.get('nationality')
@@ -45,6 +48,8 @@ class RegisterUser(APIView):
         user = User(
             username=username,
             email=email,
+            first_name=first_name,
+            last_name=last_name,
             date_of_birth=date_of_birth,
             gender=gender,
             nationality=nationality,

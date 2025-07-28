@@ -24,7 +24,11 @@ class PostViewSet(viewsets.ModelViewSet):
     ]
 
     def get_queryset(self):
-        return Post.objects.exclude(image_url__in=self.design_image_urls).order_by('-timestamp')
+        queryset = Post.objects.exclude(image_url__in=self.design_image_urls).order_by('-timestamp')
+        author_id = self.request.query_params.get('author_id', None)
+        if author_id is not None:
+            queryset = queryset.filter(user__id=author_id)
+        return queryset
 
     def perform_create(self, serializer):
         # Attach authenticated user to post
@@ -50,7 +54,15 @@ class CommentViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
+
+    @action(detail=False, methods=['get'])
+    def me(self, request):
+        serializer = self.get_serializer(request.user)
+        return Response(serializer.data)
