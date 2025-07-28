@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: social-media-backend
+    env: python
+    buildCommand: "pip install -r Main/BackEnd/requirements.txt"
+    startCommand: "gunicorn Main.BackEnd.backend.wsgi:application"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: social-media-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 1
+      - key: DEBUG
+        value: "False"
+    autoDeploy: true
+    healthCheckPath: /admin/login/ # Or any other public endpoint
+    # Optional: If you have static files to collect, add a postBuild command
+    # postBuild: "python Main/BackEnd/manage.py collectstatic --noinput"
+
+  - type: postgres
+    name: social-media-db
+    databaseName: social_media_db
+    plan: free

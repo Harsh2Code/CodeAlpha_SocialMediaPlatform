@@ -27,15 +27,20 @@ class PostSerializer(serializers.ModelSerializer):
         return CommentSerializer(comments, many=True).data
 
     def validate(self, data):
+        from rest_framework.exceptions import ValidationError
         image = data.get('image')
         image_url = data.get('image_url')
 
         if image and image_url:
-            raise serializers.ValidationError("Please provide either an uploaded image or a URL—not both.")
+            raise ValidationError("Please provide either an uploaded image or a URL—not both.")
         return data
 
     def create(self, validated_data):
-        return Post.objects.create(**validated_data)
+        try:
+            return Post.objects.create(**validated_data)
+        except Exception as e:
+            print(f"Error creating Post instance: {e}")
+            raise e
 
 class LikeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -55,11 +60,37 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     following = serializers.SerializerMethodField()
+    profile_picture = serializers.ImageField(required=False, allow_null=True)
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name', 'date_of_birth', 'gender', 'nationality', 'profile_picture_url', 'following']
+        fields = ['id', 'username', 'first_name', 'last_name', 'date_of_birth', 'gender', 'nationality', 'profile_picture_url', 'profile_picture', 'following']
 
     def get_following(self, obj):
         following_users = obj.following.all()
         return [{'id': user.id, 'username': user.username} for user in following_users]
+
+    def update(self, instance, validated_data):
+        from rest_framework.exceptions import ValidationError
+        # Update profile_picture_url if it's in the validated data
+        if 'profile_picture_url' in validated_data:
+            print(f"Received profile_picture_url: {validated_data['profile_picture_url']}")
+            instance.profile_picture_url = validated_data.pop('profile_picture_url')
+
+        # Update profile_picture if it's in the validated data
+        if 'profile_picture' in validated_data:
+            print(f"Received profile_picture: {validated_data['profile_picture']}")
+            instance.profile_picture = validated_data.pop('profile_picture')
+        
+        # Call the superclass's update method to handle other fields
+        try:
+            instance = super().update(instance, validated_data)
+            instance.save()
+            print("Instance saved successfully.")
+        except ValidationError as ve:
+            print(f"Validation error saving instance: {ve.detail}")
+            raise ve
+        except Exception as e:
+            print(f"Error saving instance: {e}")
+            raise  # Re-raise the exception after logging
+        return instance

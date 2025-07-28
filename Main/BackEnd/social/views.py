@@ -57,10 +57,18 @@ class CommentViewSet(viewsets.ModelViewSet):
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-class UserViewSet(viewsets.ReadOnlyModelViewSet):
+class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
+
+    def update(self, request, *args, **kwargs):
+        try:
+            return super().update(request, *args, **kwargs)
+        except Exception as e:
+            from rest_framework.response import Response
+            from rest_framework import status
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=False, methods=['get'])
     def me(self, request):

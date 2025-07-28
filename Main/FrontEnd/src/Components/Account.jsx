@@ -4,11 +4,21 @@ import { Card, CardContent, CardTitle, CardHeader } from './ui/card';
 
 
 const Account = () => {
-  const { user, token } = useContext(AuthContext);
+  const { user, token, updateUser } = useContext(AuthContext);
   const [posts, setPosts] = useState([]);
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
   const [view, setView] = useState('posts'); // 'posts', 'followers', 'following'
+  const [showProfilePictureInput, setShowProfilePictureInput] = useState(false);
+  const [newProfilePictureUrl, setNewProfilePictureUrl] = useState('');
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [editableUser, setEditableUser] = useState({
+    first_name: '',
+    last_name: '',
+    nationality: '',
+    date_of_birth: '',
+    gender: '',
+  });
 
   const [loadingPosts, setLoadingPosts] = useState(true);
   const [errorPosts, setErrorPosts] = useState(null);
@@ -18,6 +28,16 @@ const Account = () => {
   const [errorFollowing, setErrorFollowing] = useState(null);
 
   useEffect(() => {
+    if (user) {
+      setEditableUser({
+        first_name: user.first_name || '',
+        last_name: user.last_name || '',
+        username: user.username || '',
+        nationality: user.nationality || '',
+        date_of_birth: user.date_of_birth || '',
+        gender: user.gender || '',
+      });
+    }
     const fetchPosts = async () => {
       if (user && user.id) { // Ensure user and user.id are defined
         setLoadingPosts(true);
@@ -95,6 +115,85 @@ const Account = () => {
     fetchFollowing();
   }, [user, token]);
 
+  const handleProfilePictureUpdate = async (newUrl) => {
+    try {
+      console.log('Attempting to update profile picture with URL:', newUrl);
+      const response = await fetch(`http://localhost:8000/api/users/${user.id}/`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${token}`,
+        },
+        body: JSON.stringify({ profile_picture_url: newUrl }),
+      });
+
+      console.log('API Response:', response);
+
+      const responseText = await response.text(); // Read response body once
+
+      if (!response.ok) {
+        let errorData = {};
+        try {
+          errorData = JSON.parse(responseText); // Try to parse text as JSON
+        } catch (e) {
+          console.error('Error parsing error response as JSON:', e);
+          errorData = { detail: responseText }; // Use raw text as detail if not JSON
+        }
+        console.error('API Error Response:', errorData);
+        throw new Error(`HTTP error! status: ${response.status}, Message: ${errorData.detail || JSON.stringify(errorData)}`);
+      }
+
+      let updatedUser = {};
+      try {
+        updatedUser = JSON.parse(responseText); // Try to parse text as JSON
+      } catch (e) {
+        console.error('Error parsing success response as JSON:', e);
+        throw new Error(`Failed to parse successful response as JSON. Raw response: ${responseText}`);
+      }
+      console.log('Updated user data from API:', updatedUser);
+      updateUser(updatedUser); // Update user in AuthContext
+      setShowProfilePictureInput(false);
+    } catch (error) {
+      console.error('Error updating profile picture:', error);
+      alert('Failed to update profile picture.');
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEditableUser(prevData => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+
+  const handleEditSubmit = async () => {
+    try {
+      const response = await fetch(`http://localhost:8000/api/users/${user.id}/`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${token}`,
+        },
+        body: JSON.stringify(editableUser),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('API Error Response:', errorData);
+        throw new Error(`HTTP error! status: ${response.status}, Message: ${errorData.detail || JSON.stringify(errorData)}`);
+      }
+
+      const updatedUser = await response.json();
+      updateUser(updatedUser); // Update user in AuthContext
+      setShowEditForm(false);
+      alert('Profile updated successfully!');
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      alert('Failed to update profile.');
+    }
+  };
+
   const renderContent = () => {
     switch (view) {
       case 'posts':
@@ -164,13 +263,118 @@ const Account = () => {
   return (
     <div className="container mx-auto p-4 w-[80vw]">
       <div className="flex items-center mb-8">
-        <img src={user.profile_picture_url || '/Profile-Photo.jpeg'} alt="Profile" className="w-24 h-24 rounded-full mr-8" />
-        <div>
+        <img src={user.profile_picture_url || '/Profile-Photo.jpeg'} alt="Profile" className="w-[10rem] h-[10rem] rounded-full mr-8" />
+        <button onClick={() => setShowProfilePictureInput(!showProfilePictureInput)} className="ml-4 px-4 py-2 bg-blue-500 text-white rounded " style={{position: 'relative', left: '-3rem', top: '3rem', borderRadius: '25%', height: '2rem', width: '1rem'}}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#646cff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-square-pen-icon lucide-square-pen my-auto" style={{marginLeft: '-7px'}}>
+            <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/>
+          </svg>
+        </button>
+        {showProfilePictureInput && (
+          <div className="ml-4">
+            <input
+              type="text"
+              placeholder="New profile picture URL"
+              value={newProfilePictureUrl}
+              onChange={(e) => setNewProfilePictureUrl(e.target.value)}
+              className="border p-2 rounded"
+            />
+            <button onClick={() => handleProfilePictureUpdate(newProfilePictureUrl)} className="ml-2 px-4 py-2 bg-green-500 text-white rounded">Save</button>
+          </div>
+        )}
+        <div style={
+          {
+            backgroundColor: 'white',
+            background: 'transparent',
+            backdropFilter: 'blur(10px)',
+            color: '#d8d8d9',
+            width: '100%',
+            height: '100%',
+            padding: '1rem',
+            boxShadow: '8px -4px 10px #350087',
+            borderRadius: '10px',
+          }
+        }>
           <h1 className="text-3xl font-bold">{user.username}</h1>
           <p className="text-gray-600">{user.first_name} {user.last_name}</p>
-          <p className="text-gray-600">{user.nationality}</p>
+          <p className="text-gray-600">{user.nationality} | {user.date_of_birth}</p>
+          <p className="text-gray-600">{user.gender}</p>
+          <button onClick={() => setShowEditForm(!showEditForm)} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">{showEditForm ? 'Cancel Edit' : 'Edit Profile'}</button>
         </div>
       </div>
+
+      {showEditForm && (
+        <div className="mt-8 p-4 border rounded">
+          <h2 className="text-2xl font-bold mb-4">Edit Profile</h2>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="first_name">First Name:</label>
+            <input
+              type="text"
+              id="first_name"
+              name="first_name"
+              value={editableUser.first_name}
+              onChange={handleChange}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="last_name">Last Name:</label>
+            <input
+              type="text"
+              id="last_name"
+              name="last_name"
+              value={editableUser.last_name}
+              onChange={handleChange}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">Username:</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value={editableUser.username}
+              onChange={handleChange}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nationality">Nationality:</label>
+            <input
+              type="text"
+              id="nationality"
+              name="nationality"
+              value={editableUser.nationality}
+              onChange={handleChange}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="date_of_birth">Date of Birth:</label>
+            <input
+              type="date"
+              id="date_of_birth"
+              name="date_of_birth"
+              value={editableUser.date_of_birth}
+              onChange={handleChange}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="gender">Gender:</label>
+            <input
+              type="text"
+              id="gender"
+              name="gender"
+              value={editableUser.gender}
+              onChange={handleChange}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <button onClick={handleEditSubmit} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Save Changes</button>
+        </div>
+      )}
 
       <div className="flex justify-center my--[2rem]">
         <button onClick={() => setView('posts')} className={`px-[1rem] mx-auto my-[1em] py-[1rem] ${view === 'posts' ? 'border-b-[2] border-[blue]-500' : ''}`}>Posts</button>

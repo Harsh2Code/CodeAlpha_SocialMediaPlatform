@@ -118,13 +118,13 @@ function Navbar() {
         <span style={{ marginLeft: '8px', color: '#646cff', fontWeight:'bolder', fontSize: '2em'}}>SPOTT</span>
       </div>
       <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '20px' }}>
-        <a href="/" style={{ color: '#646cff', textDecoration: 'none' }}>
+        <a href="/" style={{ color: '#646cff', textDecoration: 'none', fontSize: '1.2em' }}>
           Home
         </a>
-        <a href="/events" style={{ color: '#646cff', textDecoration: 'none' }}>
+        {/* <a href="/events" style={{ color: '#646cff', textDecoration: 'none' }}>
           Events
-        </a>
-        <a href="/create" style={{ color: '#646cff', textDecoration: 'none' }}>
+        </a> */}
+        <a href="/create" style={{ color: '#646cff', textDecoration: 'none', fontSize: '1.2em' }}>
           Create
         </a>
       </div>
@@ -194,7 +194,7 @@ function Navbar() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Avatar square="true" style={{ cursor: 'pointer' }}>
-                <AvatarImage src="/Profile-Photo.jpeg" alt="Profile" style={{ width: '26px', height: '26px' }} />
+                <AvatarImage src={user.profile_picture_url || '/Profile-Photo.jpeg'} alt="Profile" style={{ width: '26px', height: '26px' }} />
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
