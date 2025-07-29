@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "/src/components/ui/button.jsx";
+import { Button } from "./ui/button";
 import {
   Card,
   CardContent,
@@ -7,8 +7,8 @@ import {
   CardHeader,
   CardTitle,
 } from "/src/components/ui/card.jsx";
-import { Input } from "/src/components/ui/Input.jsx";
-import { Label } from "/src/components/ui/label.jsx";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
 import API_BASE_URL from "../lib/apiConfig";
 
 export default function Register({ className, ...props }) {
