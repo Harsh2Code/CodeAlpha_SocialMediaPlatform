@@ -6,9 +6,7 @@ services:
     startCommand: "gunicorn Main.BackEnd.backend.wsgi:application"
     envVars:
       - key: DATABASE_URL
-        fromDatabase:
-          name: social-media-db
-          property: connectionString
+        value: "${DATABASE_URL}" # This will be set in Render dashboard
       - key: SECRET_KEY
         generateValue: true
       - key: WEB_CONCURRENCY

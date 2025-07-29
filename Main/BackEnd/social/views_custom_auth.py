@@ -11,8 +11,24 @@ from .serializers import PostSerializer, UserSerializer
 
 User = get_user_model()
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.contrib.auth import get_user_model
+from rest_framework.authtoken.models import Token
+from .authentication import EmailBackend
+from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
+from .models import Post
+from .serializers import PostSerializer, UserSerializer
+
+User = get_user_model()
+
 class CustomObtainAuthToken(APIView):
     #Custom view to obtain auth token using email and password.
+
+    def options(self, request, *args, **kwargs):
+        return Response(status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
         email = request.data.get('email')

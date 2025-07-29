@@ -18,17 +18,26 @@ from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import redirect
 from rest_framework.authtoken.views import obtain_auth_token
+from social.views_custom_auth import CustomObtainAuthToken
 
+
+from django.views.generic import TemplateView
 
 urlpatterns = [
-    path('', lambda request: redirect('/api/posts/')),
+    path('', TemplateView.as_view(template_name='index.html')),
     path('admin/', admin.site.urls),
-    path('api/', include('social.urls')),  # this line connects your API
-    # Remove default obtain_auth_token route to use custom one in social.urls
-    # path('api-token-auth/', obtain_auth_token),
+    path('api/', include('social.urls')),
+    path('api/api-token-auth/', CustomObtainAuthToken.as_view(), name='api_token_auth_root'),
 ]
 
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+urlpatterns += [
+    path('<path:resource>', TemplateView.as_view(template_name='index.html')),
+]

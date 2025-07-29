@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { Card, CardContent, CardTitle, CardHeader } from './ui/card';
+import { Input } from './ui/input';
 
 
 const Account = () => {
@@ -204,9 +205,9 @@ const Account = () => {
             <h2 className="text-2xl font-bold mb-4">My Posts</h2>
             {posts.length > 0 ? (
               posts.map(post => (
-                <div key={post.id} className="p-[1%] rounded-[1rem] mb-4" style={{backgroundColor: '#340087'}}>
+                <div key={post.id} className="p-[1%] rounded-[1rem] mb-4" style={{ backgroundColor: '#340087' }}>
                   <h3 className="text-xl font-[2em]">{post.title}</h3>
-                  <p style={{color: '#A0C5EF'}}>{post.content}</p>
+                  <p style={{ color: '#A0C5EF' }}>{post.content}</p>
                 </div>
               ))
             ) : (
@@ -222,9 +223,9 @@ const Account = () => {
             <h2 className="text-2xl font-bold mb-4">My Followers</h2>
             {posts.length > 0 ? (
               posts.map(post => (
-                <div key={post.id} className="p-[1%] rounded-[1rem] mb-4" style={{backgroundColor: '#340087'}}>
+                <div key={post.id} className="p-[1%] rounded-[1rem] mb-4" style={{ backgroundColor: '#340087' }}>
                   <h3 className="text-xl font-[2em]">{post.title}</h3>
-                  <p style={{color: '#A0C5EF'}}>{post.content}</p>
+                  <p style={{ color: '#A0C5EF' }}>{post.content}</p>
                 </div>
               ))
             ) : (
@@ -239,9 +240,9 @@ const Account = () => {
           <div>
             <h2 className="text-2xl font-bold mb-4">I am Following</h2>
             {following.length > 0 ? (
-              <ul  style={{backgroundColor: '#340087'}}>
+              <ul style={{ backgroundColor: '#340087' }}>
                 {following.map(followed => (
-                  <li key={followed.id} className="p-[1rem] rounded-[1rem] mb-4" style={{color: '#A0C5EF'}}>
+                  <li key={followed.id} className="p-[1rem] rounded-[1rem] mb-4" style={{ color: '#A0C5EF' }}>
                     {followed.username}
                   </li>
                 ))}
@@ -264,15 +265,15 @@ const Account = () => {
     <div className="container mx-auto p-4 w-[80vw]">
       <div className="flex items-center mb-8">
         <img src={user.profile_picture_url || '/Profile-Photo.jpeg'} alt="Profile" className="w-[10rem] h-[10rem] rounded-full mr-8" />
-        <button onClick={() => setShowProfilePictureInput(!showProfilePictureInput)} className="ml-4 px-4 py-2 bg-blue-500 text-white rounded " style={{position: 'relative', left: '-3rem', top: '3rem', borderRadius: '25%', height: '2rem', width: '1rem'}}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#646cff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-square-pen-icon lucide-square-pen my-auto" style={{marginLeft: '-7px'}}>
-            <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-            <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/>
+        <button onClick={() => setShowProfilePictureInput(!showProfilePictureInput)} className="ml-4 px-4 py-2 bg-blue-500 text-white rounded " style={{ position: 'relative', left: '-3rem', top: '3rem', borderRadius: '25%', height: '2rem', width: '1rem' }}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#646cff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-square-pen-icon lucide-square-pen my-auto" style={{ marginLeft: '-7px' }}>
+            <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+            <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
           </svg>
         </button>
         {showProfilePictureInput && (
           <div className="ml-4">
-            <input
+            <Input
               type="text"
               placeholder="New profile picture URL"
               value={newProfilePictureUrl}
@@ -302,79 +303,79 @@ const Account = () => {
           <button onClick={() => setShowEditForm(!showEditForm)} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">{showEditForm ? 'Cancel Edit' : 'Edit Profile'}</button>
         </div>
       </div>
-
-      {showEditForm && (
-        <div className="mt-8 p-4 border rounded">
-          <h2 className="text-2xl font-bold mb-4">Edit Profile</h2>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="first_name">First Name:</label>
-            <input
-              type="text"
-              id="first_name"
-              name="first_name"
-              value={editableUser.first_name}
-              onChange={handleChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="last_name">Last Name:</label>
-            <input
-              type="text"
-              id="last_name"
-              name="last_name"
-              value={editableUser.last_name}
-              onChange={handleChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">Username:</label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              value={editableUser.username}
-              onChange={handleChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nationality">Nationality:</label>
-            <input
-              type="text"
-              id="nationality"
-              name="nationality"
-              value={editableUser.nationality}
-              onChange={handleChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="date_of_birth">Date of Birth:</label>
-            <input
-              type="date"
-              id="date_of_birth"
-              name="date_of_birth"
-              value={editableUser.date_of_birth}
-              onChange={handleChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="gender">Gender:</label>
-            <input
-              type="text"
-              id="gender"
-              name="gender"
-              value={editableUser.gender}
-              onChange={handleChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </div>
-          <button onClick={handleEditSubmit} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Save Changes</button>
-        </div>
-      )}
+       {/* ------------------------------------------------user Profile Editing section---------------------------------------------*/}
+          {showEditForm && (
+            <div className="mt-8 p-4 rounded" style={{margin: '0.5rem 1rem', padding: '1rem 1rem', backgroundColor: '#200054', borderRadius: '1rem'}}>
+              <h1 className="text-2xl my-[2%] text-center mx-auto font-bold mb-4">Edit Profile</h1>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="first_name">First Name:</label>
+                <Input
+                  type="text"
+                  id="first_name"
+                  name="first_name"
+                  value={editableUser.first_name}
+                  onChange={handleChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="last_name">Last Name:</label>
+                <Input
+                  type="text"
+                  id="last_name"
+                  name="last_name"
+                  value={editableUser.last_name}
+                  onChange={handleChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">Username:</label>
+                <Input
+                  type="text"
+                  id="username"
+                  name="username"
+                  value={editableUser.username}
+                  onChange={handleChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nationality">Nationality:</label>
+                <Input
+                  type="text"
+                  id="nationality"
+                  name="nationality"
+                  value={editableUser.nationality}
+                  onChange={handleChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="date_of_birth">Date of Birth:</label>
+                <Input
+                  type="date"
+                  id="date_of_birth"
+                  name="date_of_birth"
+                  value={editableUser.date_of_birth}
+                  onChange={handleChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="gender">Gender:</label>
+                <Input
+                  type="text"
+                  id="gender"
+                  name="gender"
+                  value={editableUser.gender}
+                  onChange={handleChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+              <button onClick={handleEditSubmit} className="block bg-[green]-500 hover:bg-green-700 text-white font-bold py-[2%] px-[4%] my-[2%] w-[90%] mx-auto rounded focus:outline-none focus:shadow-outline">Save Changes</button>
+            </div>
+          )}
 
       <div className="flex justify-center my--[2rem]">
         <button onClick={() => setView('posts')} className={`px-[1rem] mx-auto my-[1em] py-[1rem] ${view === 'posts' ? 'border-b-[2] border-[blue]-500' : ''}`}>Posts</button>
