@@ -6,7 +6,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "/src/components/ui/card.jsx";
+} from './ui/card';
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import API_BASE_URL from "../lib/apiConfig";
