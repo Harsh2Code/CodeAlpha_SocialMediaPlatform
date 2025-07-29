@@ -24,9 +24,9 @@ from social.views_custom_auth import CustomObtainAuthToken
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include('social.urls')),
-    path('api/api-token-auth/', CustomObtainAuthToken.as_view(), name='api_token_auth_root'),
+    path('/admin/', admin.site.urls),
+    path('/api/', include('social.urls')),
+    path('/api/api-token-auth/', CustomObtainAuthToken.as_view(), name='api_token_auth_root'),
 ]
 
 from django.conf import settings

@@ -67,7 +67,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 # Allow only frontend origin with credentials
 CORS_ALLOWED_ORIGINS = [
-    "https://SocialMediaPlatform.onrender.com",
+    "https://socialmedia-frontend-1tqk.onrender.com",
     "https://BackEnd.herokuapp.com",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
