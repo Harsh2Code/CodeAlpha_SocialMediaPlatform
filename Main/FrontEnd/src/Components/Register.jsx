@@ -9,6 +9,7 @@ import {
 } from "/src/components/ui/card.jsx";
 import { Input } from "/src/components/ui/Input.jsx";
 import { Label } from "/src/components/ui/label.jsx";
+import API_BASE_URL from "../lib/apiConfig";
 
 export default function Register({ className, ...props }) {
   const [email, setEmail] = useState("");
@@ -27,7 +28,7 @@ export default function Register({ className, ...props }) {
     setError(null);
     setSuccess(null);
     try {
-      const response = await fetch("http://localhost:8000/api/register/", {
+      const response = await fetch(`${API_BASE_URL}/register/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
