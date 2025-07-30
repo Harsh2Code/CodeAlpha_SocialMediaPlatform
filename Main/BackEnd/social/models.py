@@ -2,43 +2,54 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
-    date_of_birth = models.DateField(null=True, blank=True)
-    gender = models.CharField(max_length=10, blank=True, null=True)
-    nationality = models.CharField(max_length=50, blank=True, null=True)
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
-    profile_picture_url = models.URLField(max_length=500, blank=True, null=True)
+    bio = models.TextField(blank=True, null=True)
 
-    @property
-    def following(self):
-        from django.contrib.auth import get_user_model
-        User = get_user_model()
-        return User.objects.filter(followers_set__follower_id=self.id)
+    def __str__(self):
+        return self.username
 
 class Post(models.Model):
-    VISIBILITY_CHOICES = [
-        ('Public', 'Public'),
-        ('Friends', 'Friends'),
-        ('Only Me', 'Only Me'),
-    ]
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
-    title = models.CharField(max_length=255, blank=True, null=True)
-    content = models.TextField(blank=True, null=True)
-    visibility = models.CharField(max_length=10, choices=VISIBILITY_CHOICES, default='Public')
-    image_url = models.URLField(max_length=500, blank=True, null=True)
+    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='posts')
+    content = models.TextField()
     image = models.ImageField(upload_to='post_images/', blank=True, null=True)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f'Post by {self.author.username} at {self.created_at.strftime("%Y-%m-%d %H:%M")}'
 
 class Like(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likes')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'post')
+
+    def __str__(self):
+        return f'{self.user.username} likes {self.post.id}'
 
 class Comment(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    text = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['created_at']
+
+    def __str__(self):
+        return f'Comment by {self.user.username} on {self.post.id}'
 
 class Follow(models.Model):
-    follower = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='following_set')
-    following = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='followers_set')
+    follower = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='following')
+    following = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='followers')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('follower', 'following')
+
+    def __str__(self):
+        return f'{self.follower.username} follows {self.following.username}'

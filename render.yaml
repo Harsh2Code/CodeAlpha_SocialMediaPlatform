@@ -16,7 +16,7 @@ services:
       - key: CORS_ALLOWED_ORIGINS
         value: "https://socialmedia-frontend-1tqk.onrender.com,http://localhost:5173"
     autoDeploy: true
-    healthCheckPath: /api/health/
+    healthCheckPath: /admin/login/
 
   - type: web
     name: social-media-frontend

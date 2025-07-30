@@ -1,76 +1,80 @@
-from rest_framework import viewsets
-from rest_framework.parsers import MultiPartParser, FormParser
-from rest_framework.permissions import IsAuthenticated
-from django.contrib.auth import get_user_model
-from .models import Post, Like, Comment
-from .serializers import PostSerializer, LikeSerializer, CommentSerializer, UserSerializer
+from rest_framework import viewsets, permissions, status
+from rest_framework.response import Response
+from rest_framework.decorators import action
+from .models import Post, Like, Comment, CustomUser, Follow
+from .serializers import PostSerializer, LikeSerializer, CommentSerializer, UserSerializer, FollowSerializer
 
-User = get_user_model()
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = CustomUser.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.AllowAny] # Adjust permissions as needed
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
-    parser_classes = [MultiPartParser, FormParser]
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticated]
-
-    # Exclude design reference images from the feed
-    design_image_urls = [
-        "http://localhost:8000/media/post_images/Cisco_logo_blue_2016_1pPb5b7.svg.png",
-        "http://localhost:8000/media/post_images/Cisco_logo_blue_2016_4th9jts.svg.png",
-        "http://localhost:8000/media/post_images/Cisco_logo_blue_2016_HN8C3Ux.svg.png",
-        "http://localhost:8000/media/post_images/Cisco_logo_blue_2016_JWBSOqI.svg.png",
-        "http://localhost:8000/media/post_images/Cisco_logo_blue_2016_OjMttNk.svg.png",
-        "http://localhost:8000/media/post_images/Cisco_logo_blue_2016.svg.png",
-    ]
-
-    def get_queryset(self):
-        queryset = Post.objects.exclude(image_url__in=self.design_image_urls).order_by('-timestamp')
-        author_id = self.request.query_params.get('author_id', None)
-        if author_id is not None:
-            queryset = queryset.filter(user__id=author_id)
-        return queryset
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):
-        # Attach authenticated user to post
-        image_url = self.request.data.get('image_url')
-        if image_url:
-            serializer.save(user=self.request.user, image_url=image_url)
-        else:
-            serializer.save(user=self.request.user)
+        serializer.save(author=self.request.user)
+
+    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAuthenticated])
+    def like(self, request, pk=None):
+        post = self.get_object()
+        user = request.user
+        if Like.objects.filter(post=post, user=user).exists():
+            return Response({'detail': 'You have already liked this post.'}, status=status.HTTP_400_BAD_REQUEST)
+        Like.objects.create(post=post, user=user)
+        return Response({'detail': 'Post liked.'}, status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAuthenticated])
+    def unlike(self, request, pk=None):
+        post = self.get_object()
+        user = request.user
+        like = Like.objects.filter(post=post, user=user)
+        if not like.exists():
+            return Response({'detail': 'You have not liked this post.'}, status=status.HTTP_400_BAD_REQUEST)
+        like.delete()
+        return Response({'detail': 'Post unliked.'}, status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAuthenticated])
+    def comment(self, request, pk=None):
+        post = self.get_object()
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(post=post, user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LikeViewSet(viewsets.ModelViewSet):
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
 class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.all().order_by('-timestamp')
+    queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-from rest_framework.decorators import action
-from rest_framework.response import Response
+class FollowViewSet(viewsets.ModelViewSet):
+    queryset = Follow.objects.all()
+    serializer_class = FollowSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
+    def perform_create(self, serializer):
+        serializer.save(follower=self.request.user)
 
-    def update(self, request, *args, **kwargs):
-        try:
-            return super().update(request, *args, **kwargs)
-        except Exception as e:
-            from rest_framework.response import Response
-            from rest_framework import status
-            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
-    @action(detail=False, methods=['get'])
-    def me(self, request):
-        serializer = self.get_serializer(request.user)
-        return Response(serializer.data)
+    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAuthenticated])
+    def unfollow(self, request, pk=None):
+        following_user = self.get_object().following
+        follower_user = request.user
+        follow = Follow.objects.filter(follower=follower_user, following=following_user)
+        if not follow.exists():
+            return Response({'detail': 'You are not following this user.'}, status=status.HTTP_400_BAD_REQUEST)
+        follow.delete()
+        return Response({'detail': 'User unfollowed.'}, status=status.HTTP_200_OK)

@@ -33,7 +33,7 @@ DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'socialmedia-backend-ipwx.onrender.com,localhost,127.0.0.1').split(',')
 
-# Add localhost:5173 and 172.0.0.1:5173 to allowed hosts for local frontend dev
+# Add localhost:5173 and 127.0.0.1:5173 to allowed hosts for local frontend dev
 ALLOWED_HOSTS += ['localhost', 'localhost:5173', '127.0.0.1', '127.0.0.1:5173']
 
 # Application definition
@@ -55,8 +55,8 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware', # Must be after SecurityMiddleware
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',

@@ -1,96 +1,55 @@
 from rest_framework import serializers
-from .models import Post, Like, Comment
-from django.contrib.auth import get_user_model
+from .models import CustomUser, Post, Like, Comment, Follow
 
-User = get_user_model()
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ('id', 'username', 'email', 'profile_picture', 'bio', 'password')
+        extra_kwargs = {'password': {'write_only': True, 'required': False}}
+
+    def create(self, validated_data):
+        user = CustomUser.objects.create_user(**validated_data)
+        return user
+
+    def update(self, instance, validated_data):
+        if 'password' in validated_data:
+            password = validated_data.pop('password')
+            instance.set_password(password)
+        return super().update(instance, validated_data)
 
 class PostSerializer(serializers.ModelSerializer):
-    image_url = serializers.URLField(required=False, allow_null=True)
-    user = serializers.SerializerMethodField()
+    author_username = serializers.ReadOnlyField(source='author.username')
     likes_count = serializers.SerializerMethodField()
-    comments = serializers.SerializerMethodField()
+    comments_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
-        fields = ['id', 'user', 'title', 'content', 'visibility', 'image_url', 'image', 'timestamp', 'likes_count', 'comments']
-
-    def get_user(self, obj):
-        if obj.user:
-            return obj.user.username
-        return "Anonymous"
+        fields = ('id', 'author', 'author_username', 'content', 'image', 'created_at', 'likes_count', 'comments_count')
+        read_only_fields = ('author',)
 
     def get_likes_count(self, obj):
-        return obj.like_set.count()
+        return obj.likes.count()
 
-    def get_comments(self, obj):
-        comments = obj.comment_set.all().order_by('timestamp')
-        return CommentSerializer(comments, many=True).data
-
-    def validate(self, data):
-        from rest_framework.exceptions import ValidationError
-        image = data.get('image')
-        image_url = data.get('image_url')
-
-        if image and image_url:
-            raise ValidationError("Please provide either an uploaded image or a URL—not both.")
-        return data
-
-    def create(self, validated_data):
-        try:
-            return Post.objects.create(**validated_data)
-        except Exception as e:
-            print(f"Error creating Post instance: {e}")
-            raise e
+    def get_comments_count(self, obj):
+        return obj.comments.count()
 
 class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
-        fields = ['id', 'user', 'post']
+        fields = ('id', 'user', 'post', 'created_at')
+        read_only_fields = ('user',)
 
 class CommentSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(read_only=True)
-    user_name = serializers.SerializerMethodField()
-
     class Meta:
         model = Comment
-        fields = ['id', 'user', 'user_name', 'post', 'text', 'timestamp']
+        fields = ('id', 'user', 'post', 'content', 'created_at')
+        read_only_fields = ('user',)
 
-    def get_user_name(self, obj):
-        return obj.user.username if obj.user else None
-
-class UserSerializer(serializers.ModelSerializer):
-    following = serializers.SerializerMethodField()
-    profile_picture = serializers.ImageField(required=False, allow_null=True)
+class FollowSerializer(serializers.ModelSerializer):
+    follower_username = serializers.ReadOnlyField(source='follower.username')
+    following_username = serializers.ReadOnlyField(source='following.username')
 
     class Meta:
-        model = User
-        fields = ['id', 'username', 'first_name', 'last_name', 'date_of_birth', 'gender', 'nationality', 'profile_picture_url', 'profile_picture', 'following']
-
-    def get_following(self, obj):
-        following_users = obj.following.all()
-        return [{'id': user.id, 'username': user.username} for user in following_users]
-
-    def update(self, instance, validated_data):
-        from rest_framework.exceptions import ValidationError
-        # Update profile_picture_url if it's in the validated data
-        if 'profile_picture_url' in validated_data:
-            print(f"Received profile_picture_url: {validated_data['profile_picture_url']}")
-            instance.profile_picture_url = validated_data.pop('profile_picture_url')
-
-        # Update profile_picture if it's in the validated data
-        if 'profile_picture' in validated_data:
-            print(f"Received profile_picture: {validated_data['profile_picture']}")
-            instance.profile_picture = validated_data.pop('profile_picture')
-        
-        # Call the superclass's update method to handle other fields
-        try:
-            instance = super().update(instance, validated_data)
-            instance.save()
-            print("Instance saved successfully.")
-        except ValidationError as ve:
-            print(f"Validation error saving instance: {ve.detail}")
-            raise ve
-        except Exception as e:
-            print(f"Error saving instance: {e}")
-            raise  # Re-raise the exception after logging
-        return instance
+        model = Follow
+        fields = ('id', 'follower', 'follower_username', 'following', 'following_username', 'created_at')
+        read_only_fields = ('follower',)
