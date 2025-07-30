@@ -16,6 +16,20 @@ services:
     autoDeploy: true
     healthCheckPath: /admin/login/
 
+  - type: web
+    name: social-media-frontend
+    env: static
+    buildCommand: "cd Main/FrontEnd && npm install && npm run build"
+    staticPublishPath: "Main/FrontEnd/dist"
+    headers:
+      - path: "*.css"
+        name: Content-Type
+        value: text/css
+    routes:
+      - type: rewrite
+        source: "/*"
+        destination: "/index.html"
+
 databases:
   - name: social-media-db
     databaseName: social_media_db
