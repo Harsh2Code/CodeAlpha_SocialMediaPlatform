@@ -31,7 +31,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-g3^(nt8_1&!r=!0lmi@)q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'socialmedia-backend-ipwx.onrender.com,localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'socialmedia-backend-iwpx.onrender.com,localhost,127.0.0.1').split(',')
 
 # Add localhost:5173 and 127.0.0.1:5173 to allowed hosts for local frontend dev
 ALLOWED_HOSTS += ['localhost', 'localhost:5173', '127.0.0.1', '127.0.0.1:5173']
@@ -65,11 +65,10 @@ MIDDLEWARE = [
 ]
 
 # Allow all origins for development
-CORS_ALLOW_ALL_ORIGINS = True
-
 # Allow only frontend origin with credentials
 CORS_ALLOWED_ORIGINS = [
     "https://socialmedia-frontend-1tqk.onrender.com",
+    "https://socialmedia-backend-ipwx.onrender.com",
     "https://BackEnd.herokuapp.com",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
