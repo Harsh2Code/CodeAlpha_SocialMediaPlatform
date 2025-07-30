@@ -22,7 +22,7 @@ export function LoginForm({ className, ...props }) {
     e.preventDefault();
     setError(null);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/api-token-auth/`, {
+            const response = await fetch(`${API_BASE_URL}/api-token-auth/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
