@@ -3,4 +3,5 @@ db.sqlite3
 list_db_tables.py
 token_auth_test.py
 venv
+.env
 .gitignore
