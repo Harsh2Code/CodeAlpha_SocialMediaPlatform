@@ -33,7 +33,7 @@ DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'socialmedia-backend-ipwx.onrender.com,localhost,127.0.0.1').split(',')
 
-# Add localhost:5173 and 127.0.0.1:5173 to allowed hosts for local frontend dev
+# Add localhost:5173 and 172.0.0.1:5173 to allowed hosts for local frontend dev
 ALLOWED_HOSTS += ['localhost', 'localhost:5173', '127.0.0.1', '127.0.0.1:5173']
 
 # Application definition
@@ -55,7 +55,6 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware', # Must be after SecurityMiddleware
-    'backend.middleware.CustomCORSMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -65,7 +64,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# Allow all origins for development
 # Allow only frontend origin with credentials
 CORS_ALLOWED_ORIGINS = [
     "https://socialmedia-frontend-1tqk.onrender.com",
@@ -78,11 +76,23 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOW_METHODS = [
-    '*',
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'POST',
+    'PUT',
 ]
 
 CORS_ALLOW_HEADERS = [
-    '*',
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
 ]
 
 # Allow CORS for all API endpoints
@@ -172,7 +182,6 @@ if not DEBUG:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_HSTS_SECONDS = 31536000
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
@@ -200,5 +209,3 @@ CACHES = {
 }
 
 AUTH_USER_MODEL = 'social.CustomUser'
-
-print("Django settings loaded successfully!")
