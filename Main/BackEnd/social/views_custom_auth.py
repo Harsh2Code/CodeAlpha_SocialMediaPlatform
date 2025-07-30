@@ -2,13 +2,15 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework import generics, permissions
-from .serializers import UserSerializer
+from .serializers import UserSerializer, EmailAuthTokenSerializer
 from .models import CustomUser
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 
 class CustomObtainAuthToken(ObtainAuthToken):
+    serializer_class = EmailAuthTokenSerializer
+
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
