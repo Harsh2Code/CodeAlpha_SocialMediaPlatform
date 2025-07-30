@@ -1,0 +1,1 @@
+Fix: Set correct MIME type for CSS files in render.yaml and update apiConfig.js
