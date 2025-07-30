@@ -26,7 +26,7 @@ export default function Post(props) {
       if (!token) return;
       try {
         // Remove author_id param to avoid sending undefined
-        const response = await fetch(`${API_BASE_URL}api/postslisttest/`, {
+        const response = await fetch(`${API_BASE_URL}/api/postslisttest/`, {
           headers: {
             'Authorization': `Token ${token}`,
           },
@@ -36,7 +36,7 @@ export default function Post(props) {
         }
         const data = await response.json();
 
-        const likesResponse = await fetch(`${API_BASE_URL}api/likes/`, {
+        const likesResponse = await fetch(`${API_BASE_URL}/api/likes/`, {
           headers: {
             'Authorization': `Token ${token}`,
           },
@@ -63,7 +63,7 @@ export default function Post(props) {
     if (!visibleComments[postId]) {
       // Fetch comments for the post when opening comments section
       try {
-        const response = await fetch(`${API_BASE_URL}api/comments/?post=${postId}`, {
+        const response = await fetch(`${API_BASE_URL}/api/comments/?post=${postId}`, {
           headers: {
             'Authorization': `Token ${token}`,
           },
@@ -97,7 +97,7 @@ export default function Post(props) {
     const comment = commentInputs[postId];
     if (!comment) return;
     try {
-      const response = await fetch(`${API_BASE_URL}api/comments/`, {
+      const response = await fetch(`${API_BASE_URL}/api/comments/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
