@@ -21,8 +21,8 @@ export function LoginForm({ className, ...props }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-    try {
-            const response = await fetch(`${API_BASE_URL}api/api-token-auth/`, {
+      try {
+            const response = await fetch(`${API_BASE_URL}/api/api-token-auth/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,7 +36,7 @@ export function LoginForm({ className, ...props }) {
       }
       const data = await response.json();
       // Fetch full user data after login
-      const userResponse = await fetch(`${API_BASE_URL}api/users/me/`, {
+      const userResponse = await fetch(`${API_BASE_URL}/api/users/me/`, {
         headers: {
           'Authorization': `Token ${data.token}`,
         },

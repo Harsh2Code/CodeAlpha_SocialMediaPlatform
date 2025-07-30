@@ -33,6 +33,8 @@ DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'socialmedia-backend-ipwx.onrender.com,localhost,127.0.0.1').split(',')
 
+# Add localhost:5173 and 127.0.0.1:5173 to allowed hosts for local frontend dev
+ALLOWED_HOSTS += ['localhost', 'localhost:5173', '127.0.0.1', '127.0.0.1:5173']
 
 # Application definition
 
@@ -63,7 +65,7 @@ MIDDLEWARE = [
 ]
 
 # Allow all origins for development
-CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Allow only frontend origin with credentials
 CORS_ALLOWED_ORIGINS = [
