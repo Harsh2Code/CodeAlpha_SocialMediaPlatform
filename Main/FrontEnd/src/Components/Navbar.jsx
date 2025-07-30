@@ -54,7 +54,7 @@ function Navbar() {
       setError(null)
       try {
         console.log("Fetching users with token:", token)
-        const response = await fetch('http://localhost:8000/api/users/', {
+        const response = await fetch('https://socialmedia-backend-iwpx.onrender.com/api/users/', {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Token ${token}`,

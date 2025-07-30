@@ -21,7 +21,7 @@ export function LoginForm({ className, ...props }) {
     e.preventDefault();
     setError(null);
     try {
-      const response = await fetch("http://localhost:8000/api/api-token-auth/", {
+      const response = await fetch("https://socialmedia-backend-iwpx.onrender.com/api/api-token-auth/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,7 +35,7 @@ export function LoginForm({ className, ...props }) {
       }
       const data = await response.json();
       // Fetch full user data after login
-      const userResponse = await fetch("http://localhost:8000/api/users/me/", {
+      const userResponse = await fetch("https://socialmedia-backend-iwpx.onrender.com/api/users/me/", {
         headers: {
           'Authorization': `Token ${data.token}`,
         },

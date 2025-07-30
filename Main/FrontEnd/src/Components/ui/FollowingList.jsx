@@ -15,7 +15,7 @@ export function FollowingList() {
     }
     const fetchFollowing = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/follows/following/', {
+        const response = await fetch('https://socialmedia-backend-iwpx.onrender.com/api/follows/following/', {
           headers: {
             'Authorization': 'Token ' + token,
           },

@@ -44,7 +44,7 @@ const Account = () => {
         setLoadingPosts(true);
         setErrorPosts(null);
         try {
-          const response = await fetch(`http://localhost:8000/api/posts/?author_id=${user.id}`, {
+          const response = await fetch(`https://socialmedia-backend-iwpx.onrender.com/api/posts/?author_id=${user.id}`, {
             headers: {
               'Authorization': `Token ${token}`
             }
@@ -68,7 +68,7 @@ const Account = () => {
         setLoadingFollowers(true);
         setErrorFollowers(null);
         try {
-          const response = await fetch(`http://localhost:8000/api/follows/followers/`, {
+          const response = await fetch(`https://socialmedia-backend-iwpx.onrender.com/api/follows/followers/`, {
             headers: {
               'Authorization': `Token ${token}`
             }
@@ -92,7 +92,7 @@ const Account = () => {
         setLoadingFollowing(true);
         setErrorFollowing(null);
         try {
-          const response = await fetch(`http://localhost:8000/api/follows/following/`, {
+          const response = await fetch(`https://socialmedia-backend-iwpx.onrender.com/api/follows/following/`, {
             headers: {
               'Authorization': `Token ${token}`
             }
@@ -119,7 +119,7 @@ const Account = () => {
   const handleProfilePictureUpdate = async (newUrl) => {
     try {
       console.log('Attempting to update profile picture with URL:', newUrl);
-      const response = await fetch(`http://localhost:8000/api/users/${user.id}/`, {
+      const response = await fetch(`https://socialmedia-backend-iwpx.onrender.com/api/users/${user.id}/`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -170,7 +170,7 @@ const Account = () => {
 
   const handleEditSubmit = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/api/users/${user.id}/`, {
+      const response = await fetch(`https://socialmedia-backend-iwpx.onrender.com/api/users/${user.id}/`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

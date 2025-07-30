@@ -17,7 +17,7 @@ const Users = () => {
       }
 
       try {
-        const response = await fetch('http://localhost:8000/api/users/', {
+        const response = await fetch('https://socialmedia-backend-iwpx.onrender.com/api/users/', {
           headers: {
             'Authorization': `Token ${token}`
           }

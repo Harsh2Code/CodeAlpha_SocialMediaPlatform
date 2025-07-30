@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useContext } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
 import { Avatar, AvatarImage } from './ui/avatar';
@@ -26,7 +25,7 @@ export default function Post(props) {
       if (!token) return;
       try {
         // Remove author_id param to avoid sending undefined
-        const response = await fetch("http://localhost:8000/api/postslisttest/", {
+        const response = await fetch("https://socialmedia-backend-iwpx.onrender.com/api/postslisttest/", {
           headers: {
             'Authorization': `Token ${token}`,
           },
@@ -36,7 +35,7 @@ export default function Post(props) {
         }
         const data = await response.json();
 
-        const likesResponse = await fetch("http://localhost:8000/api/likes/", {
+        const likesResponse = await fetch("https://socialmedia-backend-iwpx.onrender.com/api/likes/", {
           headers: {
             'Authorization': `Token ${token}`,
           },
@@ -63,7 +62,7 @@ export default function Post(props) {
     if (!visibleComments[postId]) {
       // Fetch comments for the post when opening comments section
       try {
-        const response = await fetch(`http://localhost:8000/api/comments/?post=${postId}`, {
+        const response = await fetch(`https://socialmedia-backend-iwpx.onrender.com/api/comments/?post=${postId}`, {
           headers: {
             'Authorization': `Token ${token}`,
           },
@@ -97,7 +96,7 @@ export default function Post(props) {
     const comment = commentInputs[postId];
     if (!comment) return;
     try {
-      const response = await fetch("http://localhost:8000/api/comments/", {
+      const response = await fetch("https://socialmedia-backend-iwpx.onrender.com/api/comments/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
