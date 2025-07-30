@@ -15,9 +15,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.shortcuts import redirect
+from rest_framework.authtoken.views import obtain_auth_token
+
 
 urlpatterns = [
+    path('', lambda request: redirect('/api/posts/')),
     path('admin/', admin.site.urls),
+    path('api/', include('social.urls')),  # this line connects your API
+    # Remove default obtain_auth_token route to use custom one in social.urls
+    # path('api-token-auth/', obtain_auth_token),
 ]
 
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

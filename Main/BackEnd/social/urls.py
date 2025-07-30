@@ -3,6 +3,9 @@ from rest_framework.routers import DefaultRouter
 from .views import PostViewSet, LikeViewSet, CommentViewSet, UserViewSet
 from .views_custom_auth import CustomObtainAuthToken, RegisterUser, PostsListTest
 from .views_follow import FollowViewSet
+from .views_home import HomePageAPIView
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register(r'posts', PostViewSet, basename='post')
@@ -13,8 +16,10 @@ router.register(r'users', UserViewSet)
 router.register(r'follows', FollowViewSet, basename='follow')
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('', HomePageAPIView.as_view(), name='home'),
+    path('api/', include(router.urls)),
     path('api-token-auth/', CustomObtainAuthToken.as_view(), name='api_token_auth'),
     path('register/', RegisterUser.as_view(), name='register'),
     path('postslisttest/', PostsListTest.as_view(), name='postslisttest'),
 ]
+
