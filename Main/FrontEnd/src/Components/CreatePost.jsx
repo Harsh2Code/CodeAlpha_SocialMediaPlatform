@@ -49,7 +49,7 @@ const CreatePost = () => {
         formData.append("image_url", postLink);
       }
 
-      const response = await fetch(`${API_BASE_URL}/api/posts/`, {
+      const response = await fetch(`${API_BASE_URL}api/posts/`, {
         method: "POST",
         headers: {
           "Authorization": `Token ${token}`,
