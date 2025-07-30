@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
+import API_BASE_URL from "../lib/apiConfig.js";
 
 import { Card } from "./ui/card";
 import { Avatar } from "./ui/avatar";
@@ -48,7 +49,7 @@ const CreatePost = () => {
         formData.append("image_url", postLink);
       }
 
-      const response = await fetch("https://socialmedia-backend-iwpx.onrender.com/api/posts/", {
+      const response = await fetch(`${API_BASE_URL}/api/posts/`, {
         method: "POST",
         headers: {
           "Authorization": `Token ${token}`,

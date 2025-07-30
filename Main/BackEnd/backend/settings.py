@@ -63,7 +63,7 @@ MIDDLEWARE = [
 ]
 
 # Allow all origins for development
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
 
 # Allow only frontend origin with credentials
 CORS_ALLOWED_ORIGINS = [

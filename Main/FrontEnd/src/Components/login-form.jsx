@@ -10,6 +10,7 @@ import {
 import { Input } from "./ui/input.jsx";
 import { Label } from "./ui/label.jsx";
 import { AuthContext } from "../contexts/AuthContext";
+import API_BASE_URL from "../lib/apiConfig.js";
 
 export function LoginForm({ className, ...props }) {
   const [email, setEmail] = useState("");
@@ -21,7 +22,7 @@ export function LoginForm({ className, ...props }) {
     e.preventDefault();
     setError(null);
     try {
-      const response = await fetch("https://socialmedia-backend-iwpx.onrender.com/api/api-token-auth/", {
+      const response = await fetch(`${API_BASE_URL}/api/api-token-auth/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,7 +36,7 @@ export function LoginForm({ className, ...props }) {
       }
       const data = await response.json();
       // Fetch full user data after login
-      const userResponse = await fetch("https://socialmedia-backend-iwpx.onrender.com/api/users/me/", {
+      const userResponse = await fetch(`${API_BASE_URL}/api/users/me/`, {
         headers: {
           'Authorization': `Token ${data.token}`,
         },
