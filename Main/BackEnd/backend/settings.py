@@ -198,6 +198,11 @@ REST_FRAMEWORK = {
     ],
 }
 
+AUTHENTICATION_BACKENDS = [
+    'social.authentication.EmailBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
 # Cache configuration
 CACHES = {
     'default': {
