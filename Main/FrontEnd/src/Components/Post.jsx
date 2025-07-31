@@ -13,7 +13,7 @@ import { FollowButton } from './ui/FollowButton';
 import API_BASE_URL from "../lib/apiConfig.js";
 
 export default function Post(props) {
-  const { token } = useContext(AuthContext)
+  const { token, user } = useContext(AuthContext)
   const hideUserInfo = props.hideUserInfo;
   const [posts, setPosts] = useState([]);
   const [visibleComments, setVisibleComments] = useState({});
