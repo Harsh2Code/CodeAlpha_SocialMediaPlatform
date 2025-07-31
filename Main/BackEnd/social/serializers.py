@@ -2,6 +2,8 @@ from rest_framework import serializers
 from .models import CustomUser, Post, Like, Comment, Follow
 from django.contrib.auth import authenticate
 from rest_framework import exceptions
+import requests
+from django.core.files.base import ContentFile
 
 class EmailAuthTokenSerializer(serializers.Serializer):
     email = serializers.EmailField(label="Email")
@@ -30,9 +32,11 @@ class EmailAuthTokenSerializer(serializers.Serializer):
         return attrs
 
 class UserSerializer(serializers.ModelSerializer):
+    profile_picture_url = serializers.URLField(write_only=True, required=False)
+
     class Meta:
         model = CustomUser
-        fields = ('id', 'username', 'email', 'profile_picture', 'bio', 'password')
+        fields = ('id', 'username', 'email', 'profile_picture', 'bio', 'password', 'profile_picture_url')
         extra_kwargs = {'password': {'write_only': True, 'required': False}}
 
     def create(self, validated_data):
@@ -43,17 +47,18 @@ class UserSerializer(serializers.ModelSerializer):
         if 'password' in validated_data:
             password = validated_data.pop('password')
             instance.set_password(password)
-        
-        # Handle profile picture update
-        profile_picture = validated_data.pop('profile_picture', None)
-        if profile_picture:
-            instance.profile_picture = profile_picture
 
-        # Update other fields
-        for attr, value in validated_data.items():
-            setattr(instance, attr, value)
-        instance.save()
-        return instance
+        profile_picture_url = validated_data.pop('profile_picture_url', None)
+        if profile_picture_url:
+            try:
+                response = requests.get(profile_picture_url)
+                response.raise_for_status()  # Raise an exception for HTTP errors
+                file_name = profile_picture_url.split('/')[-1]
+                instance.profile_picture.save(file_name, ContentFile(response.content), save=False)
+            except requests.exceptions.RequestException as e:
+                raise serializers.ValidationError(f"Could not download image from URL: {e}")
+
+        return super().update(instance, validated_data)
 
 class PostSerializer(serializers.ModelSerializer):
     author_username = serializers.ReadOnlyField(source='author.username')
