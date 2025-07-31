@@ -8,3 +8,4 @@ python-decouple==3.8
 python-dotenv==1.1.1
 whitenoise==6.9.0
 pillow==11.3.0
+requests
