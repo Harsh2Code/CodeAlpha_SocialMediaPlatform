@@ -154,7 +154,7 @@ export default function Post(props) {
                       <div className='mr-[0 %] flex flex-col justify-between items-end my-auto' style={({ width: '200px',height : '80px', color: 'rgba(255, 248, 255, 0.67)' })}>
                         <span className='text-[0.9em] mt-[2%] mr-[10%]'>{new Date(post.created_at).toLocaleDateString()}</span>
                         {/* <span className='text-muted ml-1'>{new Date(post.timestamp).toLocaleTimeString()}</span> */}
-                        {post.author !== user?.id && <FollowButton userId={post.author} style={{backgroundColor: '#1f1e1eff'}}/>}
+                        {user && post.author !== user.id && <FollowButton userId={post.author} style={{backgroundColor: '#1f1e1eff'}}/>}
                       </div>
                     </div>
                   </div>
