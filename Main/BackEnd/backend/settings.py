@@ -64,35 +64,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# Allow only frontend origin with credentials
-CORS_ALLOWED_ORIGIN_REGEXES = [
-    r"^https://socialmedia-frontend-1tqk\.onrender\.com$",
-    r"^http://localhost:5173$",
-    r"^http://127\.0\.0\.1:5173$",
-]
-
-CORS_ALLOW_CREDENTIALS = True
-
-CORS_ALLOW_METHODS = [
-    'DELETE',
-    'GET',
-    'OPTIONS',
-    'POST',
-    'PUT',
-]
-
-CORS_ALLOW_HEADERS = [
-    'accept',
-    'accept-encoding',
-    'authorization',
-    'content-type',
-    'dnt',
-    'origin',
-    'user-agent',
-    'x-csrftoken',
-    'x-requested-with',
-]
-
 ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [
