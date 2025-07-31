@@ -15,7 +15,7 @@ router.register(r'follows', FollowViewSet, basename='follow')
 urlpatterns = [
     path('', HomePageAPIView.as_view(), name='home'),
     path('', include(router.urls)),
-    path('api-token-auth/', CustomObtainAuthToken.as_view(), name='api_token_auth'),
+    
     path('register/', RegisterUser.as_view(), name='register'),
     path('postslisttest/', PostsListTest.as_view(), name='postslisttest'),
 ]

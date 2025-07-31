@@ -96,7 +96,7 @@ CORS_ALLOW_HEADERS = [
 ]
 
 # Allow CORS for all API endpoints
-CORS_URLS_REGEX = r".*"
+CORS_URLS_REGEX = r"^/api/.*$"
 
 # Disable appending slash to URLs to prevent CORS preflight redirect issues
 APPEND_SLASH = False
