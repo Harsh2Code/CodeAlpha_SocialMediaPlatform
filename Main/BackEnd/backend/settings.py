@@ -64,8 +64,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# Allow all origins for debugging purposes
-CORS_ALLOW_ALL_ORIGINS = True
+# Allow only frontend origin with credentials
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://socialmedia-frontend-1tqk\.onrender\.com$",
+    r"^http://localhost:5173$",
+    r"^http://127\.0\.0\.1:5173$",
+]
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -88,12 +92,6 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'x-requested-with',
 ]
-
-# Allow CORS for all API endpoints
-CORS_URLS_REGEX = r"^/api/.*$"
-
-# Disable appending slash to URLs to prevent CORS preflight redirect issues
-APPEND_SLASH = False
 
 ROOT_URLCONF = 'backend.urls'
 
