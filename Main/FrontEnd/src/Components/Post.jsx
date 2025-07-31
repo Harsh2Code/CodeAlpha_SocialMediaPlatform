@@ -14,6 +14,7 @@ import API_BASE_URL from "../lib/apiConfig.js";
 
 export default function Post(props) {
   const { token, user } = useContext(AuthContext)
+  console.log("User object in Post.jsx:", user);
   const hideUserInfo = props.hideUserInfo;
   const [posts, setPosts] = useState([]);
   const [visibleComments, setVisibleComments] = useState({});
