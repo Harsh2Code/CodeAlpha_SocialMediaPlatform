@@ -22,6 +22,9 @@ class CustomObtainAuthToken(ObtainAuthToken):
             'email': user.email
         })
 
+    def options(self, request, *args, **kwargs):
+        return Response(status=HTTP_200_OK)
+
 class RegisterUser(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
