@@ -18,4 +18,6 @@ urlpatterns = [
     path('api-token-auth/', CustomObtainAuthToken.as_view(), name='api_token_auth'),
     path('register/', RegisterUser.as_view(), name='register'),
     path('postslisttest/', PostsListTest.as_view(), name='postslisttest'),
+    path('follows/following/', FollowViewSet.as_view({'get': 'following'}), name='follow-following'),
+    path('follows/followers/', FollowViewSet.as_view({'get': 'followers'}), name='follow-followers'),
 ]

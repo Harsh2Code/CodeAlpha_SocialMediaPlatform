@@ -43,7 +43,17 @@ class UserSerializer(serializers.ModelSerializer):
         if 'password' in validated_data:
             password = validated_data.pop('password')
             instance.set_password(password)
-        return super().update(instance, validated_data)
+        
+        # Handle profile picture update
+        profile_picture = validated_data.pop('profile_picture', None)
+        if profile_picture:
+            instance.profile_picture = profile_picture
+
+        # Update other fields
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        return instance
 
 class PostSerializer(serializers.ModelSerializer):
     author_username = serializers.ReadOnlyField(source='author.username')

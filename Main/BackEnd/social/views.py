@@ -7,7 +7,7 @@ from .serializers import PostSerializer, LikeSerializer, CommentSerializer, User
 class UserViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [permissions.AllowAny] # Adjust permissions as needed
+    permission_classes = [permissions.IsAuthenticated]
 
     @action(detail=False, methods=['get'], permission_classes=[permissions.IsAuthenticated])
     def me(self, request):
