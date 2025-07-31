@@ -181,7 +181,7 @@ const Account = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error('API Error Response:', errorData);
+        console.error('API Error Response (Profile Update):', errorData);
         throw new Error(`HTTP error! status: ${response.status}, Message: ${errorData.detail || JSON.stringify(errorData)}`);
       }
 
@@ -202,12 +202,10 @@ const Account = () => {
         if (errorPosts) return <p className="text-red-500">Error loading posts: {errorPosts}</p>;
         return (
           <div>
-            <h2 className="text-2xl font-bold mb-4">My Posts</h2>
+            <h2 className="text-[1.5rem] font-bold mb-[4%]">My Posts</h2>
             {posts.length > 0 ? (
               posts.map(post => (
-                <div key={post.id} className="p-[1%] rounded-[1rem] mb-4" style={{ backgroundColor: '#340087' }}>
-                  {post.image && <img className='w-5/6 mx-auto my-[2%] rounded-[2%] block overflow-hidden object-cover' src={post.image} style={{ boxShadow: '2px 2px 4px #51007c ' }} alt="" />}
-                  <p style={{ color: '#A0C5EF' }}>{post.content}</p>
+                <div key={post.id} className="p-[1%] rounded-[1rem] m-[4%]" style={{ backgroundColor: '#340087' }}>                  <p style={{ color: '#A0C5EF' }}>{post.content}</p>
                 </div>
               ))
             ) : (
@@ -220,11 +218,11 @@ const Account = () => {
         if (errorFollowers) return <p className="text-red-500">Error loading followers: {errorFollowers}</p>;
         return (
           <div>
-            <h2 className="text-2xl font-bold mb-4">My Followers</h2>
+            <h2 className="text-[1.5rem] font-bold mb-[4%]">My Followers</h2>
             {followers.length > 0 ? (
               <ul style={{ backgroundColor: '#340087' }}>
                 {followers.map(follower => (
-                  <li key={follower.id} className="p-[1rem] rounded-[1rem] mb-4" style={{ color: '#A0C5EF' }}>
+                  <li key={follower.id} className="p-[1rem] rounded-[1rem] m-[4%]" style={{ color: '#A0C5EF' }}>
                     {follower.username}
                   </li>
                 ))}
@@ -239,11 +237,11 @@ const Account = () => {
         if (errorFollowing) return <p className="text-red-500">Error loading following: {errorFollowing}</p>;
         return (
           <div>
-            <h2 className="text-2xl font-bold mb-4">I am Following</h2>
+            <h2 className="text-[1.5rem] font-bold mb-[4%]">I am Following</h2>
             {following.length > 0 ? (
               <ul style={{ backgroundColor: '#340087' }}>
                 {following.map(followed => (
-                  <li key={followed.id} className="p-[1rem] rounded-[1rem] mb-4" style={{ color: '#A0C5EF' }}>
+                  <li key={followed.id} className="p-[1rem] rounded-[1rem] m-[4%]" style={{ color: '#A0C5EF' }}>
                     {followed.username}
                   </li>
                 ))}
@@ -307,7 +305,7 @@ const Account = () => {
        {/* ------------------------------------------------user Profile Editing section---------------------------------------------*/}
           {showEditForm && (
             <div className="mt-8 p-4 rounded" style={{margin: '0.5rem 1rem', padding: '1rem 1rem', backgroundColor: '#200054', borderRadius: '1rem'}}>
-              <h1 className="text-2xl my-[2%] text-center mx-auto font-bold mb-4">Edit Profile</h1>
+              <h1 className="text-[1.5rem] my-[2%] text-center mx-auto font-bold mb-4">Edit Profile</h1>
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="first_name">First Name:</label>
                 <Input
