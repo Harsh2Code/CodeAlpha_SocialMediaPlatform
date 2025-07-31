@@ -13,7 +13,6 @@ const CreatePost = () => {
   const { token } = useContext(AuthContext);
   const [postTitle, setPostTitle] = useState("");
   const [postContent, setPostContent] = useState("");
-  const [postImage, setPostImage] = useState(null);
   const [postLink, setPostLink] = useState("");
   const [postVisibility, setPostVisibility] = useState("Public");
 
@@ -23,9 +22,6 @@ const CreatePost = () => {
 
   const handlePostChange = (e) => {
     setPostContent(e.target.value);
-  };
-  const handleImageChange = (e) => {
-    setPostImage(e.target.files[0]);
   };
   const handleLinkChange = (e) => {
     setPostLink(e.target.value);
@@ -42,11 +38,8 @@ const CreatePost = () => {
       formData.append("title", postTitle);
       formData.append("content", postContent);
       formData.append("visibility", postVisibility);
-      if (postImage) {
-        formData.append("image", postImage);
-      }
       if (postLink) {
-        formData.append("image_url", postLink);
+        formData.append("image", postLink);
       }
 
       const response = await fetch(`${API_BASE_URL}/api/posts/`, {
@@ -64,7 +57,7 @@ const CreatePost = () => {
       console.log("Post created:", data);
       setPostTitle("");
       setPostContent("");
-      setPostImage(null);
+      
       setPostLink("");
     } catch (error) {
       console.error("Error creating post:", error);
@@ -104,20 +97,7 @@ const CreatePost = () => {
               style={{height: "5rem"}}
               required
               />
-            <Label htmlFor="postImage" className="block mb-1 font-medium" style={{ color: "#CDB384" }}>
-              Upload Image
-            </Label>
-            <input
-              type="file"
-              id="postImage"
-              onChange={handleImageChange}
-              className="h-[24px] w-[96%]"
-            />
-            <div className="flex justify-start items-center mx-auto">
-              <hr style={{width: "33%"}}/>
-              Either Post Link Or Upload Image
-              <hr style={{width: "33%"}}/>
-            </div>
+            
             <Label htmlFor="postLink" className="block mb-1 font-medium" style={{ color: "#CDB384" }}>
               Paste Link
             </Label>
