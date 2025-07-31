@@ -9,9 +9,6 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny] # Adjust permissions as needed
 
-    def list(self, request, *args, **kwargs):
-        return Response({"message": "User list test successful"}, status=status.HTTP_200_OK)
-
     @action(detail=False, methods=['get'], permission_classes=[permissions.IsAuthenticated])
     def me(self, request):
         serializer = self.get_serializer(request.user)

@@ -23,7 +23,7 @@ const UserProfile = () => {
       setLoadingUser(true);
       setErrorUser(null);
       try {
-        const response = await fetch(`https://socialmedia-backend-iwpx.onrender.com/api/users/${userId}/`, {
+        const response = await fetch(`https://socialmedia-backend-ipwx.onrender.com/api/users/${userId}/`, {
           headers: {
             'Authorization': `Token ${token}`
           }
@@ -46,12 +46,12 @@ const UserProfile = () => {
       setErrorPosts(null);
       try {
         console.log("Fetching posts for userId:", userId);
-        const response = await fetch(`https://socialmedia-backend-iwpx.onrender.com/api/posts/?author_id=${userId}`, {
+        const response = await fetch(`https://socialmedia-backend-ipwx.onrender.com/api/posts/?author_id=${userId}`, {
           headers: {
             'Authorization': `Token ${token}`
           }
         });
-        console.log("Posts API URL:", `https://socialmedia-backend-iwpx.onrender.com/api/posts/?author_id=${userId}`);
+        console.log("Posts API URL:", `https://socialmedia-backend-ipwx.onrender.com/api/posts/?author_id=${userId}`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -69,7 +69,7 @@ const UserProfile = () => {
     //   setLoadingFollowers(true);
     //   setErrorFollowers(null);
     //   try {
-    //     const response = await fetch(`https://socialmedia-backend-iwpx.onrender.com/api/follows/${userId}/user_followers/`, {
+    //     const response = await fetch(`https://socialmedia-backend-ipwx.onrender.com/api/follows/${userId}/user_followers/`, {
     //       headers: {
     //         'Authorization': `Token ${token}`
     //       }
@@ -91,7 +91,7 @@ const UserProfile = () => {
     //   setLoadingFollowing(true);
     //   setErrorFollowing(null);
     //   try {
-    //     const response = await fetch(`https://socialmedia-backend-iwpx.onrender.com/api/follows/${userId}/user_following/`, {
+    //     const response = await fetch(`https://socialmedia-backend-ipwx.onrender.com/api/follows/${userId}/user_following/`, {
     //       headers: {
     //         'Authorization': `Token ${token}`
     //       }

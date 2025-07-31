@@ -16,7 +16,7 @@ const FollowersList = () => {
       }
 
       try {
-        const response = await fetch('https://socialmedia-backend-iwpx.onrender.com/api/followers/', {
+        const response = await fetch('https://socialmedia-backend-ipwx.onrender.com/api/followers/', {
           headers: {
             'Authorization': `Token ${token}`
           }

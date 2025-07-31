@@ -17,7 +17,7 @@ export function FollowButton({ userId }) {
     }
     const fetchFollowStatus = async () => {
       try {
-        const response = await fetch("https://socialmedia-backend-iwpx.onrender.com/api/follows/" + encodeURIComponent(userId) + "/status/", {
+        const response = await fetch("https://socialmedia-backend-ipwx.onrender.com/api/follows/" + encodeURIComponent(userId) + "/status/", {
           headers: {
             'Authorization': "Token " + token,
             'X-CSRFToken': getCookie('csrftoken'),
@@ -66,7 +66,7 @@ export function FollowButton({ userId }) {
     setLoading(true);
     setError(null);
     try {
-      const url = "https://socialmedia-backend-iwpx.onrender.com/api/follows/" + encodeURIComponent(userId) + "/" + (isFollowing ? "unfollow" : "follow") + "/";
+      const url = "https://socialmedia-backend-ipwx.onrender.com/api/follows/" + encodeURIComponent(userId) + "/" + (isFollowing ? "unfollow" : "follow") + "/";
       console.log("Sending follow toggle request to:", url);
       const response = await fetch(url, {
         method: 'POST',
