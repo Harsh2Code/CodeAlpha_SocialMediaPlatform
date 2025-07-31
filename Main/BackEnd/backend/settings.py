@@ -36,9 +36,7 @@ ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'socialmedia-backend-ipwx.onrend
 # Add localhost:5173 and 127.0.0.1:5173 to allowed hosts for local frontend dev
 ALLOWED_HOSTS += ['localhost', 'localhost:5173', '127.0.0.1', '127.0.0.1:5173']
 
-CORS_ALLOWED_ORIGINS = [
-    "https://socialmedia-frontend-1tqk.onrender.com",
-]
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = [
     'accept',
