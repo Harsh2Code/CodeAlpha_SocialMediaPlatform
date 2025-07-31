@@ -206,7 +206,7 @@ const Account = () => {
             {posts.length > 0 ? (
               posts.map(post => (
                 <div key={post.id} className="p-[1%] rounded-[1rem] mb-4" style={{ backgroundColor: '#340087' }}>
-                  <h3 className="text-xl font-[2em]">{post.title}</h3>
+                  {post.image && <img className='w-5/6 mx-auto my-[2%] rounded-[2%] block overflow-hidden object-cover' src={post.image} style={{ boxShadow: '2px 2px 4px #51007c ' }} alt="" />}
                   <p style={{ color: '#A0C5EF' }}>{post.content}</p>
                 </div>
               ))
@@ -221,13 +221,14 @@ const Account = () => {
         return (
           <div>
             <h2 className="text-2xl font-bold mb-4">My Followers</h2>
-            {posts.length > 0 ? (
-              posts.map(post => (
-                <div key={post.id} className="p-[1%] rounded-[1rem] mb-4" style={{ backgroundColor: '#340087' }}>
-                  <h3 className="text-xl font-[2em]">{post.title}</h3>
-                  <p style={{ color: '#A0C5EF' }}>{post.content}</p>
-                </div>
-              ))
+            {followers.length > 0 ? (
+              <ul style={{ backgroundColor: '#340087' }}>
+                {followers.map(follower => (
+                  <li key={follower.id} className="p-[1rem] rounded-[1rem] mb-4" style={{ color: '#A0C5EF' }}>
+                    {follower.username}
+                  </li>
+                ))}
+              </ul>
             ) : (
               <p>You have no followers yet.</p>
             )}

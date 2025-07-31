@@ -144,7 +144,7 @@ export default function Post(props) {
                   </Avatar>
                   <div className='flex flex-row justify-between items-start mx-auto' style={{ height: '100px', width: '43rem' }}>
                     <div className="flex flex-col justify-center">
-                      <div className='ml-[2%] font-bold text-[2rem]'><span className='text-2xl w- ml-[2%]'>{post.user || "Anonymous"}</span></div>
+                      <div className='ml-[2%] font-bold text-[2rem]'><span className='text-2xl w- ml-[2%]'>{post.author_username || "Anonymous"}</span></div>
                       <span className='text-[1em] w- mt-[10%] ml-[4%]' style={{ color: 'rgba(255, 248, 255, 0.67)' }}>{post.gender || "PNTS"} | {post.age || "?"}</span>
                     </div>
 
@@ -152,9 +152,9 @@ export default function Post(props) {
                       <div className='ml-[2%]'>
                       </div>
                       <div className='mr-[0 %] flex flex-col justify-between items-end my-auto' style={({ width: '200px',height : '80px', color: 'rgba(255, 248, 255, 0.67)' })}>
-                        <span className='text-[0.9em] mt-[2%] mr-[10%]'>{new Date(post.timestamp).toLocaleDateString()}</span>
+                        <span className='text-[0.9em] mt-[2%] mr-[10%]'>{new Date(post.created_at).toLocaleDateString()}</span>
                         {/* <span className='text-muted ml-1'>{new Date(post.timestamp).toLocaleTimeString()}</span> */}
-                        {post.user && post.user.trim().toLowerCase() !== "anonymous" && post.user !== props.currentUser && <FollowButton userId={post.user.trim()} style={{backgroundColor: '#1f1e1eff'}}/>}
+                        {post.author !== user?.id && <FollowButton userId={post.author} style={{backgroundColor: '#1f1e1eff'}}/>}
                       </div>
                     </div>
                   </div>
@@ -163,23 +163,18 @@ export default function Post(props) {
             </div>
             <Card style={{ marginBottom: '20px', backgroundColor: "#330087"}}>
               <CardHeader className="text-center text-inidigo-600" style={{ marginTop: '20px', backgroundColor: '#330087 !important' }}>
-                <CardTitle className="text-xl text-indigo-600 my-[0px]" style={{ color: "#CDB384" }}><h1 style={{margin: '0% 0%'}} >{post.title}</h1></CardTitle>
+                
               </CardHeader>
               <CardContent className="overflow-hidded block rounded-lg" style={{backgroundColor: '#330087' , marginTop: '0px 0px', padding: '0px'}}>
                 <Label className="overflow-hidden">
                   {post.image && <img className='w-5/6 mx-auto my-[2%] rounded-[2%] block overflow-hidden object-cover' src={post.image} style={{ boxShadow: '2px 2px 4px #51007c ' }} alt="" />}
 
                 </Label>
-                { post.title &&
                 <div style={{backgroundColor: '#200054',borderRadius: '0.5rem', margin: "1rem 5rem", padding: '1rem', color: '#5A8DB2'}} >
-                  <h2 style={{color: '#d8d8d8' , margin: '0 0'}}>
-                    {post.title}
-                  </h2>
                   <p style={{marginTop:'1rem'}}>
                     {post.content}
                   </p>
                 </div>
-}
               </CardContent>
             </Card>
             <div className="flex justify-around align-center mx-auto w-[100%]" style={{  padding: '18px 0px', borderRadius: '0.25rem', backgroundColor: '#330087' }}>
@@ -192,6 +187,7 @@ export default function Post(props) {
               </button>
               <button style={{ backgroundColor: '#1f2b2dff' }} onClick={() => toggleComments(post.id)}>
                 <label htmlFor="Comment"><BiCommentDetail style={{ width: 26, height: 26, color: '#F7F7F8' }} /></label>
+                <span style={{ color: '#F7F7F8', fontWeight: 'bold' }}>{post.comments_count || 0}</span>
               </button>
               <button style={{ backgroundColor: '#1f2b2dff' }}>
                 <label htmlFor="share"><ShareIcon style={{ width: 26, height: 26, color: '#F7F7F8' }} /></label>
