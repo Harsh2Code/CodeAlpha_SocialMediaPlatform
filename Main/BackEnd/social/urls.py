@@ -4,7 +4,6 @@ from .views import PostViewSet, LikeViewSet, CommentViewSet, UserViewSet
 from .views_custom_auth import CustomObtainAuthToken, RegisterUser, PostsListTest
 from .views_follow import FollowViewSet
 from .views_home import HomePageAPIView
-from .views_me import MeAPIView
 
 router = DefaultRouter()
 router.register(r'posts', PostViewSet, basename='post')
@@ -15,8 +14,7 @@ router.register(r'follows', FollowViewSet, basename='follow')
 
 urlpatterns = [
     path('', HomePageAPIView.as_view(), name='home'),
-    path('api/users/me/', MeAPIView.as_view(), name='user-me'),
-    path('api/', include(router.urls)),
+    path('', include(router.urls)),
     path('api-token-auth/', CustomObtainAuthToken.as_view(), name='api_token_auth'),
     path('register/', RegisterUser.as_view(), name='register'),
     path('postslisttest/', PostsListTest.as_view(), name='postslisttest'),
