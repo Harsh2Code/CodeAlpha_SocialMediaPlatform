@@ -26,7 +26,7 @@ export default function Post(props) {
       if (!token) return;
       try {
         // Remove author_id param to avoid sending undefined
-        const response = await fetch(`${API_BASE_URL}/api/postslisttest/`, {
+        const response = await fetch(`${API_BASE_URL}/api/posts/`, {
           headers: {
             'Authorization': `Token ${token}`,
           },
