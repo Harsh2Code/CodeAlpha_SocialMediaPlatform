@@ -64,14 +64,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# Allow only frontend origin with credentials
-CORS_ALLOWED_ORIGINS = [
-    "https://socialmedia-frontend-1tqk.onrender.com",
-    "https://socialmedia-backend-ipwx.onrender.com",
-    "https://BackEnd.herokuapp.com",
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-]
+# Allow all origins for debugging purposes
+CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_CREDENTIALS = True
 
