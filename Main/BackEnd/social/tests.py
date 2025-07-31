@@ -36,7 +36,7 @@ class UserEndpointTests(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
 
     def test_get_current_user(self):
-        url = '/api/users/me/'
+        url = reverse('user-me')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['email'], self.email)
