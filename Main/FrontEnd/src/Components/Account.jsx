@@ -273,15 +273,13 @@ const Account = () => {
         {showProfilePictureInput && (
           <div className="ml-4">
             <Input
-              type="file"
-              accept="image/*"
-              onChange={(e) => {
-                if (e.target.files && e.target.files[0]) {
-                  handleProfilePictureUpdate(e.target.files[0]);
-                }
-              }}
+              type="text"
+              placeholder="New profile picture URL"
+              value={newProfilePictureUrl}
+              onChange={(e) => setNewProfilePictureUrl(e.target.value)}
               className="border p-2 rounded"
             />
+            <button onClick={() => handleProfilePictureUpdate(newProfilePictureUrl)} className="ml-2 px-4 py-2 bg-green-500 text-white rounded">Save</button>
           </div>
         )}
         <div style={
