@@ -40,3 +40,11 @@ class UserEndpointTests(APITestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['email'], self.email)
+
+    def test_patch_user(self):
+        url = reverse('user-detail', args=[self.user.id])
+        data = {'username': 'updateduser'}
+        response = self.client.patch(url, data, format='json')
+        self.assertIn(response.status_code, [200, 204])
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.username, 'updateduser')

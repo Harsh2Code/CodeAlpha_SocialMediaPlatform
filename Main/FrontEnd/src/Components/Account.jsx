@@ -116,43 +116,26 @@ const Account = () => {
     fetchFollowing();
   }, [user, token]);
 
-  const handleProfilePictureUpdate = async (newUrl) => {
+  const handleProfilePictureUpdate = async (file) => {
     try {
-      console.log('Attempting to update profile picture with URL:', newUrl);
+      const formData = new FormData();
+      formData.append('profile_picture', file);
+
       const response = await fetch(`https://socialmedia-backend-ipwx.onrender.com/api/users/${user.id}/`, {
         method: 'PATCH',
         headers: {
-          'Content-Type': 'application/json',
           'Authorization': `Token ${token}`,
         },
-        body: JSON.stringify({ profile_picture_url: newUrl }),
+        body: formData,
       });
 
-      console.log('API Response:', response);
-
-      const responseText = await response.text(); // Read response body once
-
       if (!response.ok) {
-        let errorData = {};
-        try {
-          errorData = JSON.parse(responseText); // Try to parse text as JSON
-        } catch (e) {
-          console.error('Error parsing error response as JSON:', e);
-          errorData = { detail: responseText }; // Use raw text as detail if not JSON
-        }
-        console.error('API Error Response:', errorData);
+        const errorData = await response.json();
         throw new Error(`HTTP error! status: ${response.status}, Message: ${errorData.detail || JSON.stringify(errorData)}`);
       }
 
-      let updatedUser = {};
-      try {
-        updatedUser = JSON.parse(responseText); // Try to parse text as JSON
-      } catch (e) {
-        console.error('Error parsing success response as JSON:', e);
-        throw new Error(`Failed to parse successful response as JSON. Raw response: ${responseText}`);
-      }
-      console.log('Updated user data from API:', updatedUser);
-      updateUser(updatedUser); // Update user in AuthContext
+      const updatedUser = await response.json();
+      updateUser(updatedUser);
       setShowProfilePictureInput(false);
     } catch (error) {
       console.error('Error updating profile picture:', error);

@@ -55,6 +55,7 @@ CORS_ALLOW_METHODS = [
     'OPTIONS',
     'POST',
     'PUT',
+    'PATCH',
 ]
 
 # Application definition
