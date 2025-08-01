@@ -55,11 +55,11 @@ export function LoginForm({ className, ...props }) {
     <div
       className={`h-[600px] w-[400px] flex flex-col mx-auto gap-6 border-1 rounded-[0.5vw] ${className}`}
       {...props}
-      style={{ height: "450px", borderColor: "#6563f1bc", backgroundColor: '#200054' }}
+      style={{ height: "480px", borderColor: "#6563f1bc", backgroundColor: '#200054' }}
     >
       <Card style={{backgroundColor: '#200054',padding : '0 1rem', height: ''}}>
         <CardHeader className="text-center gap-3 text-inidigo-600" style={{ marginTop: "40px" }}>
-          <CardTitle className="text-xl text-indigo-600" style={{ color: "#CDB384" }}>
+          <CardTitle className="text-[1.7rem] text-[#CEEBED]">
             Welcome back
           </CardTitle>
         </CardHeader>
@@ -67,7 +67,7 @@ export function LoginForm({ className, ...props }) {
           <form onSubmit={handleSubmit}>
             <div className="grid gap-6 mt-2">
               <div className="mt-2 grid gap-3 has-[input:focus-within]:outline-indigo-600">
-                <Label className="mt-[40px] ml-[2%] " htmlFor="email" style={{ color: "#CDB384" }}>
+                <Label className="mt-[40px] ml-[2%] text-[1.25rem] text-[#CEEBED]  " htmlFor="email">
                   Email
                 </Label>
                 <Input
@@ -84,7 +84,7 @@ export function LoginForm({ className, ...props }) {
               </div>
               <div className="grid gap-3">
                 <div className="flex items-center">
-                  <Label className="mt-[20px] ml-[2%]" htmlFor="password" style={{ color: "#CDB384" }}>
+                  <Label className="mt-[20px] ml-[2%] text-[1.25rem] text-[#CEEBED] " htmlFor="password">
                     Password
                   </Label>
                   <a href="#" className="ml-auto mt-[20px] text-sm underline-offset-4 hover:underline">
@@ -104,7 +104,7 @@ export function LoginForm({ className, ...props }) {
                 />
               </div>
               {error && <div className="text-red-600 text-center">{error}</div>}
-              <Button type="submit" className="w-[30%] mx-auto my-[20px]">
+              <Button type="submit" className="w-[8 0%] mx-auto my-[20px]">
                 Login
               </Button>
             </div>

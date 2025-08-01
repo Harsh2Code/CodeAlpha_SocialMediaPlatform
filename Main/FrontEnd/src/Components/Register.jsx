@@ -49,7 +49,7 @@ export default function Register({ className, ...props }) {
     >
       <Card style={{backgroundColor: '#200054',padding : '0 1rem', height: ''}}>
         <CardHeader className="text-center gap-3 text-inidigo-600" style={{ marginTop: "40px" }}>
-          <CardTitle className="text-xl text-indigo-600" style={{ color: "#CDB384" }}>
+          <CardTitle className=" text-[1.7rem] text-[#CEEBED]" >
             Create an Account
           </CardTitle>
         </CardHeader>
@@ -57,7 +57,7 @@ export default function Register({ className, ...props }) {
           <form onSubmit={handleSubmit}>
             <div className="grid gap-6 mt-2">
               <div className="mt-2 grid gap-3 has-[input:focus-within]:outline-indigo-600">
-                <Label className="mt-[40px] ml-[2%]" htmlFor="username" style={{ color: "#CDB384" }}>
+                <Label className="mt-[40px] ml-[2%] text-[1rem] text-[#CEEBED]" htmlFor="username" >
                   Username
                 </Label>
                 <Input
@@ -72,7 +72,7 @@ export default function Register({ className, ...props }) {
                 />
               </div>
               <div className="mt-2 grid gap-3 has-[input:focus-within]:outline-indigo-600">
-                <Label className="ml-[2%]" htmlFor="email" style={{ color: "#CDB384" }}>
+                <Label className="ml-[2%] text-[1rem] text-[#CEEBED]" htmlFor="email" >
                   Email
                 </Label>
                 <Input
@@ -88,7 +88,7 @@ export default function Register({ className, ...props }) {
               </div>
               <div className="grid gap-3">
                 <div className="flex items-center">
-                  <Label className="ml-[2%]" htmlFor="password" style={{ color: "#CDB384" }}>
+                  <Label className="ml-[2%] text-[1rem] text-[#CEEBED]" htmlFor="password" >
                     Password
                   </Label>
                 </div>
@@ -104,7 +104,7 @@ export default function Register({ className, ...props }) {
                 />
               </div>
               {error && <div className="text-red-600 text-center">{error}</div>}
-              <Button type="submit" className="w-[30%] mx-auto my-[20px]">
+              <Button type="submit" className="w-[80%] mx-auto my-[20px]">
                 Register
               </Button>
             </div>
