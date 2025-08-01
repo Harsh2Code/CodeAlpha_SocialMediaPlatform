@@ -54,11 +54,10 @@ class UserSerializer(serializers.ModelSerializer):
                 response = requests.get(profile_picture_url)
                 response.raise_for_status()  # Raise an exception for HTTP errors
                 file_name = profile_picture_url.split('/')[-1]
-                instance.profile_picture.save(file_name, ContentFile(response.content), save=False)
+                instance.profile_picture.save(file_name, ContentFile(response.content))
             except requests.exceptions.RequestException as e:
                 raise serializers.ValidationError(f"Could not download image from URL: {e}")
 
-        instance.save() #save the instance after updating the profile picture
         return super().update(instance, validated_data)
 
 class PostSerializer(serializers.ModelSerializer):
