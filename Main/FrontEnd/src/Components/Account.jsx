@@ -309,7 +309,7 @@ const Account = () => {
             <p className="text-gray-600">{user.first_name} {user.last_name}</p>
             <p className="text-gray-600">{user.nationality} | {user.date_of_birth}</p>
             <p className="text-gray-600">{user.gender}</p>
-            <button onClick={() => setShowEditForm(!showEditForm)} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">{showEditForm ? 'Cancel Edit' : 'Edit Profile'}</button>
+            <button onClick={() => setShowEditForm(!showEditForm)} className="mt-[2%] px-[2%] py-2 bg-blue-500 text-[#200057] bg-[#414141] focus:bg-[#313131] rounded" style={{borderRadius: '6rem'}}>{showEditForm ? 'Cancel Edit' : 'Edit Profile'}</button>
           </div>
         </div>
         {/* ------------------------------------------------user Profile Editing section---------------------------------------------*/}
@@ -324,7 +324,7 @@ const Account = () => {
                 name="first_name"
                 value={editableUser.first_name}
                 onChange={handleChange}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-[#200057]" style={{borderRadius: '8rem', backgroundColor: '#3131313'}}
               />
             </div>
             <div className="mb-4">
@@ -335,7 +335,7 @@ const Account = () => {
                 name="last_name"
                 value={editableUser.last_name}
                 onChange={handleChange}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-[#200057]"
               />
             </div>
             <div className="mb-4">
@@ -346,7 +346,7 @@ const Account = () => {
                 name="username"
                 value={editableUser.username}
                 onChange={handleChange}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-[#200057]" style={{borderRadius: '8rem', backgroundColor: '#3131313'}}
               />
             </div>
             <div className="mb-4">
@@ -357,7 +357,7 @@ const Account = () => {
                 name="nationality"
                 value={editableUser.nationality}
                 onChange={handleChange}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-[#200057]" style={{borderRadius: '8rem', backgroundColor: '#3131313'}}
               />
             </div>
             <div className="mb-4">
@@ -368,7 +368,7 @@ const Account = () => {
                 name="date_of_birth"
                 value={editableUser.date_of_birth}
                 onChange={handleChange}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-[#200057]" style={{borderRadius: '8rem', backgroundColor: '#3131313'}}
               />
             </div>
             <div className="mb-4">
@@ -379,7 +379,7 @@ const Account = () => {
                 name="gender"
                 value={editableUser.gender}
                 onChange={handleChange}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline  text-[#200057]" style={{borderRadius: '8rem', backgroundColor: '#3131313'}}
               />
             </div>
             <button onClick={handleEditSubmit} className="block bg-[green]-500 hover:bg-green-700 text-white font-bold py-[2%] px-[4%] my-[2%] w-[90%] mx-auto rounded focus:outline-none focus:shadow-outline">Save Changes</button>
