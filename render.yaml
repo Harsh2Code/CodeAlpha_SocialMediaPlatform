@@ -2,7 +2,7 @@ services:
   - type: web
     name: social-media-backend
     env: python
-    buildCommand: "pip install -r Main/BackEnd/requirements.txt"
+    buildCommand: "pip install -r Main/BackEnd/requirements.txt && python Main/BackEnd/manage.py migrate"
     startCommand: "gunicorn Main.BackEnd.backend.wsgi:application"
     envVars:
       - key: DATABASE_URL

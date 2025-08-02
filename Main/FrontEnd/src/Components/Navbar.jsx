@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../contexts/AuthContext'
 import { Avatar, AvatarImage } from './ui/avatar'
 import { House, Plus } from 'lucide-react'
+import API_BASE_URL from "../lib/apiConfig.js";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -55,7 +56,7 @@ function Navbar() {
       setError(null)
       try {
         console.log("Fetching users with token:", token)
-        const response = await fetch('https://socialmedia-backend-ipwx.onrender.com/api/users/', {
+        const response = await fetch(`${API_BASE_URL}/api/users/`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Token ${token}`,

@@ -60,6 +60,48 @@ export default function Post(props) {
     fetchPosts();
   }, [token]);
 
+  const handleLikeToggle = async (post) => {
+    try {
+      const isLiked = likedPosts[post.id];
+      const url = `${API_BASE_URL}/api/likes/`;
+      const method = isLiked ? 'DELETE' : 'POST';
+      
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${token}`,
+        },
+        body: JSON.stringify({
+          post: post.id
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to ${isLiked ? 'unlike' : 'like'} post`);
+      }
+
+      // Update local state
+      setLikedPosts(prev => ({
+        ...prev,
+        [post.id]: !isLiked
+      }));
+
+      // Update posts list with new like count
+      setPosts(prev => prev.map(p => {
+        if (p.id === post.id) {
+          return {
+            ...p,
+            likes_count: isLiked ? (p.likes_count || 1) - 1 : (p.likes_count || 0) + 1
+          };
+        }
+        return p;
+      }));
+    } catch (error) {
+      console.error("Error toggling like:", error);
+    }
+  };
+
   const toggleComments = async (postId) => {
     if (!visibleComments[postId]) {
       // Fetch comments for the post when opening comments section
@@ -122,6 +164,17 @@ export default function Post(props) {
       setCommentInputs((prev) => ({
         ...prev,
         [postId]: '',
+      }));
+      
+      // Update the posts list with the new comments count
+      setPosts(prev => prev.map(post => {
+        if (post.id === postId) {
+          return {
+            ...post,
+            comments_count: (post.comments_count || 0) + 1
+          };
+        }
+        return post;
       }));
     } catch (error) {
       console.error("Error submitting comment:", error);
