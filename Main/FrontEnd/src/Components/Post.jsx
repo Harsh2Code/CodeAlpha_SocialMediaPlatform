@@ -140,7 +140,7 @@ export default function Post(props) {
             <div className='flex flex-row justify-start items-center w-[100%]' style={{ padding: '18px 0px', borderRadius: '0.25rem' }}>
               {!hideUserInfo && (
                 <>
-                  <Avatar square="true" className="mx-auto my-[4%]" style={{ marginTop: '1rem' }} >
+                  <Avatar square="true" className="mx-auto my-[0.5%]"  >
                     <AvatarImage src="/Profile-Photo.jpeg" alt="Profile" style={{ width: '6rem', height: '6rem' }} />
                   </Avatar>
                   <div className='flex flex-row justify-between items-start mx-auto' style={{ height: '100px', width: '43rem' }}>
@@ -171,7 +171,7 @@ export default function Post(props) {
                   {post.image && <img className='w-5/6 mx-auto my-[2%] rounded-[2%] block overflow-hidden object-cover' src={post.image} style={{ boxShadow: '2px 2px 4px #51007c ' }} alt="" />}
 
                 </Label>
-                <div style={{backgroundColor: '#200054',borderRadius: '0.5rem', margin: "1rem 5rem", padding: '1rem', color: '#5A8DB2'}} >
+                <div style={{backgroundColor: '#200054',borderRadius: '0.5rem', margin: "1rem 1rem", padding: '0.5rem', color: '#5A8DB2'}} >
                   <p style={{marginTop:'1rem'}}>
                     {post.content}
                   </p>

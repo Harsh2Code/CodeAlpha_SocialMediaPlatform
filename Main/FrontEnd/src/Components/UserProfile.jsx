@@ -193,7 +193,7 @@ const UserProfile = () => {
   return (
     <div className="container mx-auto p-4">
       <div className="flex items-center mb-8">
-        <img src={user.profile_picture_url || '/Profile-Photo.jpeg'} alt="Profile" className="w-24 h-24 rounded-full mr-8" />
+        <img src={user.profile_picture || '/Profile-Photo.jpeg'} alt="Profile" className="w-24 h-24 rounded-full mr-8" />
         <div>
           <h1 className="text-3xl font-bold">{user.username}</h1>
           <p className="text-gray-600">{user.bio}</p>

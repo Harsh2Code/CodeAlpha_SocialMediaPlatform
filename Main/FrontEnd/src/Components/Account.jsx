@@ -119,13 +119,13 @@ const Account = () => {
   const handleProfilePictureUpdate = async (newUrl) => {
     try {
       console.log('Attempting to update profile picture with URL:', newUrl);
-      const response = await fetch(`https://socialmedia-backend-ipwx.onrender.com/api/users/${user.id}/`, {
+      const response = await fetch(`https://socialmedia-backend-ipwx.onrender.com/api/users/me/`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Token ${token}`,
         },
-        body: JSON.stringify({ profile_picture_url: newUrl }),
+        body: JSON.stringify({ profile_picture: newUrl }),
       });
 
       console.log('API Response:', response);
@@ -267,7 +267,7 @@ const Account = () => {
   return (
     <div className="container mx-auto p-4 w-[80vw]">
       <div className="flex items-center mb-8">
-        <img src={user.profile_picture_url || '/Profile-Photo.jpeg'} alt="Profile" className="w-[10rem] h-[10rem] rounded-full mr-8" />
+        <img src={user.profile_picture || '/Profile-Photo.jpeg'} alt="Profile" className="w-[10rem] h-[10rem] rounded-full mr-8" />
         <button onClick={() => setShowProfilePictureInput(!showProfilePictureInput)} className="ml-4 px-4 py-2 bg-blue-500 text-white rounded " style={{ position: 'relative', left: '-3rem', top: '3rem', borderRadius: '25%', height: '2rem', width: '1rem' }}>
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#646cff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-square-pen-icon lucide-square-pen my-auto" style={{ marginLeft: '-7px' }}>
             <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />

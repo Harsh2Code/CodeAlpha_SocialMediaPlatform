@@ -32,19 +32,13 @@ class EmailAuthTokenSerializer(serializers.Serializer):
         return attrs
 
 class UserSerializer(serializers.ModelSerializer):
-    profile_picture_url = serializers.SerializerMethodField()
 
     class Meta:
         model = CustomUser
-        fields = ('id', 'username', 'email', 'profile_picture_url', 'bio', 'password')
+        fields = ('id', 'username', 'email', 'profile_picture', 'bio', 'password')
         extra_kwargs = {
             'password': {'write_only': True, 'required': False}
         }
-
-    def get_profile_picture_url(self, obj):
-        if obj.profile_picture:
-            return self.context['request'].build_absolute_uri(obj.profile_picture.url)
-        return None
     
     def create(self, validated_data):
         user = CustomUser.objects.create_user(**validated_data)
