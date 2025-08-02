@@ -347,6 +347,17 @@ const Account = () => {
               />
             </div>
             <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">Username:</label>
+              <Input
+                type="text"
+                id="username"
+                name="username"
+                value={editableUser.username}
+                onChange={handleChange}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-[#200057]" style={{borderRadius: '8rem', backgroundColor: '#3131313'}}
+              />
+            </div>
+            <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nationality">Nationality:</label>
               <Input
                 type="text"
