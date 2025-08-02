@@ -48,8 +48,9 @@ class PostViewSet(viewsets.ModelViewSet):
         user = request.user
         if Like.objects.filter(post=post, user=user).exists():
             return Response({'detail': 'You have already liked this post.'}, status=status.HTTP_400_BAD_REQUEST)
-        Like.objects.create(post=post, user=user)
-        return Response({'detail': 'Post liked.'}, status=status.HTTP_200_OK)
+        like = Like.objects.create(post=post, user=user)
+        serializer = LikeSerializer(like)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @action(detail=True, methods=['post'], permission_classes=[permissions.IsAuthenticated])
     def unlike(self, request, pk=None):
@@ -59,7 +60,7 @@ class PostViewSet(viewsets.ModelViewSet):
         if not like.exists():
             return Response({'detail': 'You have not liked this post.'}, status=status.HTTP_400_BAD_REQUEST)
         like.delete()
-        return Response({'detail': 'Post unliked.'}, status=status.HTTP_200_OK)
+        return Response({'detail': 'Post unliked successfully.'}, status=status.HTTP_204_NO_CONTENT)
 
     @action(detail=True, methods=['post'], permission_classes=[permissions.IsAuthenticated])
     def comment(self, request, pk=None):
@@ -69,6 +70,13 @@ class PostViewSet(viewsets.ModelViewSet):
             serializer.save(post=post, user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['get'], permission_classes=[permissions.AllowAny])
+    def list_comments(self, request, pk=None):
+        post = self.get_object()
+        comments = Comment.objects.filter(post=post)
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 class LikeViewSet(viewsets.ModelViewSet):
     queryset = Like.objects.all()
@@ -82,6 +90,13 @@ class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        post_pk = self.kwargs.get('post_pk')
+        if post_pk:
+            queryset = queryset.filter(post__pk=post_pk)
+        return queryset
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -103,3 +118,26 @@ class FollowViewSet(viewsets.ModelViewSet):
             return Response({'detail': 'You are not following this user.'}, status=status.HTTP_400_BAD_REQUEST)
         follow.delete()
         return Response({'detail': 'User unfollowed.'}, status=status.HTTP_200_OK)
+
+from django.contrib.auth import get_user_model
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+
+class CreateSuperuserView(APIView):
+    permission_classes = [] # No authentication needed for this temporary view
+
+    def get(self, request):
+        User = get_user_model()
+        username = "Magneto"  # CHANGE THIS to a strong, unique username
+        email = "admin@example.com"  # CHANGE THIS to a valid email
+        password = "Admin@123" # CHANGE THIS to a very strong password
+
+        if User.objects.filter(username=username).exists():
+            return Response({"detail": "Superuser already exists."}, status=status.HTTP_200_OK)
+
+        try:
+            user = User.objects.create_superuser(username, email, password)
+            return Response({"detail": f"Superuser '{username}' created successfully."}, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response({"detail": f"Error creating superuser: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

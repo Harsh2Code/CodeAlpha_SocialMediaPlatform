@@ -1,3 +1,4 @@
+
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../contexts/AuthContext'
@@ -69,6 +70,9 @@ function Navbar() {
           throw new Error('Failed to fetch users')
         }
         const data = await response.json()
+        console.log("Fetched users data:", data)
+        console.log("Users data type:", typeof data)
+        console.log("Users data length:", Array.isArray(data) ? data.length : "Not an array")
         setUsers(data)
       } catch (err) {
         console.error("Fetch users error:", err)
@@ -140,7 +144,10 @@ function Navbar() {
               <CommandInput
                 placeholder="Search user..."
                 value={value}
-                onValueChange={(searchQuery) => setValue(searchQuery)}
+                onValueChange={(searchQuery) => {
+                  console.log("Search query:", searchQuery);
+                  setValue(searchQuery);
+                }}
                 style={{ color: '#646cff' }}
               />
               <CommandList>
@@ -148,9 +155,11 @@ function Navbar() {
                 <CommandGroup>
                   {loading && <div className="p-2 text-center text-gray-400">Loading...</div>}
                   {error && <div className="p-2 text-center text-red-500">{error}</div>}
-                  {!loading && !error && users.filter((user) =>
-                    user.username.toLowerCase().includes(value.toLowerCase())
-                  ).map((user) => (
+                {!loading && !error && users.filter((user) => {
+                  // Debug: Log each user object to see its structure
+                  console.log("User object:", user);
+                  return user.username && user.username.toLowerCase().includes(value.toLowerCase());
+                }).map((user) => (
                     <CommandItem
                       key={user.id}
                       value={user.username}

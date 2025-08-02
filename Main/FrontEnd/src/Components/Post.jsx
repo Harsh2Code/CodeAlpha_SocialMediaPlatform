@@ -63,8 +63,8 @@ export default function Post(props) {
   const handleLikeToggle = async (post) => {
     try {
       const isLiked = likedPosts[post.id];
-      const url = `${API_BASE_URL}/api/likes/`;
-      const method = isLiked ? 'DELETE' : 'POST';
+      const url = isLiked ? `${API_BASE_URL}/api/posts/${post.id}/unlike/` : `${API_BASE_URL}/api/likes/`;
+      const method = isLiked ? 'POST' : 'POST';
       
       const response = await fetch(url, {
         method: method,
