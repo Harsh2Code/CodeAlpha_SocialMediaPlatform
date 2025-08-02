@@ -2,8 +2,10 @@ from rest_framework import serializers
 from .models import CustomUser, Post, Like, Comment, Follow
 from django.contrib.auth import authenticate
 from rest_framework import exceptions
-import requests
 from django.core.files.base import ContentFile
+import logging
+
+logger = logging.getLogger(__name__)
 
 class EmailAuthTokenSerializer(serializers.Serializer):
     email = serializers.EmailField(label="Email")
