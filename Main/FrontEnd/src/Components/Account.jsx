@@ -27,6 +27,7 @@ const Account = () => {
   const [errorFollowers, setErrorFollowers] = useState(null);
   const [loadingFollowing, setLoadingFollowing] = useState(true);
   const [errorFollowing, setErrorFollowing] = useState(null);
+  const [userInput, setUserInput] = useState('');
 
   useEffect(() => {
     if (user) {
@@ -268,7 +269,7 @@ const Account = () => {
     <div className="container mx-auto p-4 w-[80vw]">
       <div className="flex items-center mb-8">
         <img src={user.profile_picture || '/Profile-Photo.jpeg'} alt="Profile" className="w-[10rem] h-[10rem] rounded-full mr-8" />
-        <button onClick={() => setShowProfilePictureInput(!showProfilePictureInput)} className="ml-4 px-4 py-2 bg-blue-500 text-white rounded " style={{ position: 'relative', left: '-3rem', top: '3rem', borderRadius: '25%', height: '2rem', width: '1rem' }}>
+        <button onClick={() => setShowProfilePictureInput(!showProfilePictureInput)} className="ml-4 px-[1rem] py-2 bg-blue-500 text-white rounded " style={{ position: 'relative', left: '-3rem', top: '3rem', borderRadius: '50%', height: '2rem', width: '1rem', backgroundColor: '#18151ffb', color: '#646cff' }}>
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#646cff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-square-pen-icon lucide-square-pen my-auto" style={{ marginLeft: '-7px' }}>
             <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
             <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
@@ -276,130 +277,135 @@ const Account = () => {
         </button>
         {showProfilePictureInput && (
           <div className="ml-4">
-            <Input
-              type="text"
-              placeholder="New profile picture URL"
-              value={newProfilePictureUrl}
-              onChange={(e) => setNewProfilePictureUrl(e.target.value)}
-              className="border p-2 rounded"
-            />
-            <button onClick={() => handleProfilePictureUpdate(newProfilePictureUrl)} className="ml-2 px-4 py-2 bg-green-500 text-white rounded">Save</button>
+            <button 
+              onClick={async () => {
+                const url = prompt("Please enter the URL for your profile picture:");
+                if (url !== null && url !== "") {
+                  await handleProfilePictureUpdate(url);
+                } else {
+                  alert("No URL provided.");
+                }
+              }} 
+              className="px-4 py-2 bg-green-500 text-white rounded"
+            >
+              Enter Profile Picture URL
+            </button>
           </div>
         )}
-        <div style={
-          {
-            backgroundColor: 'white',
-            background: 'transparent',
-            backdropFilter: 'blur(10px)',
-            color: '#d8d8d9',
-            width: '100%',
-            height: '100%',
-            padding: '1rem',
-            boxShadow: '8px -4px 10px #350087',
-            borderRadius: '10px',
-          }
-        }>
-          <h1 className="text-3xl font-bold">{user.username}</h1>
-          <p className="text-gray-600">{user.first_name} {user.last_name}</p>
-          <p className="text-gray-600">{user.nationality} | {user.date_of_birth}</p>
-          <p className="text-gray-600">{user.gender}</p>
-          <button onClick={() => setShowEditForm(!showEditForm)} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">{showEditForm ? 'Cancel Edit' : 'Edit Profile'}</button>
+          <div style={
+            {
+              backgroundColor: 'white',
+              background: 'transparent',
+              backdropFilter: 'blur(10px)',
+              color: '#d8d8d9',
+              width: '100%',
+              height: '100%',
+              padding: '1rem',
+              boxShadow: '8px -4px 10px #350087',
+              borderRadius: '10px',
+            }
+          }>
+            <h1 className="text-3xl font-bold">{user.username}</h1>
+            <p className="text-gray-600">{user.first_name} {user.last_name}</p>
+            <p className="text-gray-600">{user.nationality} | {user.date_of_birth}</p>
+            <p className="text-gray-600">{user.gender}</p>
+            <button onClick={() => setShowEditForm(!showEditForm)} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">{showEditForm ? 'Cancel Edit' : 'Edit Profile'}</button>
+          </div>
+        </div>
+        {/* ------------------------------------------------user Profile Editing section---------------------------------------------*/}
+        {showEditForm && (
+          <div className="mt-8 p-4 rounded" style={{ margin: '0.5rem 1rem', padding: '1rem 1rem', backgroundColor: '#200054', borderRadius: '1rem' }}>
+            <h1 className="text-[1.5rem] my-[2%] text-center mx-auto font-bold mb-4">Edit Profile</h1>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="first_name">First Name:</label>
+              <Input
+                type="text"
+                id="first_name"
+                name="first_name"
+                value={editableUser.first_name}
+                onChange={handleChange}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="last_name">Last Name:</label>
+              <Input
+                type="text"
+                id="last_name"
+                name="last_name"
+                value={editableUser.last_name}
+                onChange={handleChange}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">Username:</label>
+              <Input
+                type="text"
+                id="username"
+                name="username"
+                value={editableUser.username}
+                onChange={handleChange}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nationality">Nationality:</label>
+              <Input
+                type="text"
+                id="nationality"
+                name="nationality"
+                value={editableUser.nationality}
+                onChange={handleChange}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="date_of_birth">Date of Birth:</label>
+              <Input
+                type="date"
+                id="date_of_birth"
+                name="date_of_birth"
+                value={editableUser.date_of_birth}
+                onChange={handleChange}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="gender">Gender:</label>
+              <Input
+                type="text"
+                id="gender"
+                name="gender"
+                value={editableUser.gender}
+                onChange={handleChange}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+            </div>
+            <button onClick={handleEditSubmit} className="block bg-[green]-500 hover:bg-green-700 text-white font-bold py-[2%] px-[4%] my-[2%] w-[90%] mx-auto rounded focus:outline-none focus:shadow-outline">Save Changes</button>
+          </div>
+        )}
+
+        <div className="flex justify-center my--[2rem]">
+          <button onClick={() => setView('posts')} className={`px-[1rem] mx-auto my-[1em] py-[1rem] ${view === 'posts' ? 'border-b-[2] border-[blue]-500' : ''}`}>Posts</button>
+          <button onClick={() => setView('followers')} className={`px-4 py-2 mx-auto my-[1em] ${view === 'followers' ? 'border-b-2 border-blue-500' : ''}`}>Followers</button>
+          <button onClick={() => setView('following')} className={`px-4 py-2 mx-auto my-[1em] ${view === 'following' ? 'border-b-2 border-blue-500' : ''}`}>Following</button>
+        </div>
+
+        <div>
+          <Card>
+            <CardHeader>
+              <CardTitle></CardTitle>
+            </CardHeader>
+            <CardContent>
+              {renderContent()}
+            </CardContent>
+          </Card>
+
+
         </div>
       </div>
-       {/* ------------------------------------------------user Profile Editing section---------------------------------------------*/}
-          {showEditForm && (
-            <div className="mt-8 p-4 rounded" style={{margin: '0.5rem 1rem', padding: '1rem 1rem', backgroundColor: '#200054', borderRadius: '1rem'}}>
-              <h1 className="text-[1.5rem] my-[2%] text-center mx-auto font-bold mb-4">Edit Profile</h1>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="first_name">First Name:</label>
-                <Input
-                  type="text"
-                  id="first_name"
-                  name="first_name"
-                  value={editableUser.first_name}
-                  onChange={handleChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="last_name">Last Name:</label>
-                <Input
-                  type="text"
-                  id="last_name"
-                  name="last_name"
-                  value={editableUser.last_name}
-                  onChange={handleChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">Username:</label>
-                <Input
-                  type="text"
-                  id="username"
-                  name="username"
-                  value={editableUser.username}
-                  onChange={handleChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nationality">Nationality:</label>
-                <Input
-                  type="text"
-                  id="nationality"
-                  name="nationality"
-                  value={editableUser.nationality}
-                  onChange={handleChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="date_of_birth">Date of Birth:</label>
-                <Input
-                  type="date"
-                  id="date_of_birth"
-                  name="date_of_birth"
-                  value={editableUser.date_of_birth}
-                  onChange={handleChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="gender">Gender:</label>
-                <Input
-                  type="text"
-                  id="gender"
-                  name="gender"
-                  value={editableUser.gender}
-                  onChange={handleChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                />
-              </div>
-              <button onClick={handleEditSubmit} className="block bg-[green]-500 hover:bg-green-700 text-white font-bold py-[2%] px-[4%] my-[2%] w-[90%] mx-auto rounded focus:outline-none focus:shadow-outline">Save Changes</button>
-            </div>
-          )}
-
-      <div className="flex justify-center my--[2rem]">
-        <button onClick={() => setView('posts')} className={`px-[1rem] mx-auto my-[1em] py-[1rem] ${view === 'posts' ? 'border-b-[2] border-[blue]-500' : ''}`}>Posts</button>
-        <button onClick={() => setView('followers')} className={`px-4 py-2 mx-auto my-[1em] ${view === 'followers' ? 'border-b-2 border-blue-500' : ''}`}>Followers</button>
-        <button onClick={() => setView('following')} className={`px-4 py-2 mx-auto my-[1em] ${view === 'following' ? 'border-b-2 border-blue-500' : ''}`}>Following</button>
-      </div>
-
-      <div>
-        <Card>
-          <CardHeader>
-            <CardTitle></CardTitle>
-          </CardHeader>
-          <CardContent>
-            {renderContent()}
-          </CardContent>
-        </Card>
-
-
-      </div>
-    </div>
-  );
+      );
 };
 
-export default Account;
+      export default Account;
