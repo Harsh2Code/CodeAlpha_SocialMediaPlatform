@@ -4,15 +4,10 @@ from rest_framework.decorators import action
 from .models import Post, Like, Comment, CustomUser, Follow
 from .serializers import PostSerializer, LikeSerializer, CommentSerializer, UserSerializer, FollowSerializer
 
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
-
-    @action(detail=False, methods=['get'], permission_classes=[permissions.IsAuthenticated])
-    def me(self, request):
-        serializer = self.get_serializer(request.user)
-        return Response(serializer.data)
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
