@@ -203,7 +203,7 @@ function Navbar() {
                 <AvatarImage src={user.profile_picture_url || '/Profile-Photo.jpeg'} alt="Profile" style={{ width: '26px', height: '26px', borderRadius: '50%' }} />
               </Avatar>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent align="end" style={{background: 'transparent', backdropFilter: 'blur(10px)', padding: '1rem'}}>
               <DropdownMenuLabel>{user.name || 'User'}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleLogout} >
