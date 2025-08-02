@@ -16,6 +16,7 @@ const Account = () => {
   const [editableUser, setEditableUser] = useState({
     first_name: '',
     last_name: '',
+    username: '',
     nationality: '',
     date_of_birth: '',
     gender: '',
@@ -174,6 +175,13 @@ const Account = () => {
   };
 
   const handleEditSubmit = async () => {
+    // Validate username format
+    const usernameRegex = /^[a-zA-Z0-9._/+-]+$/;
+    if (editableUser.username && !usernameRegex.test(editableUser.username)) {
+      alert('Username can only contain letters, numbers, and "./+/-/_" characters.');
+      return;
+    }
+
     try {
       const response = await fetch(`https://socialmedia-backend-ipwx.onrender.com/api/users/${user.id}/`, {
         method: 'PATCH',
@@ -336,17 +344,6 @@ const Account = () => {
                 value={editableUser.last_name}
                 onChange={handleChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-[#200057]"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">Username:</label>
-              <Input
-                type="text"
-                id="username"
-                name="username"
-                value={editableUser.username}
-                onChange={handleChange}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-[#200057]" style={{borderRadius: '8rem', backgroundColor: '#3131313'}}
               />
             </div>
             <div className="mb-4">

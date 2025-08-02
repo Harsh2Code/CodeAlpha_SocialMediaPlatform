@@ -168,7 +168,7 @@ export default function Post(props) {
               </CardHeader>
               <CardContent className="overflow-hidded block rounded-lg" style={{backgroundColor: '#330087' , marginTop: '0px 0px', padding: '0px'}}>
                 <Label className="overflow-hidden">
-                  {post.image && <img className='w-5/6 mx-auto my-[2%] rounded-[2%] block overflow-hidden object-cover' src={post.image} style={{ boxShadow: '2px 2px 4px #51007c ' }} alt="" />}
+                  {post.image && <img className='w-5/6 mx-auto my-[2%] rounded-[2%] block overflow-hidden object-cover' src={post.image} style={{ boxShadow: '2px 2px 4px #51007c ', height: '90%', width: '80%' }} alt="" />}
 
                 </Label>
                 <div style={{backgroundColor: '#200054',borderRadius: '0.5rem', margin: "1rem 1rem", padding: '0.5rem', color: '#5A8DB2'}} >
