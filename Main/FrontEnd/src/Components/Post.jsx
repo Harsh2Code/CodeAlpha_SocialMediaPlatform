@@ -136,8 +136,8 @@ export default function Post(props) {
     <>
       <div className="my-[1em]" >
         {posts.map((post) => (
-          <div key={post.id} style={{ padding: "1em 1em 0em 1em", height: '40%', width: '35%', margin: '1em  auto ', border: '1px solid #CDB384', borderRadius: '0.4em', /*backgroundColor: '#F7F7F8'*/ backgroundColor: '#200054' }}>
-            <div className='flex flex-row justify-start items-center w-[100%]' style={{ padding: '18px 0px', borderRadius: '0.25rem' }}>
+          <div key={post.id} style={{height: '40%', width: '35%', margin: '1em  auto ', border: '1px solid #340087', borderRadius: '0.4em', /*backgroundColor: '#F7F7F8'*/ backgroundColor: '#200054' }}>
+            <div className='flex flex-row justify-start items-center w-[100%]' >
               {!hideUserInfo && (
                 <>
                   <Avatar square="true" className="mx-auto my-[0.5%]"  >
@@ -162,17 +162,18 @@ export default function Post(props) {
                 </>
               )}
             </div>
-            <Card style={{ marginBottom: '20px', backgroundColor: "#330087"}}>
+            <Card style={{ marginBottom: '10px', backgroundColor: "#330087"}}>
               <CardHeader className="text-center text-inidigo-600" style={{ marginTop: '20px', backgroundColor: '#330087 !important' }}>
                 
               </CardHeader>
               <CardContent className="overflow-hidded block rounded-lg" style={{backgroundColor: '#330087' , marginTop: '0px 0px', padding: '0px'}}>
                 <Label className="overflow-hidden">
-                  {post.image && <img className='w-5/6 mx-auto my-[2%] rounded-[2%] block overflow-hidden object-cover' src={post.image} style={{ boxShadow: '2px 2px 4px #51007c ', height: '90%', width: '80%' }} alt="" />}
+                  {post.image && <img className='w-5/6 mx-auto my-[2%] block overflow-hidden object-cover' src={post.image} style={{ height: 'auto', width: '100%' }} alt="" />}
 
                 </Label>
                 <div style={{backgroundColor: '#200054',borderRadius: '0.5rem', margin: "1rem 1rem", padding: '0.5rem', color: '#5A8DB2'}} >
-                  <p style={{marginTop:'1rem'}}>
+                  <h3 style={{margin: '0.3rem 1rem', color: '#ffffff'}}>{post.title}</h3>
+                  <p style={{marginTop:'1rem', fontSize: '0.8rem', color: '#9f9f9fff'}}>
                     {post.content}
                   </p>
                 </div>

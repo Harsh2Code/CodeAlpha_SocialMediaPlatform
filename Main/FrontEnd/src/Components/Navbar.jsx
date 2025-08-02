@@ -119,25 +119,13 @@ function Navbar() {
         <span style={{ marginLeft: '8px', color: '#646cff', fontWeight:'bolder', fontSize: '2em'}}>SPOTT</span>
       </div>
       <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '20px' }}>
-        <a href="/" style={{ color: '#646cff', textDecoration: 'none', fontSize: '1.2em' }}>
-          Home
-        </a>
-        {/* <a href="/events" style={{ color: '#646cff', textDecoration: 'none' }}>
-          Events
-        </a> */}
-        <a href="/create" style={{ color: '#646cff', textDecoration: 'none', fontSize: '1.2em' }}>
-          Create
-        </a>
-      </div>
-      <div>
-
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
               variant="outline"
               role="combobox"
               aria-expanded={open}
-              className="w-[200px] justify-between"
+              className="w-[24rem] justify-between"
               style={{ backgroundColor: '#273638ae', color: '#646cff' }}
             >
               {value
@@ -211,8 +199,8 @@ function Navbar() {
         ) : (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Avatar square="true" style={{ cursor: 'pointer',background: 'transparent', backDropFilter: 'blur(10px)', padding: '1rem' }}>
-                <AvatarImage src={user.profile_picture_url || '/Profile-Photo.jpeg'} alt="Profile" style={{ width: '26px', height: '26px' }} />
+              <Avatar square="true" style={{ cursor: 'pointer',background: 'transparent', backdropFilter: 'blur(10px)', padding: '1rem' }}>
+                <AvatarImage src={user.profile_picture_url || '/Profile-Photo.jpeg'} alt="Profile" style={{ width: '26px', height: '26px', borderRadius: '50%' }} />
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
