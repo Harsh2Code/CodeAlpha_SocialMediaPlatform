@@ -60,6 +60,38 @@ class PostSerializer(serializers.ModelSerializer):
     def get_comments_count(self, obj):
         return obj.comments.count()
 
+    def to_representation(self, instance):
+        """
+        Override to handle any issues with the image field during serialization.
+        """
+        try:
+            data = super().to_representation(instance)
+            # Ensure image field is properly handled
+            if hasattr(instance, 'image') and instance.image:
+                # If image is a file field, get its URL
+                if hasattr(instance.image, 'url'):
+                    data['image'] = instance.image.url
+                # If image is already a URL string, keep it as is
+                elif isinstance(instance.image, str):
+                    data['image'] = instance.image
+                # Handle any other cases
+                else:
+                    data['image'] = str(instance.image)
+            return data
+        except Exception as e:
+            logger.error(f"Error serializing post {instance.id}: {str(e)}", exc_info=True)
+            # Return a simplified representation if there's an error
+            return {
+                'id': instance.id,
+                'author': instance.author.id if instance.author else None,
+                'author_username': instance.author.username if instance.author else None,
+                'content': instance.content,
+                'image': None,
+                'created_at': instance.created_at,
+                'likes_count': 0,
+                'comments_count': 0
+            }
+
 class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like

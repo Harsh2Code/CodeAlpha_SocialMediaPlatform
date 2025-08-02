@@ -3,7 +3,9 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from .models import Post, Like, Comment, CustomUser, Follow
 from .serializers import PostSerializer, LikeSerializer, CommentSerializer, UserSerializer, FollowSerializer
+import logging
 
+logger = logging.getLogger(__name__)
 
 from .permissions import IsOwnerOrReadOnly
 
@@ -28,6 +30,14 @@ class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def list(self, request, *args, **kwargs):
+        try:
+            logger.info("Fetching posts")
+            return super().list(request, *args, **kwargs)
+        except Exception as e:
+            logger.error(f"Error fetching posts: {str(e)}", exc_info=True)
+            return Response({'detail': 'Error fetching posts'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
