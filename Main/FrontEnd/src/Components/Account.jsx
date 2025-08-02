@@ -151,6 +151,10 @@ const Account = () => {
         console.error('Error parsing success response as JSON:', e);
         throw new Error(`Failed to parse successful response as JSON. Raw response: ${responseText}`);
       }
+      // Map profile_picture to profile_picture_url for frontend consistency
+      if (updatedUser.profile_picture) {
+        updatedUser.profile_picture_url = updatedUser.profile_picture;
+      }
       console.log('Updated user data from API:', updatedUser);
       updateUser(updatedUser); // Update user in AuthContext
       setShowProfilePictureInput(false);
