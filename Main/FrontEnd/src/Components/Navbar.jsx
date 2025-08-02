@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../contexts/AuthContext'
 import { Avatar, AvatarImage } from './ui/avatar'
+import { House, Plus } from '@lucide-react'
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -180,6 +181,20 @@ function Navbar() {
             </Command>
           </PopoverContent>
         </Popover>
+        <Label>
+          <Button href style={{ border: 'none', background: 'transparent' }}>
+            <a href="/" style={{ color: '#646cff', textDecoration: 'none', marginRight: '12px' }}>
+              <House style={{width: 26, height: 26, color: '#646cff'}} />
+            </a>
+          </Button>
+        </Label>
+        <Label>
+          <Button style={{ border: 'none', background: 'transparent' }}>
+            <a href="/create" style={{ color: '#646cff', textDecoration: 'none', marginRight: '12px' }}>
+              <Plus style={{width: 26, height: 26, color: '#646cff'}} />
+            </a>
+          </Button>
+        </Label>
         <InboxIcon style={{ width: 26, height: 26, color: '#646cff' }} />
         {!user ? (
           <>
@@ -193,7 +208,7 @@ function Navbar() {
         ) : (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Avatar square="true" style={{ cursor: 'pointer' }}>
+              <Avatar square="true" style={{ cursor: 'pointer',background: 'transparent', backDropFilter: 'blur(10px)', padding: '1rem' }}>
                 <AvatarImage src={user.profile_picture_url || '/Profile-Photo.jpeg'} alt="Profile" style={{ width: '26px', height: '26px' }} />
               </Avatar>
             </DropdownMenuTrigger>
@@ -201,13 +216,13 @@ function Navbar() {
               <DropdownMenuLabel>{user.name || 'User'}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleLogout} >
-                <Label style={{background: 'red'}}>
+                <Label style={{color: 'red'}}>
                   <ArrowRightStartOnRectangleIcon className="mr-2 h-4 w-4" width={25} height={25} />
                   Logout
                 </Label>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => navigate('/account')} >
-                <Label >
+                <Label style={{color: 'white'}}>
                   <UserIcon className=" block mr-2 h-4 w-4" width={25} height={25} />
                 <a href="/account" style={{ color: '#646cff', textDecoration: 'none' }}>
                   Accounts
