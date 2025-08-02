@@ -140,7 +140,7 @@ export default function Post(props) {
             <div className='flex flex-row justify-start items-center w-[100%]' >
               {!hideUserInfo && (
                 <>
-                  <Avatar square="true" className="mx-auto my-[0.5%]"  >
+                  <Avatar square="true" className="mx-auto my-[1%] ml-[1%]"  >
                     <AvatarImage src="/Profile-Photo.jpeg" alt="Profile" style={{ width: '6rem', height: '6rem' }} />
                   </Avatar>
                   <div className='flex flex-row justify-between items-start mx-auto' style={{ height: '100px', width: '43rem' }}>
@@ -163,13 +163,12 @@ export default function Post(props) {
               )}
             </div>
             <Card style={{ marginBottom: '10px', backgroundColor: "#330087"}}>
-              <CardHeader className="text-center text-inidigo-600" style={{ marginTop: '20px', backgroundColor: '#330087 !important' }}>
-                
+              <CardHeader className="text-center text-inidigo-600" style={{ marginTop: '20px', backgroundColor: '#330087 !important', color: 'white' }}>
+                <h2>{post.title}</h2>
               </CardHeader>
-              <CardContent className="overflow-hidded block rounded-lg" style={{backgroundColor: '#330087' , marginTop: '0px 0px', padding: '0px'}}>
+              <CardContent className="overflow-hidded block rounded-lg" style={{backgroundColor: '#330087' , marginTop: '0px', padding: '0.7rem'}}>
                 <Label className="overflow-hidden">
-                  {post.image && <img className='w-5/6 mx-auto my-[2%] block overflow-hidden object-cover' src={post.image} style={{ height: 'auto', width: '100%' }} alt="" />}
-
+                  {post.image && <img className='w-5/6 mx-auto my-[1%] block overflow-hidden object-cover' src={post.image} style={{ height: 'auto', width: '90%',borderRadius: '1rem' }} alt="" />}
                 </Label>
                 <div style={{backgroundColor: '#200054',borderRadius: '0.5rem', margin: "1rem 1rem", padding: '0.5rem', color: '#5A8DB2'}} >
                   <h3 style={{margin: '0.3rem 1rem', color: '#ffffff'}}>{post.title}</h3>
