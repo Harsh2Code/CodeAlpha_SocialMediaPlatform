@@ -129,7 +129,8 @@ function Navbar() {
           Create
         </a>
       </div>
-      <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '12px' }}>
+      <div>
+
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
@@ -181,6 +182,8 @@ function Navbar() {
             </Command>
           </PopoverContent>
         </Popover>
+      </div>
+      <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '12px' }}>
         <Label>
           <Button href style={{ border: 'none', background: 'transparent' }}>
             <a href="/" style={{ color: '#646cff', textDecoration: 'none', marginRight: '12px' }}>
