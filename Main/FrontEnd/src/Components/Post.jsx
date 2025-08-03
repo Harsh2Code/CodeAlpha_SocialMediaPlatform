@@ -240,13 +240,12 @@ export default function Post(props) {
                 <span style={{ color: '#646cff', fontWeight: 'bold' }}>{post.likes_count || 0}</span>
               </button>
               <button variant="ghost" className='flex items-center' style={{backgroundColor: '#200057', border: 'none'}} onClick={() => toggleComments(post.id)}>
-                <BiCommentDetail style={{ width: 26, height: 26, color: commentInputs[post.id]? '#F7F7F8' : '#646cff' }} />
+                <BiCommentDetail style={{ width: 26, height: 26,backgroundColor : '#200057' , color: commentInputs[post.id]? '#F7F7F8' : '#646cff' }} />
                 <span style={{ color: '#646cff', fontWeight: 'bold' }}>{post.comments_count || 0}</span>
                 
               </button>
               <button variant="ghost" style={{backgroundColor: '#200057', border: 'none'}}>
-                <ShareIcon style={{ width: 26, height: 26, color: '#646cff' }} />
-                
+                <ShareIcon style={{ width: 26, height: 26, color: '#646cff' }} /> 
               </button>
             </div>
             {visibleComments[post.id] && (
