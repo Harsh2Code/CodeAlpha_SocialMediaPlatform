@@ -97,7 +97,7 @@ export function FollowButton({ userId }) {
 
   return (
     <>
-      <Button onClick={handleFollowToggle} variant="secondry" style={{ backgroundColor: isFollowing ? '#252525ff' : '#2b1f64ff', border: 'none', boxShadow: 'none', padding: '1.5rem 1rem', borderRadius: '2rem' }}>
+      <Button onClick={handleFollowToggle} variant="secondry" style={{ backgroundColor: isFollowing ? '#252525ff' : '#2b1f64ff', border: 'none', boxShadow: 'none', padding: '1.5rem 1rem', borderRadius: '1rem' }}>
         {isFollowing ? 'Unfollow' : 'Follow'}
       </Button>
       {error && <div style={{ color: 'red', marginTop: '0.5em' }}>{error}</div>}
