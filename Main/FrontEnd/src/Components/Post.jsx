@@ -229,7 +229,7 @@ export default function Post(props) {
                 </div>
               </CardContent>
             </Card>
-            <div className="flex justify-around align-center mx-auto w-[100%]" style={{  padding: '18px 0px', borderRadius: '0.25rem', backgroundColor: '#330087' }}>
+            <div className="flex justify-around align-center mx-auto w-[100%]" style={{ margin: '0 0', padding: '18px 0px' }}>
               <button
                 variant="ghost"
                 className='flex items-center'
