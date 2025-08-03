@@ -20,7 +20,7 @@ function App() {
     <AuthProvider>
       <Router>
         <Navbar />
-        <div style={{ marginTop: '6em' }}>
+        <div style={{ marginTop: '5em' }}>
           <Routes>
             <Route path="/" element={<Post />} />
             <Route path="/login" element={<Login />} />
