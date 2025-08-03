@@ -31,6 +31,16 @@ class PostViewSet(viewsets.ModelViewSet):
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
+    def get_serializer_context(self):
+        return {'request': self.request}
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        author_id = self.request.query_params.get('author_id')
+        if author_id:
+            queryset = queryset.filter(author__id=author_id)
+        return queryset
+
     def list(self, request, *args, **kwargs):
         try:
             logger.info("Fetching posts")

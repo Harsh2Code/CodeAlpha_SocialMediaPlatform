@@ -393,9 +393,9 @@ const Account = () => {
         )}
 
         <div className="flex justify-center my--[2rem]">
-          <button onClick={() => setView('posts')} className={`px-[1rem] mx-auto my-[1em] py-[1rem] ${view === 'posts' ? 'border-b-[2] border-[blue]-500' : ''}`}>Posts</button>
-          <button onClick={() => setView('followers')} className={`px-4 py-2 mx-auto my-[1em] ${view === 'followers' ? 'border-b-2 border-blue-500' : ''}`}>Followers</button>
-          <button onClick={() => setView('following')} className={`px-4 py-2 mx-auto my-[1em] ${view === 'following' ? 'border-b-2 border-blue-500' : ''}`}>Following</button>
+          <button onClick={() => setView('posts')} className={`px-[1rem] mx-auto my-[1em] py-[1rem] ${view === 'posts' ? 'border-b-[2] border-[blue]-500' : ''}`} style={{borderRadius: '1rem', backgroundColor: '#1f1e1eff', padding: '1rem', color : 'white'}} >Posts</button>
+          <button onClick={() => setView('followers')} className={`px-4 py-2 mx-auto my-[1em] ${view === 'followers' ? 'border-b-2 border-blue-500' : ''}`} style={{borderRadius: '1rem', backgroundColor: '#1f1e1eff', padding: '1rem', color : 'white'}} >Followers</button>
+          <button onClick={() => setView('following')} className={`px-4 py-2 mx-auto my-[1em] ${view === 'following' ? 'border-b-2 border-blue-500' : ''}`} style={{borderRadius: '1rem', backgroundColor: '#1f1e1eff', padding: '1rem', color : 'white'}} >Following</button>
         </div>
 
         <div>

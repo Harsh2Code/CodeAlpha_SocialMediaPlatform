@@ -131,7 +131,7 @@ function Navbar() {
               role="combobox"
               aria-expanded={open}
               className="w-[24rem] justify-between"
-              style={{ backgroundColor: '#273638ae', color: '#646cff' }}
+              style={{ backgroundColor: '#273638ae', color: '#646cff',borderRadius: '8rem' }}
             >
               {value
                 ? users.find((user) => user.id === value)?.username
@@ -209,7 +209,7 @@ function Navbar() {
         ) : (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Avatar square="true" style={{ cursor: 'pointer',background: 'transparent', backdropFilter: 'blur(10px)', padding: '1rem' }}>
+              <Avatar square="true" style={{ cursor: 'pointer',background: 'transparent', backdropFilter: 'blur(10px)', padding: '1rem', borderRadius: '2rem' }}>
                 <AvatarImage src={user.profile_picture_url || '/Profile-Photo.jpeg'} alt="Profile" style={{ width: '26px', height: '26px', borderRadius: '50%', borderRadius: '8rem' }} />
               </Avatar>
             </DropdownMenuTrigger>
