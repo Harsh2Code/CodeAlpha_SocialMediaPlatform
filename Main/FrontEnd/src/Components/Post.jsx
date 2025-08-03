@@ -236,7 +236,7 @@ export default function Post(props) {
                 onClick={() => handleLikeToggle(post)}
                 style={{backgroundColor: '#200057', border: 'none'}}
                 >
-                <BiSolidLike style={{ width: 26, height: 26, color: likedPosts[post.id] ? '#f7f7f8' : '#646cff' }} />
+                <BiSolidLike style={{ width: 26, height: 26,backgroundColor: '#200057', color: likedPosts[post.id] ? '#f7f7f8' : '#646cff' }} />
                 <span style={{ color: '#646cff', fontWeight: 'bold' }}>{post.likes_count || 0}</span>
               </button>
               <button variant="ghost" className='flex items-center' style={{backgroundColor: '#200057', border: 'none'}} onClick={() => toggleComments(post.id)}>
@@ -245,7 +245,7 @@ export default function Post(props) {
                 
               </button>
               <button variant="ghost" style={{backgroundColor: '#200057', border: 'none'}}>
-                <ShareIcon style={{ width: 26, height: 26, color: '#646cff' }} /> 
+                <ShareIcon style={{ width: 26, height: 26, color: '#646cff', backgroundColor: '#200057' }} /> 
               </button>
             </div>
             {visibleComments[post.id] && (
