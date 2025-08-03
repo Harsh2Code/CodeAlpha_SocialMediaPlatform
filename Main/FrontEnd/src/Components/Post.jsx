@@ -227,7 +227,7 @@ export default function Post(props) {
                 </>
               )}
             </div>
-            <Card style={{ backgroundColor: "#330087"}}>
+            <Card style={{ backgroundColor: "#969697"}}>
               <CardContent className="overflow-hidded block rounded-lg" style={{backgroundColor: '#330087' , marginTop: '0px 0px', padding: '0px'}}>
                 {/* {post.title && <h3 style={{color: 'white', margin: '1rem 1rem 0.5rem 1rem', padding: 0, fontWeight: 'bold'}}>{post.title}</h3>} */}
                 <Label className="overflow-hidden">
