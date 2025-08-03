@@ -125,10 +125,16 @@ class FollowViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['get'], url_path='status', permission_classes=[permissions.IsAuthenticated])
     def get_follow_status(self, request, pk=None):
         try:
+            logger.info(f"Fetching follow status for user {pk} by user {request.user.id}")
             target_user = CustomUser.objects.get(pk=pk)
             is_following = Follow.objects.filter(follower=request.user, following=target_user).exists()
+            logger.info(f"Follow status for user {pk}: {is_following}")
             return Response({'is_following': is_following}, status=status.HTTP_200_OK)
         except CustomUser.DoesNotExist:
+            logger.warning(f"User {pk} not found when fetching follow status.")
             return Response({'detail': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            logger.error(f"Error fetching follow status for user {pk}: {e}", exc_info=True)
+            return Response({'detail': 'Error fetching follow status.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 

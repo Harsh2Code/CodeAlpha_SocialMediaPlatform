@@ -28,8 +28,9 @@ export function FollowButton({ userId }) {
           setIsFollowing(data.is_following);
           setError(null);
         } else {
-          console.error("Failed to fetch follow status, response not ok");
-          setError('Failed to fetch follow status');
+          const errorText = await response.text();
+          console.error("Failed to fetch follow status, response not ok:", errorText);
+          setError('Failed to fetch follow status: ' + errorText);
         }
       } catch (error) {
         console.error('Error fetching follow status:', error);

@@ -34,7 +34,6 @@ class EmailAuthTokenSerializer(serializers.Serializer):
         return attrs
 
 class UserSerializer(serializers.ModelSerializer):
-    profile_picture = serializers.SerializerMethodField()
 
     class Meta:
         model = CustomUser
@@ -42,14 +41,6 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'password': {'write_only': True, 'required': False}
         }
-    
-    def get_profile_picture(self, obj):
-        if obj.profile_picture:
-            request = self.context.get('request')
-            if request is not None:
-                return request.build_absolute_uri(obj.profile_picture)
-            return obj.profile_picture
-        return None
 
     def create(self, validated_data):
         user = CustomUser.objects.create_user(**validated_data)
@@ -57,19 +48,22 @@ class UserSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     author_username = serializers.ReadOnlyField(source='author.username')
+    author_profile_picture = serializers.SerializerMethodField()
     likes_count = serializers.SerializerMethodField()
     comments_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
-        fields = ('id', 'author', 'author_username', 'title', 'content', 'image', 'created_at', 'likes_count', 'comments_count')
+        fields = ('id', 'author', 'author_username', 'author_profile_picture', 'title', 'content', 'image', 'created_at', 'likes_count', 'comments_count')
         read_only_fields = ('author',)
 
-    def get_likes_count(self, obj):
-        return obj.likes.count()
-
-    def get_comments_count(self, obj):
-        return obj.comments.count()
+    def get_author_profile_picture(self, obj):
+        if obj.author.profile_picture:
+            request = self.context.get('request')
+            if request is not None:
+                return request.build_absolute_uri(obj.author.profile_picture)
+            return obj.author.profile_picture
+        return None
 
     def to_representation(self, instance):
         """

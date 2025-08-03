@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
           nationality: parsedUser.nationality || '',
           date_of_birth: parsedUser.date_of_birth || '',
           gender: parsedUser.gender || '',
-          profile_picture_url: parsedUser.profile_picture_url || '',
+                              profile_picture: parsedUser.profile_picture || '',
           email: parsedUser.email || '',
           ...parsedUser,
         };

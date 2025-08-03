@@ -206,7 +206,7 @@ export default function Post(props) {
               {!hideUserInfo && (
                 <>
                   <Avatar square="true" className="mx-auto my-[0.5%]"  >
-                    <AvatarImage src="/Profile-Photo.jpeg" alt="Profile" style={{ width: '6rem', height: '6rem' }} />
+                    <AvatarImage src={post.author_profile_picture || "/Profile-Photo.jpeg"} alt="Profile" style={{ width: '6rem', height: '6rem' }} />
                   </Avatar>
                   <div className='flex flex-row justify-between items-start mx-auto' style={{ height: '100px', width: '43rem' }}>
                     <div className="flex flex-col justify-center">
