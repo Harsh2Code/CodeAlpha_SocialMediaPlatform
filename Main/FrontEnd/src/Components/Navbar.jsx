@@ -131,7 +131,7 @@ function Navbar() {
               role="combobox"
               aria-expanded={open}
               className="w-[24rem] justify-between"
-              style={{ backgroundColor: '#273638ae', color: '#646cff',borderRadius: '8rem' }}
+              style={{ backgroundColor: '#343434ff', color: '#646cff',borderRadius: '8rem' }}
             >
               {value
                 ? users.find((user) => user.id === value)?.username
@@ -139,7 +139,7 @@ function Navbar() {
               <MagnifyingGlassIcon style={{ width: 26, height: 26, color: '#646cff' }} />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-[200px] p-0" style={{ backgroundColor: '#340087', backdropFilter: 'blur(10px)', borderRadius: '10px' }}>
+          <PopoverContent className="w-[200px] p-0" style={{ backgroundColor: '#340087', backdropFilter: 'blur(10px)', borderRadius: '10px', padding: '1rem' }}>
             <Command>
               <CommandInput
                 placeholder="Search user..."
