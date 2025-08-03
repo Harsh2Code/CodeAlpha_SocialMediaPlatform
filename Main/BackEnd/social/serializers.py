@@ -63,7 +63,7 @@ class PostSerializer(serializers.ModelSerializer):
             if request is not None:
                 return request.build_absolute_uri(obj.author.profile_picture)
             return obj.author.profile_picture
-        return None
+        return '/Profile-Photo.jpeg' # Default image if no profile picture
 
     def to_representation(self, instance):
         """
