@@ -189,7 +189,7 @@ export default function Post(props) {
     <>
       <div className="my-[1em]" >
         {posts.map((post) => (
-          <div key={post.id} style={{ padding: "1em 1em 0em 1em", height: '40%', width: '35%', margin: '1em  auto ', border: '1px solid #CDB384', borderRadius: '0.4em', /*backgroundColor: '#F7F7F8'*/ backgroundColor: '#200054' }}>
+          <div key={post.id} style={{ padding: "1em 1em 0em 1em", height: '40%', width: '35%', margin: '1em  auto ', border: '1px solid #330057', borderRadius: '0.4em', /*backgroundColor: '#F7F7F8'*/ backgroundColor: '#200054' }}>
             <div className='flex flex-row justify-start items-center w-[100%]' style={{ padding: '18px 0px', borderRadius: '0.25rem' }}>
               {!hideUserInfo && (
                 <>
@@ -222,7 +222,7 @@ export default function Post(props) {
                   {post.image && <img className='w-5/6 mx-auto my-[2%] rounded-[2%] block overflow-hidden object-cover' src={post.image} style={{ boxShadow: '2px 2px 4px #51007c ', width: '90%' }} alt="" />}
                 </Label>
                 <div style={{backgroundColor: '#200054',borderRadius: '0.5rem', margin: "1rem 1rem", padding: '0.5rem', color: '#5A8DB2'}} >
-                  <h4 className='text-center' >{post.title}</h4>
+                  <h4 className='text-left' >{post.title}</h4>
                   <p style={{marginTop:'1rem', fontSize: '0.7rem', color: '#a5a5a5ff'}}>
                     {post.content}
                   </p>
