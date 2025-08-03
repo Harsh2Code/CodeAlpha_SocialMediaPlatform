@@ -65,6 +65,12 @@ class PostSerializer(serializers.ModelSerializer):
             return obj.author.profile_picture
         return '/Profile-Photo.jpeg' # Default image if no profile picture
 
+    def get_likes_count(self, obj):
+        return obj.likes.count()
+
+    def get_comments_count(self, obj):
+        return obj.comments.count()
+
     def to_representation(self, instance):
         """
         Override to handle any issues with the image field during serialization.

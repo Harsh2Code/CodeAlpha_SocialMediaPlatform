@@ -1,8 +1,11 @@
+import logging
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from .models import Follow, CustomUser
 from .serializers import FollowSerializer, UserSerializer
+
+logger = logging.getLogger(__name__)
 
 class FollowViewSet(viewsets.ModelViewSet):
     queryset = Follow.objects.all()
@@ -35,3 +38,20 @@ class FollowViewSet(viewsets.ModelViewSet):
             return Response({'detail': 'You are not following this user.'}, status=status.HTTP_400_BAD_REQUEST)
         follow.delete()
         return Response({'detail': 'User unfollowed.'}, status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=['get'], url_path='status', permission_classes=[permissions.IsAuthenticated])
+    def get_follow_status(self, request, pk=None):
+        logger.info(f"get_follow_status called with pk: {pk} (type: {type(pk)})")
+        try:
+            logger.info(f"Fetching follow status for user {pk} by user {request.user.id}")
+            target_user = CustomUser.objects.get(pk=pk)
+            logger.info(f"Found target user: {target_user.username}")
+            is_following = Follow.objects.filter(follower=request.user, following=target_user).exists()
+            logger.info(f"Follow status for user {pk}: {is_following}")
+            return Response({'is_following': is_following}, status=status.HTTP_200_OK)
+        except CustomUser.DoesNotExist:
+            logger.warning(f"User {pk} not found when fetching follow status.")
+            return Response({'detail': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            logger.error(f"Error fetching follow status for user {pk}: {e}", exc_info=True)
+            return Response({'detail': 'Error fetching follow status.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

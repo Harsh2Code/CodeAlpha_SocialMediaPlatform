@@ -134,9 +134,11 @@ class FollowViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get'], url_path='status', permission_classes=[permissions.IsAuthenticated])
     def get_follow_status(self, request, pk=None):
+        logger.info(f"get_follow_status called with pk: {pk} (type: {type(pk)})")
         try:
             logger.info(f"Fetching follow status for user {pk} by user {request.user.id}")
             target_user = CustomUser.objects.get(pk=pk)
+            logger.info(f"Found target user: {target_user.username}")
             is_following = Follow.objects.filter(follower=request.user, following=target_user).exists()
             logger.info(f"Follow status for user {pk}: {is_following}")
             return Response({'is_following': is_following}, status=status.HTTP_200_OK)
