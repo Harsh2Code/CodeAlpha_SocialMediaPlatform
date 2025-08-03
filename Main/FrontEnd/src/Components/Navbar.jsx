@@ -163,7 +163,7 @@ function Navbar() {
                     <CommandItem
                       key={user.id}
                       value={user.username}
-                      style={{padding: '1rem'}}
+                      style={{paddingLeft: '1rem'}}
                       onSelect={(currentValue) => {
                         const selectedUser = users.find(user => user.username === currentValue);
                         if (selectedUser) {

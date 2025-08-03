@@ -115,8 +115,18 @@ export default function Post(props) {
   };
 
   const toggleComments = async (postId) => {
-    if (!visibleComments[postId]) {
-      // Fetch comments for the post when opening comments section
+    if (visibleComments[postId]) {
+      // If comments are visible, close them and clear the comments from the state
+      setVisibleComments((prev) => ({
+        ...prev,
+        [postId]: false,
+      }));
+      setComments((prev) => ({
+        ...prev,
+        [postId]: [],
+      }));
+    } else {
+      // If comments are not visible, fetch and show them
       try {
         const response = await fetch(`${API_BASE_URL}/api/comments/?post=${postId}`, {
           headers: {
@@ -131,14 +141,14 @@ export default function Post(props) {
           ...prev,
           [postId]: data,
         }));
+        setVisibleComments((prev) => ({
+          ...prev,
+          [postId]: true,
+        }));
       } catch (error) {
         console.error('Error fetching comments:', error);
       }
     }
-    setVisibleComments((prev) => ({
-      ...prev,
-      [postId]: !prev[postId],
-    }));
   };
 
   const handleCommentChange = (postId, value) => {
@@ -246,27 +256,27 @@ export default function Post(props) {
                 variant="ghost"
                 className='flex items-center'
                 onClick={() => handleLikeToggle(post)}
-                style={{backgroundColor: '#200057', border: 'none'}}
+                style={{backgroundColor: '#151515ff', border: 'none'}}
                 >
-                <BiSolidLike style={{ width: 26, height: 26,backgroundColor: '#200057', color: likedPosts[post.id] ? '#f7f7f8' : '#646cff' }} />
+                <BiSolidLike style={{ width: 26, height: 26,backgroundColor: '#151515ff', color: likedPosts[post.id] ? '#f7f7f8' : '#646cff' }} />
                 <span style={{ color: '#646cff', fontWeight: 'bold' }}>{post.likes_count || 0}</span>
               </button>
-              <button variant="ghost" className='flex items-center' style={{backgroundColor: '#200057', border: 'none'}} onClick={() => toggleComments(post.id)}>
-                <BiCommentDetail style={{ width: 26, height: 26,backgroundColor : '#200057' , color: commentInputs[post.id]? '#F7F7F8' : '#646cff' }} />
+              <button variant="ghost" className='flex items-center' style={{backgroundColor: '#151515ff', border: 'none'}} onClick={() => toggleComments(post.id)}>
+                <BiCommentDetail style={{ width: 26, height: 26,backgroundColor : '#151515ff' , color: commentInputs[post.id]? '#F7F7F8' : '#646cff' }} />
                 <span style={{ color: '#646cff', fontWeight: 'bold' }}>{post.comments_count || 0}</span>
                 
               </button>
-              <button variant="ghost" style={{backgroundColor: '#200057', border: 'none'}}>
-                <ShareIcon style={{ width: 26, height: 26, color: '#646cff', backgroundColor: '#200057' }} /> 
+              <button variant="ghost" style={{backgroundColor: '#151515ff', border: 'none'}}>
+                <ShareIcon style={{ width: 26, height: 26, color: '#646cff', backgroundColor: '#151515ff' }} /> 
               </button>
             </div>
             {visibleComments[post.id] && (
-              <div style={{ maxHeight: '28rem', overflowY: 'auto', border: '1px solid #CDB384', marginTop: '10px', padding: '10px', borderRadius: '8px', backgroundColor: '#A3AEA2' }}>
+              <div style={{ maxHeight: '28rem', overflowY: 'auto', border: '1px solid #330054', marginTop: '10px', padding: '10px', borderRadius: '8px', backgroundColor: '#200057' }}>
                 <div className="flex flex-row justify-between items-center">
-                  <span className='text-[1rem]' style={{ color: 'transparent' }}>
+                  <span className='text-[1rem]' style={{ color: 'white' }}>
                     Comments
                   </span>
-                  <div> <button onClick={() => toggleComments(post.id)}><IoCloseSharp style={{ width: '0.8rem', height: '0.8rem', color: '#CDB384' }} /></button></div>
+                  <div> <button onClick={() => toggleComments(post.id)}><IoCloseSharp style={{ width: '0.8rem', height: '0.8rem', color: '#330057', backgroundColor: '#200057' }} /></button></div>
                 </div>
                 <hr className='w-[96%] mx-auto' style={{ color: '#CDB384' }} />
                 <div className="flex justify-around">
@@ -278,14 +288,14 @@ export default function Post(props) {
                     className="w-[70rem] p-2 rounded border border-gray-300"
                     style={{ width: '35rem', padding: '1rem' }}
                   />
-                  <Button onClick={() => handleCommentSubmit(post.id)} className="mt-2" style={{ color: '#CDB384' }}>
+                  <Button onClick={() => handleCommentSubmit(post.id)} className="mt-2" style={{ backgroundColor: '#1f1e1eff ', color: 'white', borderRadius: '2rem', border: 'none', padding: '1rem' }}>
                     Submit ✔️
                   </Button>
                 </div>
                 <hr />
                 {comments[post.id] && comments[post.id].length > 0 ? (
                   comments[post.id].map((comment) => (
-                    <div key={comment.id} style={{ marginBottom: '8px', borderBottom: '1px solid #ccc', paddingBottom: '4px', height: '5em', backgroundColor: '#60755A', borderRadius: '0.6em', padding: '0 1em 0 0' }}>
+                    <div key={comment.id} style={{ marginBottom: '8px', borderBottom: '1px solid #ccc', paddingBottom: '4px', height: '5em', backgroundColor: '#330084', borderRadius: '0.6em', padding: '0 1em 0 0' }}>
                       <div className="flex flex-row justify-between items-center">
                         <div className='w-[7em]'>
                           <Avatar square="true" className="mx-[0.5em] my-auto my-[10%]" style={{ marginTop: '0.4rem' }} >
@@ -297,8 +307,8 @@ export default function Post(props) {
                           <span>{new Date(comment.created_at).toLocaleString()}</span>
                         </div>
                       </div>
-                      <p className='w-[85%] mx-auto my-[0%]' style={{ height: '0.5em', marginTop: '1rem' }}>
-                        {comment.text}
+                      <p className='w-[85%] mx-auto my-[0%]' style={{ marginTop: '1rem', color: '#5d5d5dff' }}>
+                        {comment.content}
                       </p>
                     </div>
                   ))
