@@ -139,7 +139,7 @@ function Navbar() {
               <MagnifyingGlassIcon style={{ width: 26, height: 26, color: '#646cff' }} />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-[200px] p-0" style={{ backgroundColor: '#340087', backdropFilter: 'blur(10px)', borderRadius: '10px', padding: '1rem' }}>
+          <PopoverContent className="w-[200px] p-0" style={{ backgroundColor: '#340087', backdropFilter: 'blur(10px)', borderRadius: '10px' }}>
             <Command>
               <CommandInput
                 placeholder="Search user..."
@@ -152,7 +152,7 @@ function Navbar() {
               />
               <CommandList>
                 <CommandEmpty>No user found.</CommandEmpty>
-                <CommandGroup>
+                <CommandGroup style={{padding: '1rem'}}>
                   {loading && <div className="p-2 text-center text-gray-400">Loading...</div>}
                   {error && <div className="p-2 text-center text-red-500">{error}</div>}
                 {!loading && !error && users.filter((user) => {
