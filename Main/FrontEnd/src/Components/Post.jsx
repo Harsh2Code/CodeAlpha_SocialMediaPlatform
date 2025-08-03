@@ -66,6 +66,21 @@ export default function Post(props) {
       const url = isLiked ? `${API_BASE_URL}/api/posts/${post.id}/unlike/` : `${API_BASE_URL}/api/likes/`;
       const method = isLiked ? 'POST' : 'POST';
       
+      // Optimistic UI update
+      setLikedPosts(prev => ({
+        ...prev,
+        [post.id]: !isLiked
+      }));
+      setPosts(prev => prev.map(p => {
+        if (p.id === post.id) {
+          return {
+            ...p,
+            likes_count: isLiked ? (p.likes_count || 1) - 1 : (p.likes_count || 0) + 1
+          };
+        }
+        return p;
+      }));
+
       const response = await fetch(url, {
         method: method,
         headers: {
@@ -78,25 +93,22 @@ export default function Post(props) {
       });
 
       if (!response.ok) {
+        // Revert optimistic update if API call fails
+        setLikedPosts(prev => ({
+          ...prev,
+          [post.id]: isLiked
+        }));
+        setPosts(prev => prev.map(p => {
+          if (p.id === post.id) {
+            return {
+              ...p,
+              likes_count: isLiked ? (p.likes_count || 0) + 1 : (p.likes_count || 1) - 1
+            };
+          }
+          return p;
+        }));
         throw new Error(`Failed to ${isLiked ? 'unlike' : 'like'} post`);
       }
-
-      // Update local state
-      setLikedPosts(prev => ({
-        ...prev,
-        [post.id]: !isLiked
-      }));
-
-      // Update posts list with new like count
-      setPosts(prev => prev.map(p => {
-        if (p.id === post.id) {
-          return {
-            ...p,
-            likes_count: isLiked ? (p.likes_count || 1) - 1 : (p.likes_count || 0) + 1
-          };
-        }
-        return p;
-      }));
     } catch (error) {
       console.error("Error toggling like:", error);
     }
@@ -148,7 +160,7 @@ export default function Post(props) {
         },
         body: JSON.stringify({
           post: postId,
-          text: comment,
+          content: comment,
         }),
       });
       if (!response.ok) {
@@ -206,9 +218,8 @@ export default function Post(props) {
                       <div className='ml-[2%]'>
                       </div>
                       <div className='mr-[0 %] flex flex-col justify-between items-end my-auto' style={({ width: '200px',height : '80px', color: 'rgba(255, 248, 255, 0.67)' })}>
-                        <span className='text-[0.9em] mt-[2%] mr-[10%]'>{new Date(post.created_at).toLocaleDateString()}</span>
-                        {/* <span className='text-muted ml-1'>{new Date(post.timestamp).toLocaleTimeString()}</span> */}
-                        {user && post.author !== user.id && <FollowButton userId={post.author} style={{backgroundColor: '#1f1e1eff', borderRadius: '1.5rem', color: 'white'}}/>}
+                        <span className='text-[0.9em] mt-[2%] mr-[10%]'>{new Date(post.created_at).toLocaleString()}</span>
+                        {user && post.author !== user.id && <FollowButton userId={post.author} style={{backgroundColor: '#1f1e1eff !important', borderRadius: '1.5rem', color: 'white', border: 'none'}}/>}
                       </div>
                     </div>
                   </div>
@@ -282,7 +293,7 @@ export default function Post(props) {
                           </Avatar>
                         </div>
                         <div className='text-[0.7em]' style={{ color: 'rgba(255, 248, 255, 0.67)', height: '1em' }}>
-                          <span>{new Date(comment.timestamp).toLocaleDateString()}  |  {new Date(comment.timestamp).toLocaleTimeString().toUpperCase()}</span>
+                          <span>{new Date(comment.created_at).toLocaleString()}</span>
                         </div>
                       </div>
                       <p className='w-[85%] mx-auto my-[0%]' style={{ height: '0.5em', marginTop: '1rem' }}>

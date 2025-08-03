@@ -83,6 +83,9 @@ class LikeViewSet(viewsets.ModelViewSet):
     serializer_class = LikeSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user)
+
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
@@ -118,5 +121,14 @@ class FollowViewSet(viewsets.ModelViewSet):
             return Response({'detail': 'You are not following this user.'}, status=status.HTTP_400_BAD_REQUEST)
         follow.delete()
         return Response({'detail': 'User unfollowed.'}, status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=['get'], url_path='status', permission_classes=[permissions.IsAuthenticated])
+    def get_follow_status(self, request, pk=None):
+        try:
+            target_user = CustomUser.objects.get(pk=pk)
+            is_following = Follow.objects.filter(follower=request.user, following=target_user).exists()
+            return Response({'is_following': is_following}, status=status.HTTP_200_OK)
+        except CustomUser.DoesNotExist:
+            return Response({'detail': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
 
 

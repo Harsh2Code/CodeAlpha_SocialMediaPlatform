@@ -20,7 +20,6 @@ export function FollowButton({ userId }) {
         const response = await fetch("https://socialmedia-backend-ipwx.onrender.com/api/follows/" + encodeURIComponent(userId) + "/status/", {
           headers: {
             'Authorization': "Token " + token,
-            'X-CSRFToken': getCookie('csrftoken'),
           },
         });
         if (response.ok) {
@@ -97,7 +96,7 @@ export function FollowButton({ userId }) {
 
   return (
     <>
-      <Button onClick={handleFollowToggle} style={{ backgroundColor: isFollowing ? '#252525ff' : '#2b1f64ff' }}>
+      <Button onClick={handleFollowToggle} variant="ghost" style={{ backgroundColor: isFollowing ? '#252525ff' : '#2b1f64ff', border: 'none', boxShadow: 'none' }}>
         {isFollowing ? 'Unfollow' : 'Follow'}
       </Button>
       {error && <div style={{ color: 'red', marginTop: '0.5em' }}>{error}</div>}
