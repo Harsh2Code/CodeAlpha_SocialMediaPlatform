@@ -36,6 +36,7 @@ const CreatePost = () => {
     try {
       const formData = new FormData();
       formData.append("title", postTitle);
+      formData.append("title", postTitle);
       formData.append("content", postContent);
       formData.append("visibility", postVisibility);
       if (postLink) {

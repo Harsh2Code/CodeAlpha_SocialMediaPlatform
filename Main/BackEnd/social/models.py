@@ -13,6 +13,7 @@ class CustomUser(AbstractUser):
 
 class Post(models.Model):
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='posts')
+    title = models.CharField(max_length=255, blank=True, null=True)
     content = models.TextField()
     image = models.URLField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)

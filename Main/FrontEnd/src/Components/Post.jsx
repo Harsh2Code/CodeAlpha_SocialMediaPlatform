@@ -216,15 +216,12 @@ export default function Post(props) {
               )}
             </div>
             <Card style={{ marginBottom: '20px', backgroundColor: "#330087"}}>
-              <CardHeader className="text-center text-inidigo-600" style={{ marginTop: '20px', backgroundColor: '#330087 !important' }}>
-                <h2 className='text-center' style={{color : 'white', fontWeight: 'bold'}}>{post.title}</h2>
-              </CardHeader>
               <CardContent className="overflow-hidded block rounded-lg" style={{backgroundColor: '#330087' , marginTop: '0px 0px', padding: '0px'}}>
+                {post.title && <h3 style={{color: 'white', margin: '1rem 1rem 0.5rem 1rem', padding: 0, fontWeight: 'bold'}}>{post.title}</h3>}
                 <Label className="overflow-hidden">
-                  {post.image && <img className='w-5/6 mx-auto my-[2%] rounded-[2%] block overflow-hidden object-cover' src={post.image} style={{ boxShadow: '2px 2px 4px #51007c ', width: '80%' }} alt="" />}
+                  {post.image && <img className='w-5/6 mx-auto my-[2%] rounded-[2%] block overflow-hidden object-cover' src={post.image} style={{ boxShadow: '2px 2px 4px #51007c ', width: '90%' }} alt="" />}
                 </Label>
                 <div style={{backgroundColor: '#200054',borderRadius: '0.5rem', margin: "1rem 1rem", padding: '0.5rem', color: '#5A8DB2'}} >
-                  <h3 style={{color: 'white', margin: 0, padding: 0}}>{post.title}</h3>
                   <p style={{marginTop:'1rem', fontSize: '0.7rem', color: '#a5a5a5ff'}}>
                     {post.content}
                   </p>
@@ -233,24 +230,24 @@ export default function Post(props) {
             </Card>
             <div className="flex justify-around align-center mx-auto w-[100%]" style={{  padding: '18px 0px', borderRadius: '0.25rem', backgroundColor: '#330087' }}>
               <button
-                style={{ backgroundColor: '#1f2b2dff', display: 'flex', alignItems: 'center', gap: '6px' }}
+                style={{ backgroundColor: 'trasparent', display: 'flex', alignItems: 'center', gap: '6px' }}
                 onClick={() => handleLikeToggle(post)}
               >
-                <BiSolidLike style={{ width: 26, height: 26, color: likedPosts[post.id] ? '#ff0000' : '#F7F7F8' }} />
+                <BiSolidLike style={{ width: 26, height: 26, color: likedPosts[post.id] ? '#646cff' : '#F7F7F8' }} />
                 <span style={{ color: '#F7F7F8', fontWeight: 'bold' }}>{post.likes_count || 0}</span>
               </button>
-              <button style={{ backgroundColor: '#1f2b2dff' }} onClick={() => toggleComments(post.id)}>
+              <button style={{ backgroundColor: 'transparent' }} onClick={() => toggleComments(post.id)}>
                 <label htmlFor="Comment"><BiCommentDetail style={{ width: 26, height: 26, color: '#F7F7F8' }} /></label>
                 <span style={{ color: '#F7F7F8', fontWeight: 'bold' }}>{post.comments_count || 0}</span>
               </button>
-              <button style={{ backgroundColor: '#1f2b2dff' }}>
+              <button style={{ backgroundColor: 'transparent' }}>
                 <label htmlFor="share"><ShareIcon style={{ width: 26, height: 26, color: '#F7F7F8' }} /></label>
               </button>
             </div>
             {visibleComments[post.id] && (
               <div style={{ maxHeight: '28rem', overflowY: 'auto', border: '1px solid #CDB384', marginTop: '10px', padding: '10px', borderRadius: '8px', backgroundColor: '#A3AEA2' }}>
                 <div className="flex flex-row justify-between items-center">
-                  <span className='text-[1rem]' style={{ color: '#1f2b2dff' }}>
+                  <span className='text-[1rem]' style={{ color: 'transparent' }}>
                     Comments
                   </span>
                   <div> <button onClick={() => toggleComments(post.id)}><IoCloseSharp style={{ width: '0.8rem', height: '0.8rem', color: '#CDB384' }} /></button></div>
