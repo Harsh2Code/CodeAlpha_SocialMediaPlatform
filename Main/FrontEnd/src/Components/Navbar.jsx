@@ -139,7 +139,7 @@ function Navbar() {
               <MagnifyingGlassIcon style={{ width: 26, height: 26, color: '#646cff' }} />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-[200px] p-0" style={{ backgroundColor: '#1f2b2dff' }}>
+          <PopoverContent className="w-[200px] p-0" style={{ backgroundColor: '#340087', backdropFilter: 'blur(10px)', borderRadius: '10px' }}>
             <Command>
               <CommandInput
                 placeholder="Search user..."
