@@ -96,7 +96,7 @@ function Navbar() {
       style={{
         width: '96vw',
         height: '60px',
-        backgroundColor: '#330087',
+        backgroundColor: '#111111',
         overflow: 'hidden',
         borderBottom: '1px solid #6366f1',
         boxShadow: '2px 2px 5px #646cff',
