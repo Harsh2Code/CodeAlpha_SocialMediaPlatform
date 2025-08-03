@@ -16,49 +16,21 @@ export default function Post(props) {
   const { token, user } = useContext(AuthContext)
   console.log("User object in Post.jsx:", user);
   const hideUserInfo = props.hideUserInfo;
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(
+    props.posts || []
+  );
   const [visibleComments, setVisibleComments] = useState({});
   const [commentInputs, setCommentInputs] = useState({});
   const [comments, setComments] = useState({});
   const [likedPosts, setLikedPosts] = useState({});
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      if (!token) return;
-      try {
-        // Remove author_id param to avoid sending undefined
-        const response = await fetch(`${API_BASE_URL}/api/posts/`, {
-          headers: {
-            'Authorization': `Token ${token}`,
-          },
-        });
-        if (!response.ok) {
-          throw new Error("Failed to fetch posts");
-        }
-        const data = await response.json();
-
-        const likesResponse = await fetch(`${API_BASE_URL}/api/likes/`, {
-          headers: {
-            'Authorization': `Token ${token}`,
-          },
-        });
-        if (!likesResponse.ok) {
-          throw new Error("Failed to fetch likes");
-        }
-        const likesData = await likesResponse.json();
-        const likedPostIds = {};
-        likesData.forEach(like => {
-          likedPostIds[like.post] = true;
-        });
-
-        setLikedPosts(likedPostIds);
-        setPosts(data);
-      } catch (error) {
-        console.error("Error fetching posts or likes:", error);
-      }
-    };
-    fetchPosts();
-  }, [token]);
+    const initialComments = {};
+    posts.forEach(post => {
+      initialComments[post.id] = post.comments || [];
+    });
+    setComments(initialComments);
+  }, [posts]);
 
   const handleLikeToggle = async (post) => {
     try {
