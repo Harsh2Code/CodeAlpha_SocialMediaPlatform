@@ -119,25 +119,4 @@ class FollowViewSet(viewsets.ModelViewSet):
         follow.delete()
         return Response({'detail': 'User unfollowed.'}, status=status.HTTP_200_OK)
 
-from django.contrib.auth import get_user_model
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
 
-class CreateSuperuserView(APIView):
-    permission_classes = [] # No authentication needed for this temporary view
-
-    def get(self, request):
-        User = get_user_model()
-        username = "Magneto"  # CHANGE THIS to a strong, unique username
-        email = "admin@example.com"  # CHANGE THIS to a valid email
-        password = "Admin@123" # CHANGE THIS to a very strong password
-
-        if User.objects.filter(username=username).exists():
-            return Response({"detail": "Superuser already exists."}, status=status.HTTP_200_OK)
-
-        try:
-            user = User.objects.create_superuser(username, email, password)
-            return Response({"detail": f"Superuser '{username}' created successfully."}, status=status.HTTP_201_CREATED)
-        except Exception as e:
-            return Response({"detail": f"Error creating superuser: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
