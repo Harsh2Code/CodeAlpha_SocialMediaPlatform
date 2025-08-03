@@ -228,7 +228,7 @@ export default function Post(props) {
               )}
             </div>
             <Card style={{ backgroundColor: "#8b8b8bff"}}>
-              <CardContent className="overflow-hidded block rounded-lg" style={{backgroundColor: '#330087' , marginTop: '0px 0px', padding: '0px'}}>
+              <CardContent className="overflow-hidded block rounded-lg" style={{backgroundColor: '#330087' ,backdropFilter: 'blur(20px)', marginTop: '0px 0px', padding: '0px'}}>
                 {/* {post.title && <h3 style={{color: 'white', margin: '1rem 1rem 0.5rem 1rem', padding: 0, fontWeight: 'bold'}}>{post.title}</h3>} */}
                 <Label className="overflow-hidden">
                   {post.image && <img className='w-5/6 mx-auto my-[2%] rounded-[2%] block overflow-hidden object-cover' src={post.image} style={{ boxShadow: '2px 2px 4px #51007c ', width: '90%' }} alt="" />}
