@@ -222,6 +222,7 @@ export default function Post(props) {
                   {post.image && <img className='w-5/6 mx-auto my-[2%] rounded-[2%] block overflow-hidden object-cover' src={post.image} style={{ boxShadow: '2px 2px 4px #51007c ', width: '90%' }} alt="" />}
                 </Label>
                 <div style={{backgroundColor: '#200054',borderRadius: '0.5rem', margin: "1rem 1rem", padding: '0.5rem', color: '#5A8DB2'}} >
+                  <h4 className='text-center' >{post.title}</h4>
                   <p style={{marginTop:'1rem', fontSize: '0.7rem', color: '#a5a5a5ff'}}>
                     {post.content}
                   </p>
@@ -230,17 +231,17 @@ export default function Post(props) {
             </Card>
             <div className="flex justify-around align-center mx-auto w-[100%]" style={{  padding: '18px 0px', borderRadius: '0.25rem', backgroundColor: '#330087' }}>
               <button
-                style={{ backgroundColor: 'trasparent', display: 'flex', alignItems: 'center', gap: '6px' }}
+                style={{ backgroundColor: '#330085', display: 'flex', alignItems: 'center', gap: '6px' }}
                 onClick={() => handleLikeToggle(post)}
               >
-                <BiSolidLike style={{ width: 26, height: 26, color: likedPosts[post.id] ? '#646cff' : '#F7F7F8' }} />
-                <span style={{ color: '#F7F7F8', fontWeight: 'bold' }}>{post.likes_count || 0}</span>
+                <BiSolidLike style={{ width: 26, height: 26, color: likedPosts[post.id] ? '#f7f7f8' : '#646cff' }} />
+                <span style={{ color: '#646cff', fontWeight: 'bold' }}>{post.likes_count || 0}</span>
               </button>
-              <button style={{ backgroundColor: 'transparent' }} onClick={() => toggleComments(post.id)}>
-                <label htmlFor="Comment"><BiCommentDetail style={{ width: 26, height: 26, color: '#F7F7F8' }} /></label>
+              <button style={{ backgroundColor: '#330085' }} onClick={() => toggleComments(post.id)}>
+                <label htmlFor="Comment"><BiCommentDetail style={{ width: 26, height: 26, color: commentInputs[post.id]? '#F7F7F8' : '#646cff' }} /></label>
                 <span style={{ color: '#F7F7F8', fontWeight: 'bold' }}>{post.comments_count || 0}</span>
               </button>
-              <button style={{ backgroundColor: 'transparent' }}>
+              <button style={{ backgroundColor: '#330085' }}>
                 <label htmlFor="share"><ShareIcon style={{ width: 26, height: 26, color: '#F7F7F8' }} /></label>
               </button>
             </div>
