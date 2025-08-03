@@ -231,18 +231,19 @@ export default function Post(props) {
             </Card>
             <div className="flex justify-around align-center mx-auto w-[100%]" style={{  padding: '18px 0px', borderRadius: '0.25rem', backgroundColor: '#330087' }}>
               <button
-                style={{ backgroundColor: '#330085', display: 'flex', alignItems: 'center', gap: '6px' }}
+                variant="ghost"
+                className='flex items-center'
                 onClick={() => handleLikeToggle(post)}
               >
                 <BiSolidLike style={{ width: 26, height: 26, color: likedPosts[post.id] ? '#f7f7f8' : '#646cff' }} />
                 <span style={{ color: '#646cff', fontWeight: 'bold' }}>{post.likes_count || 0}</span>
               </button>
-              <button style={{ backgroundColor: '#330085' }} onClick={() => toggleComments(post.id)}>
+              <button variant="ghost" className='flex items-center' onClick={() => toggleComments(post.id)}>
                 <label htmlFor="Comment"><BiCommentDetail style={{ width: 26, height: 26, color: commentInputs[post.id]? '#F7F7F8' : '#646cff' }} /></label>
-                <span style={{ color: '#F7F7F8', fontWeight: 'bold' }}>{post.comments_count || 0}</span>
+                <span style={{ color: '#646cff', fontWeight: 'bold' }}>{post.comments_count || 0}</span>
               </button>
-              <button style={{ backgroundColor: '#330085' }}>
-                <label htmlFor="share"><ShareIcon style={{ width: 26, height: 26, color: '#F7F7F8' }} /></label>
+              <button variant="ghost">
+                <label htmlFor="share"><ShareIcon style={{ width: 26, height: 26, color: '#646cff' }} /></label>
               </button>
             </div>
             {visibleComments[post.id] && (
