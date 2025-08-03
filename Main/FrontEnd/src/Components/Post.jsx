@@ -234,6 +234,7 @@ export default function Post(props) {
                 variant="ghost"
                 className='flex items-center'
                 onClick={() => handleLikeToggle(post)}
+                style={{backgroundColor: '#340087'}}
               >
                 <BiSolidLike style={{ width: 26, height: 26, color: likedPosts[post.id] ? '#f7f7f8' : '#646cff' }} />
                 <span style={{ color: '#646cff', fontWeight: 'bold' }}>{post.likes_count || 0}</span>
