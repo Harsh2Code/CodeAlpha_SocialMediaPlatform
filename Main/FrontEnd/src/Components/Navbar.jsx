@@ -152,7 +152,7 @@ function Navbar() {
               />
               <CommandList>
                 <CommandEmpty>No user found.</CommandEmpty>
-                <CommandGroup style={{padding: '1rem'}}>
+                <CommandGroup >
                   {loading && <div className="p-2 text-center text-gray-400">Loading...</div>}
                   {error && <div className="p-2 text-center text-red-500">{error}</div>}
                 {!loading && !error && users.filter((user) => {
@@ -163,6 +163,7 @@ function Navbar() {
                     <CommandItem
                       key={user.id}
                       value={user.username}
+                      style={{padding: '1rem'}}
                       onSelect={(currentValue) => {
                         const selectedUser = users.find(user => user.username === currentValue);
                         if (selectedUser) {
