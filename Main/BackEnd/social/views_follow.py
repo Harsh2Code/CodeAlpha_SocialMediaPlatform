@@ -30,10 +30,32 @@ class FollowViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     @action(detail=True, methods=['post'], permission_classes=[permissions.IsAuthenticated])
-    def unfollow(self, request, pk=None):
-        following_user = self.get_object().following
+    def follow(self, request, pk=None):
+        try:
+            user_to_follow = CustomUser.objects.get(pk=pk)
+        except CustomUser.DoesNotExist:
+            return Response({'detail': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+
         follower_user = request.user
-        follow = Follow.objects.filter(follower=follower_user, following=following_user)
+
+        if follower_user == user_to_follow:
+            return Response({'detail': 'You cannot follow yourself.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if Follow.objects.filter(follower=follower_user, following=user_to_follow).exists():
+            return Response({'detail': 'You are already following this user.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        Follow.objects.create(follower=follower_user, following=user_to_follow)
+        return Response({'detail': 'User followed.'}, status=status.HTTP_201_CREATED)
+
+    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAuthenticated])
+    def unfollow(self, request, pk=None):
+        try:
+            user_to_unfollow = CustomUser.objects.get(pk=pk)
+        except CustomUser.DoesNotExist:
+            return Response({'detail': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        follower_user = request.user
+        follow = Follow.objects.filter(follower=follower_user, following=user_to_unfollow)
         if not follow.exists():
             return Response({'detail': 'You are not following this user.'}, status=status.HTTP_400_BAD_REQUEST)
         follow.delete()
