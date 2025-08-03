@@ -307,7 +307,7 @@ export default function Post(props) {
                           <span>{new Date(comment.created_at).toLocaleString()}</span>
                         </div>
                       </div>
-                      <p className='w-[85%] mx-auto my-[0%]' style={{ marginTop: '1rem', color: '#5d5d5dff' }}>
+                      <p className='w-[85%] mx-auto my-auto' style={{ marginTop: '1rem', color: '#5d5d5dff' }}>
                         {comment.content}
                       </p>
                     </div>

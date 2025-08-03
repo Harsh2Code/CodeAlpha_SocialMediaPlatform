@@ -113,7 +113,7 @@ const CreatePost = () => {
             <div className="flex items-center justify-between mt-[1rem]">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" style={{backgroundColor: '#1f1e1eff !important', borderRadius: '15px', color: 'white', border: 'none'}}>
+                  <Button variant="outline" size="sm" style={{backgroundColor: '#353535ff !important',padding: '1rem 1.5rem', borderRadius: '15px', color: 'white', border: 'none'}}>
                     Visibility: {postVisibility}
                   </Button>
                 </DropdownMenuTrigger>
@@ -129,7 +129,7 @@ const CreatePost = () => {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-              <Button type="submit" disabled={!postContent.trim()} style={{backgroundColor: '#1f1e1eff !important', borderRadius: '15px', color: 'white', border: 'none'}}>
+              <Button type="submit" disabled={!postContent.trim()} style={{backgroundColor: '#353535ff !important',padding: '1rem 1.5rem', borderRadius: '15px', color: 'white', border: 'none'}}>
                 Post
               </Button>
             </div>

@@ -315,7 +315,7 @@ const Account = () => {
             <p className="text-gray-600">{user.first_name} {user.last_name}</p>
             <p className="text-gray-600">{user.nationality} | {user.date_of_birth}</p>
             <p className="text-gray-600">{user.gender}</p>
-            <button onClick={() => setShowEditForm(!showEditForm)} className="mt-[2%] px-[2%] py-2 bg-blue-500 text-[#200057] bg-[#414141] focus:bg-[#313131] rounded" style={{borderRadius: '6rem'}}>{showEditForm ? 'Cancel Edit' : 'Edit Profile'}</button>
+            <button onClick={() => setShowEditForm(!showEditForm)} className="mt-[2%] px-[2%] py-2 bg-blue-500 text-[#200057] bg-[#414141] focus:bg-[#313131] rounded" style={{borderRadius: '0.7rem', padding: '1rem 1.5rem', border: 'none', backgroundColor: '#353535ff', color: '#33084'}}>{showEditForm ? 'Cancel Edit' : 'Edit Profile'}</button>
           </div>
         </div>
         {/* ------------------------------------------------user Profile Editing section---------------------------------------------*/}
@@ -393,9 +393,9 @@ const Account = () => {
         )}
 
         <div className="flex justify-center my--[2rem]">
-          <button onClick={() => setView('posts')} className={`px-[1rem] mx-auto my-[1em] py-[1rem] ${view === 'posts' ? 'border-b-[2] border-[blue]-500' : ''}`} style={{borderRadius: '1rem', backgroundColor: '#1f1e1eff', padding: '1rem', color : 'white'}} >Posts</button>
-          <button onClick={() => setView('followers')} className={`px-4 py-2 mx-auto my-[1em] ${view === 'followers' ? 'border-b-2 border-blue-500' : ''}`} style={{borderRadius: '1rem', backgroundColor: '#1f1e1eff', padding: '1rem', color : 'white'}} >Followers</button>
-          <button onClick={() => setView('following')} className={`px-4 py-2 mx-auto my-[1em] ${view === 'following' ? 'border-b-2 border-blue-500' : ''}`} style={{borderRadius: '1rem', backgroundColor: '#1f1e1eff', padding: '1rem', color : 'white'}} >Following</button>
+          <button onClick={() => setView('posts')} className={`px-[1rem] mx-auto my-[1em] py-[1rem] ${view === 'posts' ? 'border-b-[2] border-[blue]-500' : ''}`} style={{borderRadius: '0.7rem', backgroundColor: '#353535ff',border: 'none', padding: '0.7rem 1.5rem', color : 'white'}} >Posts</button>
+          <button onClick={() => setView('followers')} className={`px-4 py-2 mx-auto my-[1em] ${view === 'followers' ? 'border-b-2 border-blue-500' : ''}`} style={{borderRadius: '0.7rem', backgroundColor: '#353535ff',border: 'none', padding: '0.7rem 1.5rem', color : 'white'}} >Followers</button>
+          <button onClick={() => setView('following')} className={`px-4 py-2 mx-auto my-[1em] ${view === 'following' ? 'border-b-2 border-blue-500' : ''}`} style={{borderRadius: '0.7rem', backgroundColor: '#353535ff',border: 'none', padding: '0.7rem 1.5rem', color : 'white'}} >Following</button>
         </div>
 
         <div>
