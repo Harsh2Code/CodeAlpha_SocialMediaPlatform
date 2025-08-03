@@ -38,7 +38,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ('id', 'username', 'email', 'profile_picture', 'bio', 'password', 'first_name', 'last_name', 'nationality', 'date_of_birth', 'gender')
+        fields = ('id', 'username', 'email', 'profile_picture', 'bio', 'first_name', 'last_name', 'nationality', 'date_of_birth', 'gender')
         extra_kwargs = {
             'password': {'write_only': True, 'required': False}
         }
@@ -47,8 +47,8 @@ class UserSerializer(serializers.ModelSerializer):
         if obj.profile_picture:
             request = self.context.get('request')
             if request is not None:
-                return request.build_absolute_uri(obj.profile_picture.url)
-            return obj.profile_picture.url
+                return request.build_absolute_uri(obj.profile_picture)
+            return obj.profile_picture
         return None
 
     def create(self, validated_data):
