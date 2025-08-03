@@ -235,16 +235,18 @@ export default function Post(props) {
                 className='flex items-center'
                 onClick={() => handleLikeToggle(post)}
                 style={{backgroundColor: '#200057', border: 'none'}}
-              >
+                >
                 <BiSolidLike style={{ width: 26, height: 26, color: likedPosts[post.id] ? '#f7f7f8' : '#646cff' }} />
                 <span style={{ color: '#646cff', fontWeight: 'bold' }}>{post.likes_count || 0}</span>
               </button>
-              <button variant="ghost" className='flex items-center' onClick={() => toggleComments(post.id)}>
+              <button variant="ghost" className='flex items-center' style={{backgroundColor: '#200057', border: 'none'}} onClick={() => toggleComments(post.id)}>
                 <BiCommentDetail style={{ width: 26, height: 26, color: commentInputs[post.id]? '#F7F7F8' : '#646cff' }} />
                 <span style={{ color: '#646cff', fontWeight: 'bold' }}>{post.comments_count || 0}</span>
+                
               </button>
-              <button variant="ghost">
+              <button variant="ghost" style={{backgroundColor: '#200057', border: 'none'}}>
                 <ShareIcon style={{ width: 26, height: 26, color: '#646cff' }} />
+                
               </button>
             </div>
             {visibleComments[post.id] && (
