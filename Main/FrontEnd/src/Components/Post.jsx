@@ -202,7 +202,7 @@ export default function Post(props) {
       <div className="my-[1em]" >
         {posts.map((post) => (
           <div key={post.id} style={{ padding: "1em 1em 0em 1em", height: '40%', width: '35%', margin: '1em  auto ', border: '1px solid #330057', borderRadius: '0.4em', /*backgroundColor: '#F7F7F8'*/ backgroundColor: '#151515ff' }}>
-            <div className='flex flex-row justify-start items-center w-[100%]' style={{ padding: '18px 0px', borderRadius: '0.25rem' }}>
+            <div className='flex flex-row justify-start items-center w-[100%]' style={{ padding: '0px 0px', borderRadius: '0.25rem' }}>
               {!hideUserInfo && (
                 <>
                   <Avatar square="true" className="mx-auto my-[0.5%]"  >
@@ -228,7 +228,7 @@ export default function Post(props) {
               )}
             </div>
             <Card style={{ backgroundColor: "#8b8b8bff"}}>
-              <CardContent className="overflow-hidded block rounded-lg" style={{backgroundColor: '#330087' ,backdropFilter: 'blur(20px)', marginTop: '0px 0px', padding: '0px'}}>
+              <CardContent className="overflow-hidded block rounded-lg" style={{backgroundColor: '#330087' ,backdropFilter: 'blur(20px)', marginTop: '10px', padding: '0px'}}>
                 {/* {post.title && <h3 style={{color: 'white', margin: '1rem 1rem 0.5rem 1rem', padding: 0, fontWeight: 'bold'}}>{post.title}</h3>} */}
                 <Label className="overflow-hidden">
                   {post.image && <img className='w-5/6 mx-auto my-[2%] rounded-[2%] block overflow-hidden object-cover' src={post.image} style={{ boxShadow: '2px 2px 4px #51007c ', width: '90%' }} alt="" />}
