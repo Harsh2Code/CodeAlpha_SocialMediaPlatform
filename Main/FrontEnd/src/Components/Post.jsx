@@ -208,7 +208,7 @@ export default function Post(props) {
                       <div className='mr-[0 %] flex flex-col justify-between items-end my-auto' style={({ width: '200px',height : '80px', color: 'rgba(255, 248, 255, 0.67)' })}>
                         <span className='text-[0.9em] mt-[2%] mr-[10%]'>{new Date(post.created_at).toLocaleDateString()}</span>
                         {/* <span className='text-muted ml-1'>{new Date(post.timestamp).toLocaleTimeString()}</span> */}
-                        {user && post.author !== user.id && <FollowButton userId={post.author} style={{backgroundColor: '#1f1e1eff'}}/>}
+                        {user && post.author !== user.id && <FollowButton userId={post.author} style={{backgroundColor: '#1f1e1eff', borderRadius: '1.5rem', color: 'white'}}/>}
                       </div>
                     </div>
                   </div>
@@ -222,7 +222,7 @@ export default function Post(props) {
                   {post.image && <img className='w-5/6 mx-auto my-[2%] rounded-[2%] block overflow-hidden object-cover' src={post.image} style={{ boxShadow: '2px 2px 4px #51007c ', width: '90%' }} alt="" />}
                 </Label>
                 <div style={{backgroundColor: '#200054',borderRadius: '0.5rem', margin: "1rem 1rem", padding: '0.5rem', color: '#5A8DB2'}} >
-                  <h4 className='text-left mt-[0.25rem] mb-[1.5rem]' >{post.title}</h4>
+                  <h4 className='text-left mt-[0.25rem] mb-[1.5rem]' style={{color: 'white'}} >{post.title}</h4>
                   <p style={{marginTop:'1rem', fontSize: '0.7rem', color: '#a5a5a5ff'}}>
                     {post.content}
                   </p>
