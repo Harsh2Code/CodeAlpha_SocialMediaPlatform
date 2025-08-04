@@ -215,8 +215,7 @@ export default function Post(props) {
                       <div className='mr-[0 %] flex flex-col justify-between items-end my-auto' style={({ width: '200px',height : '80px', color: 'rgba(255, 248, 255, 0.67)' })}>
                         <span className='text-[0.9em] mt-[2%] mr-[10%]'>{new Date(post.created_at).toLocaleDateString()}</span>
                         {console.log("post.author:", post.author)}
-                        {user && post.author !== user.id && <FollowButton userId={post.author} style={{backgroundColor: '#1f1e1eff !important', borderRadius: '15px', color: 'white', border: 'none'}}/>}
-                      </div>
+                        {user && post.author.id !== user.id && <FollowButton userId={post.author.id} style={{backgroundColor: '#1f1e1eff !important', borderRadius: '15px', color: 'white', border: 'none'}}/>}
                     </div>
                   </div>
                 </>
