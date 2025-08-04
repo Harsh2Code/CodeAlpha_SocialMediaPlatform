@@ -165,29 +165,19 @@ export default function Post(props) {
         throw new Error("Failed to submit comment");
       }
       const newComment = await response.json();
-      setComments((prev) => ({
-        ...prev,
-        [postId]: prev[postId] ? [newComment, ...prev[postId]] : [newComment],
-      }));
+      setPosts(prevPosts => {
+        const newPosts = [...prevPosts];
+        const postIndex = newPosts.findIndex(post => post.id === postId);
+        if (postIndex > -1) {
+          newPosts[postIndex].comments = [newComment, ...(newPosts[postIndex].comments || [])];
+          newPosts[postIndex].comments_count = (newPosts[postIndex].comments_count || 0) + 1;
+        }
+        return newPosts;
+      });
       setCommentInputs((prev) => ({
         ...prev,
         [postId]: '',
       }));
-      
-      // Update the posts list with the new comments count
-      setPosts(prev => prev.map(post => {
-        if (post.id === postId) {
-          return {
-            ...post,
-            comments_count: (post.comments_count || 0) + 1
-          };
-        }
-        return post;
-      }));
-
-      // Close and reopen the comments to trigger a refetch
-      toggleComments(postId);
-      toggleComments(postId);
     } catch (error) {
       console.error("Error submitting comment:", error);
     }
@@ -276,7 +266,7 @@ export default function Post(props) {
                     value={commentInputs[post.id] || ''}
                     onChange={(e) => handleCommentChange(post.id, e.target.value)}
                     className="w-[70rem] p-2 rounded border border-gray-300"
-                    style={{ width: '35rem', padding: '1rem' }}
+                    style={{ width: '35rem', padding: '1rem', color : 'white' }}
                   />
                   <Button onClick={() => handleCommentSubmit(post.id)} className="mt-2" style={{ backgroundColor: '#1f1e1eff ', color: 'white', borderRadius: '2rem', border: 'none', padding: '1rem' }}>
                     Submit ✔️
