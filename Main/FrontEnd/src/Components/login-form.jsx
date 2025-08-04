@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button.jsx";
 import {
   Card,
@@ -17,6 +18,7 @@ export function LoginForm({ className, ...props }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,6 +48,7 @@ export function LoginForm({ className, ...props }) {
       }
       const userData = await userResponse.json();
       login(data.token, userData); // Store token and full user data in context
+      navigate("/");
     } catch (err) {
       setError(err.message);
     }
