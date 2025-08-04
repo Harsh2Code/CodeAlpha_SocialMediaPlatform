@@ -82,6 +82,7 @@ const CreatePost = () => {
               value={postTitle}
               onChange={handleTitleChange}
               placeholder="what should be the title, Hmmm!..."
+              style={{color: '#330087'}}
               className="resize-none h-24"
               required
               />
@@ -95,7 +96,7 @@ const CreatePost = () => {
               onChange={handlePostChange}
               placeholder="There should be something that sets the story! Right?.."
               className="resize-none h-[30px]"
-              style={{height: "5rem"}}
+              style={{height: "5rem", color: '#330087'}}
               required
               />
             
@@ -108,16 +109,17 @@ const CreatePost = () => {
               value={postLink}
               onChange={handleLinkChange}
               placeholder="Hello!, if you have the link then I eat Link! please let me have it!"
-              className="resize-none h-24"
+              className="resize-none h-24 text-[#330087]"
             />
             <div className="flex items-center justify-between mt-[1rem]">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" style={{backgroundColor: '#353535ff !important',padding: '1rem 1.5rem', borderRadius: '15px', color: 'white', border: 'none'}}>
+                  <Button variant="outline" size="sm" 
+                    style={{backgroundColor: '#353535ff ',padding: '1rem 1.5rem', borderRadius: '15px', color: 'white', border: 'none'}}>
                     Visibility: {postVisibility}
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent style={{backgroundColor: '#1f1e1eff !important', borderRadius: '15px', color: 'white', border: 'none'}}>
+                <DropdownMenuContent style={{backgroundColor: '#353535ff ', borderRadius: '15px', color: 'white', border: 'none'}}>
                   <DropdownMenuItem onClick={() => handleVisibilityChange("Public")}>
                     Public
                   </DropdownMenuItem>
@@ -129,7 +131,7 @@ const CreatePost = () => {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-              <Button type="submit" disabled={!postContent.trim()} style={{backgroundColor: '#353535ff !important',padding: '1rem 1.5rem', borderRadius: '15px', color: 'white', border: 'none'}}>
+              <Button type="submit" disabled={!postContent.trim()} style={{backgroundColor: '#353535ff',padding: '1rem 1.5rem', borderRadius: '15px', color: 'white', border: 'none'}}>
                 Post
               </Button>
             </div>

@@ -292,10 +292,10 @@ export default function Post(props) {
                           </Avatar>
                         </div>
                         <div className='text-[0.7em]' style={{ color: 'rgba(255, 248, 255, 0.67)', height: '1em' }}>
-                          <span>{new Date(comment.created_at).toLocaleString()}</span>
+                          <span>{new Date(comment.created_at).toLocaleString().toUpperCase()}</span>
                         </div>
                       </div>
-                      <p className='w-[85%] mx-auto my-auto' style={{ marginTop: '1rem', color: '#5d5d5dff' }}>
+                      <p className='w-[85%] mx-auto my-auto' style={{ padding: '1rem', color: '#999999ff' }}>
                         {comment.content}
                       </p>
                     </div>
