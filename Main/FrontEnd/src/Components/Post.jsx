@@ -117,10 +117,6 @@ export default function Post(props) {
         ...prev,
         [postId]: false,
       }));
-      setComments((prev) => ({
-        ...prev,
-        [postId]: [],
-      }));
     } else {
       // If comments are not visible, fetch and show them
       try {
@@ -194,6 +190,10 @@ export default function Post(props) {
         }
         return post;
       }));
+
+      // Close and reopen the comments to trigger a refetch
+      toggleComments(postId);
+      toggleComments(postId);
     } catch (error) {
       console.error("Error submitting comment:", error);
     }
@@ -272,7 +272,7 @@ export default function Post(props) {
                   <span className='text-[1rem]' style={{ color: 'white' }}>
                     Comments
                   </span>
-                  <div> <button onClick={() => toggleComments(post.id)}><IoCloseSharp style={{ width: '0.8rem', height: '0.8rem', color: '#330057', backgroundColor: '#200057' }} /></button></div>
+                  <div> <button onClick={() => toggleComments(post.id)} style={{backgroundColor: '#200057'}}><IoCloseSharp style={{ width: '0.8rem', height: '0.8rem', color: '#330084', backgroundColor: '#200057' }} /></button></div>
                 </div>
                 <hr className='w-[96%] mx-auto' style={{ color: '#CDB384' }} />
                 <div className="flex justify-around">
