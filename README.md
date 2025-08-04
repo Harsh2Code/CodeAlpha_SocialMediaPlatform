@@ -1,4 +1,4 @@
-<h1>🧠 SPOTT: Full Stack Social Media Platform </h1?
+<h1>🧠 SPOTT: Full Stack Social Media Platform </h1>
 “I didn’t choose the bug life. The bug life chose me.”
 <a href="https://socialmedia-frontend-1tqk.onrender.com/"> </a>
 
