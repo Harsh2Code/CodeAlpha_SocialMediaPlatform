@@ -23,6 +23,18 @@ export default function Post(props) {
   const [commentInputs, setCommentInputs] = useState({});
   const [likedPosts, setLikedPosts] = useState({});
 
+  const calculateAge = (dateOfBirth) => {
+    if (!dateOfBirth) return "?";
+    const today = new Date();
+    const birthDate = new Date(dateOfBirth);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  };
+
   useEffect(() => {
     if (props.posts) {
       setPosts(props.posts);
@@ -189,12 +201,12 @@ export default function Post(props) {
               {!hideUserInfo && (
                 <>
                   <Avatar square="true" className="mx-auto my-[0.5%]"  >
-                    <AvatarImage src={post.author_profile_picture || "/Profile-Photo.jpeg"} alt="Profile" style={{ width: '6rem', height: '6rem' }} />
+                    <AvatarImage src={post.author.profile_picture || "/Profile-Photo.jpeg"} alt="Profile" style={{ width: '6rem', height: '6rem' }} />
                   </Avatar>
                   <div className='flex flex-row justify-between items-start mx-auto' style={{ height: '100px', width: '43rem' }}>
                     <div className="flex flex-col justify-center">
-                      <div className='ml-[2%] font-bold text-[2rem]'><span className='text-2xl w- ml-[2%]'>{post.author_username || "Anonymous"}</span></div>
-                      <span className='text-[1em] w- mt-[10%] ml-[4%]' style={{ color: 'rgba(255, 248, 255, 0.67)' }}>{post.gender || "PNTS"} | {post.age || "?"}</span>
+                      <div className='ml-[2%] font-bold text-[2rem]'><span className='text-2xl w- ml-[2%]'>{post.author.username || "Anonymous"}</span></div>
+                      <span className='text-[1em] w- mt-[10%] ml-[4%]' style={{ color: 'rgba(255, 248, 255, 0.67)' }}>{post.author.gender || "PNTS"} | {calculateAge(post.author.date_of_birth)} | {post.author.nationality || "Unknown"}</span>
                     </div>
 
                     <div className='flex flex-row justify-between items-center w-full'>
@@ -261,7 +273,7 @@ export default function Post(props) {
                     className="w-[70rem] text-[#ffffff] p-2 rounded border border-gray-300"
                     style={{ width: '35rem', padding: '1rem'}}
                   />
-                  <Button onClick={() => handleCommentSubmit(post.id)} className="mt-2" style={{ backgroundColor: '#1f1e1eff ', color: 'white', borderRadius: '2rem', border: 'none', padding: '1rem' }}>
+                  <Button onClick={() => handleCommentSubmit(post.id)} className="mt-2 mx-[0.5rem]" style={{ backgroundColor: '#1f1e1eff ', color: 'white', borderRadius: '2rem', border: 'none', padding: '1rem' }}>
                     Submit ✔️
                   </Button>
                 </div>

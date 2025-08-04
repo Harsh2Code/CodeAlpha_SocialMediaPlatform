@@ -47,14 +47,13 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 class PostSerializer(serializers.ModelSerializer):
-    author_username = serializers.ReadOnlyField(source='author.username')
-    author_profile_picture = serializers.SerializerMethodField()
+    author = UserSerializer(read_only=True)
     likes_count = serializers.SerializerMethodField()
     comments_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
-        fields = ('id', 'author', 'author_username', 'author_profile_picture', 'title', 'content', 'image', 'created_at', 'likes_count', 'comments_count')
+        fields = ('id', 'author', 'title', 'content', 'image', 'created_at', 'likes_count', 'comments_count')
         read_only_fields = ('author',)
 
     def get_author_profile_picture(self, obj):
