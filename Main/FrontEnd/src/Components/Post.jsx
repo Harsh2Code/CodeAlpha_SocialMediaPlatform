@@ -48,13 +48,7 @@ export default function Post(props) {
     }
   }, [props.posts, token]);
 
-  useEffect(() => {
-    const initialComments = {};
-    posts.forEach(post => {
-      initialComments[post.id] = post.comments || [];
-    });
-    setComments(initialComments);
-  }, [posts]);
+  
 
   const handleLikeToggle = async (post) => {
     try {
