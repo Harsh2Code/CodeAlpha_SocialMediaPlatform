@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
-    profile_picture = models.URLField(blank=True, null=True)
+    profile_picture = models.TextField(blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
     nationality = models.CharField(max_length=100, blank=True, null=True)
     date_of_birth = models.DateField(blank=True, null=True)
@@ -15,7 +15,7 @@ class Post(models.Model):
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='posts')
     title = models.CharField(max_length=255, blank=True, null=True)
     content = models.TextField()
-    image = models.URLField(blank=True, null=True)
+    image = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

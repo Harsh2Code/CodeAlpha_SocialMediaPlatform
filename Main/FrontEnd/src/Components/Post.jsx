@@ -25,12 +25,28 @@ export default function Post(props) {
   const [likedPosts, setLikedPosts] = useState({});
 
   useEffect(() => {
-    const initialComments = {};
-    posts.forEach(post => {
-      initialComments[post.id] = post.comments || [];
-    });
-    setComments(initialComments);
-  }, [posts]);
+    if (props.posts) {
+      setPosts(props.posts);
+    } else {
+      const fetchPosts = async () => {
+        try {
+          const response = await fetch(`${API_BASE_URL}/api/posts/`, {
+            headers: {
+              'Authorization': `Token ${token}`,
+            },
+          });
+          if (!response.ok) {
+            throw new Error('Failed to fetch posts');
+          }
+          const data = await response.json();
+          setPosts(data);
+        } catch (error) {
+          console.error('Error fetching posts:', error);
+        }
+      };
+      fetchPosts();
+    }
+  }, [props.posts, token]);
 
   const handleLikeToggle = async (post) => {
     try {
