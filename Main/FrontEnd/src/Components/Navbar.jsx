@@ -121,7 +121,7 @@ function Navbar() {
             style={{ width: '26px', height: '26px' }}
           />
         </Avatar>
-        <span style={{ marginLeft: '8px', color: '#646cff', fontWeight:'bolder', fontSize: '2em'}}>SPOTT</span>
+        <span style={{ marginLeft: '8px', color: '#646cff', fontWeight:'bolder',fontFamily: 'Lucida Handwriting', fontSize: '2em'}}>SPOTT</span>
       </div>
       <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '20px' }}>
         <Popover open={open} onOpenChange={setOpen}>
