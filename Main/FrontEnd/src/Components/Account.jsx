@@ -216,7 +216,7 @@ const Account = () => {
             <h2 className="text-[1.5rem] font-bold mb-[4%]">My Posts</h2>
             {posts.length > 0 ? (
               posts.map(post => (
-                <div key={post.id} className="p-[1%] rounded-[1rem] m-[4%]" style={{ backgroundColor: '#340087' }}>                  <p style={{ color: '#A0C5EF' }}>{post.content}</p>
+                <div key={post.id} className="p-[1%] rounded-[1rem] m-[1%]" style={{ backgroundColor: '#340087', borderRadius: '10px' }}>                  <p style={{ color: '#A0C5EF' }}>{post.content}</p>
                 </div>
               ))
             ) : (
@@ -233,7 +233,7 @@ const Account = () => {
             {followers.length > 0 ? (
               <ul style={{ backgroundColor: '#340087' }}>
                 {followers.map(follower => (
-                  <li key={follower.id} className="p-[1rem] rounded-[1rem] m-[4%]" style={{ color: '#A0C5EF' }}>
+                  <li key={follower.id} className="p-[1rem] rounded-[1rem] m-14%]" style={{ color: '#A0C5EF', borderRadius: '10px' }}>
                     {follower.username}
                   </li>
                 ))}
@@ -252,7 +252,7 @@ const Account = () => {
             {following.length > 0 ? (
               <ul style={{ backgroundColor: '#340087' }}>
                 {following.map(followed => (
-                  <li key={followed.id} className="p-[1rem] rounded-[1rem] m-[4%]" style={{ color: '#A0C5EF' }}>
+                  <li key={followed.id} className="p-[1rem] rounded-[1rem] m-[1%]" style={{ color: '#A0C5EF', borderRadius: '10px' }}>
                     {followed.username}
                   </li>
                 ))}
