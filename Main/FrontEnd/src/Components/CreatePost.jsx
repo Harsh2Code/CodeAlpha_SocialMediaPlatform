@@ -131,7 +131,7 @@ const CreatePost = () => {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-              <Button type="submit" className='bg-[#1e1e1eff] px=[1.5rem] py-[1rem] text-[#ffffff]' disabled={!postContent.trim()} style={{borderRadius: '10px', border: 'none'}}>
+              <Button type="submit" className='bg-[#1e1e1eff] px-[1.5rem] py-[1rem] text-[#ffffff]' disabled={!postContent.trim()} style={{borderRadius: '10px', border: 'none'}}>
                 Post
               </Button>
             </div>
