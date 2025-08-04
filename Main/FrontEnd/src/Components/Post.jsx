@@ -199,7 +199,7 @@ export default function Post(props) {
           <div key={post.id} style={{ padding: "1em 1em 0em 1em", height: '40%', width: '35%', margin: '1em  auto ', border: '1px solid #330057', borderRadius: '0.4em', /*backgroundColor: '#F7F7F8'*/ backgroundColor: '#151515ff' }}>
             <div className='flex flex-row justify-start items-center w-[100%]' style={{ padding: '0px 0px', borderRadius: '0.25rem' }}>
               {!hideUserInfo && (
-                <>
+                <div className='flex flex-row items-center w-full'>
                   <Avatar square="true" className="mx-auto my-[0.5%]"  >
                     <AvatarImage src={post.author.profile_picture || "/Profile-Photo.jpeg"} alt="Profile" style={{ width: '6rem', height: '6rem' }} />
                   </Avatar>
@@ -216,9 +216,10 @@ export default function Post(props) {
                         <span className='text-[0.9em] mt-[2%] mr-[10%]'>{new Date(post.created_at).toLocaleDateString()}</span>
                         {console.log("post.author:", post.author)}
                         {user && post.author.id !== user.id && <FollowButton userId={post.author.id} style={{backgroundColor: '#1f1e1eff !important', borderRadius: '15px', color: 'white', border: 'none'}}/>}
+                      </div>
                     </div>
                   </div>
-                </>
+                </div>
               )}
             </div>
             <Card style={{ marginTop: '10px', backgroundColor: "#8b8b8bff"}}>
