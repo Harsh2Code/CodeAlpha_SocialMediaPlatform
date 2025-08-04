@@ -21,7 +21,6 @@ export default function Post(props) {
   );
   const [visibleComments, setVisibleComments] = useState({});
   const [commentInputs, setCommentInputs] = useState({});
-  const [comments, setComments] = useState({});
   const [likedPosts, setLikedPosts] = useState({});
 
   useEffect(() => {
@@ -105,14 +104,8 @@ export default function Post(props) {
   };
 
   const toggleComments = async (postId) => {
-    if (visibleComments[postId]) {
-      // If comments are visible, close them and clear the comments from the state
-      setVisibleComments((prev) => ({
-        ...prev,
-        [postId]: false,
-      }));
-    } else {
-      // If comments are not visible, fetch and show them
+    setVisibleComments(prev => ({ ...prev, [postId]: !prev[postId] }));
+    if (!visibleComments[postId]) {
       try {
         const response = await fetch(`${API_BASE_URL}/api/comments/?post=${postId}`, {
           headers: {
@@ -123,14 +116,14 @@ export default function Post(props) {
           throw new Error('Failed to fetch comments');
         }
         const data = await response.json();
-        setComments((prev) => ({
-          ...prev,
-          [postId]: data,
-        }));
-        setVisibleComments((prev) => ({
-          ...prev,
-          [postId]: true,
-        }));
+        setPosts(prevPosts => {
+          const newPosts = [...prevPosts];
+          const postIndex = newPosts.findIndex(post => post.id === postId);
+          if (postIndex > -1) {
+            newPosts[postIndex].comments = data;
+          }
+          return newPosts;
+        });
       } catch (error) {
         console.error('Error fetching comments:', error);
       }
@@ -265,16 +258,16 @@ export default function Post(props) {
                     placeholder="Add a comment..."
                     value={commentInputs[post.id] || ''}
                     onChange={(e) => handleCommentChange(post.id, e.target.value)}
-                    className="w-[70rem] p-2 rounded border border-gray-300"
-                    style={{ width: '35rem', padding: '1rem', color : 'white' }}
+                    className="w-[70rem] text-[#ffffff] p-2 rounded border border-gray-300"
+                    style={{ width: '35rem', padding: '1rem'}}
                   />
                   <Button onClick={() => handleCommentSubmit(post.id)} className="mt-2" style={{ backgroundColor: '#1f1e1eff ', color: 'white', borderRadius: '2rem', border: 'none', padding: '1rem' }}>
                     Submit ✔️
                   </Button>
                 </div>
                 <hr />
-                {comments[post.id] && comments[post.id].length > 0 ? (
-                  comments[post.id].map((comment) => (
+                {post.comments && post.comments.length > 0 ? (
+                  post.comments.map((comment) => (
                     <div key={comment.id} style={{ marginBottom: '8px', borderBottom: '1px solid #ccc', paddingBottom: '4px', height: '5em', backgroundColor: '#330084', borderRadius: '0.6em', padding: '0 1em 0 0' }}>
                       <div className="flex flex-row justify-between items-center">
                         <div className='w-[7em]'>
