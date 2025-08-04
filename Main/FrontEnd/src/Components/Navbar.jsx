@@ -211,7 +211,7 @@ function Navbar() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Avatar square="true" style={{ cursor: 'pointer',background: 'transparent', backdropFilter: 'blur(10px)', padding: '1rem', borderRadius: '2rem' }}>
-                <AvatarImage src={user.profile_picture || '/Profile-Photo.jpeg'} alt="Profile" style={{ width: '26px', height: '26px', borderRadius: '50%', borderRadius: '8rem' }} />
+                <AvatarImage src={user.profile_picture || '/Profile-Photo.jpeg'} alt="Profile" style={{ width: '26px', height: '26px', borderRadius: '8rem' }} />
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" style={{background: 'transparent', backdropFilter: 'blur(10px)', padding: '1rem'}}>
