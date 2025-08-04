@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Button } from './button';
 import { AuthContext } from '../../contexts/AuthContext';
+import API_BASE_URL from '../../lib/apiConfig';
 
 export function FollowButton({ userId }) {
   const { token } = useContext(AuthContext);
