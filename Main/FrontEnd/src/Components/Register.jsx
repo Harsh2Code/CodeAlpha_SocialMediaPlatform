@@ -104,7 +104,7 @@ export default function Register({ className, ...props }) {
                 />
               </div>
               {error && <div className="text-red-600 text-center">{error}</div>}
-              <Button type="submit" className="w-[80%] mx-auto my-[20px]">
+              <Button type="submit" className="w-[80%] mx-auto my-[20px] px-[1.5rem] py-[1rem] bg-[#33535ff] focus:bg-[#1e1d1dff] rounded-[8rem]" style={{border: 'none' }}>
                 Register
               </Button>
             </div>

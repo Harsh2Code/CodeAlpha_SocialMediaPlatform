@@ -107,7 +107,7 @@ export function LoginForm({ className, ...props }) {
                 />
               </div>
               {error && <div className="text-red-600 text-center">{error}</div>}
-              <Button type="submit" className="w-[8 0%] mx-auto my-[20px]">
+              <Button type="submit" className="w-[80%] mx-auto my-[20px] px-[1.5rem] py-[1rem] bg-[#353535ff] focus:bg-[#1e1d1dff] rounded-[8rem]" style={{border: 'none'}}>
                 Login
               </Button>
             </div>

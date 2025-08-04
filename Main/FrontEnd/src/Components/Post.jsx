@@ -273,7 +273,7 @@ export default function Post(props) {
                     className="w-[70rem] text-[#ffffff] p-2 rounded border border-gray-300"
                     style={{ width: '35rem', padding: '1rem'}}
                   />
-                  <Button onClick={() => handleCommentSubmit(post.id)} className="mt-2 mx-[0.5rem]" style={{ backgroundColor: '#1f1e1eff ', color: 'white', borderRadius: '2rem', border: 'none', padding: '1rem' }}>
+                  <Button onClick={() => handleCommentSubmit(post.id)} className="mt-2 mx-[0.5rem] focus:border-[#330087]" style={{ backgroundColor: '#1f1e1eff ', color: 'white', borderRadius: '2rem', border: 'none', padding: '1rem' }}>
                     Submit ✔️
                   </Button>
                 </div>
