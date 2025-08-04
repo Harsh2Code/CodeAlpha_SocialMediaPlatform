@@ -119,7 +119,7 @@ const CreatePost = () => {
                     Visibility: {postVisibility}
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent style={{backgroundColor: '#353535ff ', borderRadius: '15px', color: 'white', border: 'none'}}>
+                <DropdownMenuContent style={{backgroundColor: '#1e1e1eff ', borderRadius: '10px', color: 'white', border: 'none'}}>
                   <DropdownMenuItem onClick={() => handleVisibilityChange("Public")}>
                     Public
                   </DropdownMenuItem>
@@ -131,7 +131,7 @@ const CreatePost = () => {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-              <Button type="submit" disabled={!postContent.trim()} style={{backgroundColor: '#1e1e1eff',padding: '1rem 1.5rem', borderRadius: '15px', color: 'white', border: 'none'}}>
+              <Button type="submit" className='bg-[#1e1e1eff] px=[1,5rem] py-[1rem] text-[#ffffff]' disabled={!postContent.trim()} style={{borderRadius: '10px', border: 'none'}}>
                 Post
               </Button>
             </div>
