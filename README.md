@@ -17,7 +17,7 @@ Django REST Framework: Because Python APIs are cool, and I wanted to suffer a li
 SVGs: Because why use PNGs when you can spend hours trying to animate vector graphics and question your life choices?
 
 <h1>🧪 Tech Stack Breakdown</h1>
-<h1><🛠️ Backend/h1>
+<h1>🛠️ Backend</h1>
 Django REST Framework – For building robust APIs and testing my patience.
 
 PostgreSQL – Managed via psycopg2-binary, because raw SQL wasn’t spicy enough.
