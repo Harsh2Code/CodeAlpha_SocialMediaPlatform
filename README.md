@@ -37,7 +37,7 @@ React Router – Smooth routing, smoother developer tears.
 
 Lucide Icons – For UI components that scream “I tried.”
 
-<h1><📚 What I Learned/h1>
+<h1>📚 What I Learned</h1>
 Django is not just a fancy name — it’s a whole new world.
 
 SVGs are magical, scalable, and mildly infuriating.
