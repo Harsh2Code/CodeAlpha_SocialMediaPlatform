@@ -1,6 +1,6 @@
 <h1>🧠 SPOTT: Full Stack Social Media Platform </h1>
 “I didn’t choose the bug life. The bug life chose me.”
-<a href="https://socialmedia-frontend-1tqk.onrender.com/"> </a>
+<a href="https://codealpha-todoapp-1.onrender.com/"> </a>
 
 Welcome to SPOTT, the social media platform I built to prove to myself (and the world) that I can wrestle with unfamiliar tech stacks and come out victorious — or at least mildly bruised but wiser.
 
