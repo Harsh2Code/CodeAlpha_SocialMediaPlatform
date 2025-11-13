@@ -11,7 +11,7 @@ const Input = React.forwardRef(({ as: Component = "input", className, type = "te
       )}
       ref={ref}
       {...props}
-      style={{backgroundColor: '#330087',color: 'white'}}
+      style={{backgroundColor: '#ffffff',color: 'black'}}
     />
   );
 });

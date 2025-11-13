@@ -94,12 +94,11 @@ function Navbar() {
     <div
       className="bg-muted block border-2xl"
       style={{
-        width: '96vw',
+        width: '97vw',
         height: '60px',
-        backgroundColor: '#111111',
+        backgroundColor: '#f7f7f7ff',
         overflow: 'hidden',
-        borderBottom: '1px solid #6366f1',
-        boxShadow: '2px 2px 5px #646cff',
+        boxShadow: '0px 8px 30px #666666c0',
         color: 'white',
         display: 'flex',
         flexDirection: 'row',
@@ -108,7 +107,7 @@ function Navbar() {
         padding: '0em 16px',
         position: 'fixed',
         top: 0,
-        left: '0.25%',
+        left: '0',
         right: '0.5%',
         zIndex: 50,
       }}
@@ -130,16 +129,16 @@ function Navbar() {
               variant="outline"
               role="combobox"
               aria-expanded={open}
-              className="w-[24rem] justify-between"
-              style={{ backgroundColor: '#343434ff', color: '#646cff',borderRadius: '8rem' }}
+              className="w-[24rem] justify-between border-2 border-[#b3b7ffff]"
+              style={{ backgroundColor: '#ffffffff', color: '#9499ffff',borderRadius: '8rem' }}
             >
               {value
                 ? users.find((user) => user.id === value)?.username
                 : "Select user..."}
-              <MagnifyingGlassIcon style={{ width: 26, height: 26, color: '#646cff' }} />
+              <MagnifyingGlassIcon style={{ width: 26, height: 26, color: '#bdc0ffff' }} />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-[200px] p-0" style={{ backgroundColor: '#340087', backdropFilter: 'blur(10px)', borderRadius: '10px' }}>
+          <PopoverContent className="w-[200px] p-0" style={{ backgroundColor: '#ffffffff', backdropFilter: 'blur(10px)', borderRadius: '10px' }}>
             <Command>
               <CommandInput
                 placeholder="Search user..."
