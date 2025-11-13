@@ -2,7 +2,7 @@ services:
   - type: web
     name: social-media-backend
     env: python
-    buildCommand: "pip install -r Main/BackEnd/requirements.txt && python Main/BackEnd/manage.py migrate"
+    buildCommand: "pip install -r Main/BackEnd/requirements.txt && python Main/BackEnd/manage.py collectstatic --noinput && python Main/BackEnd/manage.py migrate"
     startCommand: "gunicorn Main.BackEnd.backend.wsgi:application"
     envVars:
       - key: DATABASE_URL
@@ -13,9 +13,11 @@ services:
         value: 1
       - key: DEBUG
         value: "False"
-      
+      - key: ALLOWED_HOSTS
+        value: "socialmedia-backend-ipwx.onrender.com,localhost,127.0.0.1"
+
     autoDeploy: true
-    healthCheckPath: /admin/login/
+    healthCheckPath: /api/
 
   - type: web
     name: social-media-frontend
