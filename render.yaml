@@ -5,8 +5,6 @@ services:
     buildCommand: "pip install -r Main/BackEnd/requirements.txt && python Main/BackEnd/manage.py collectstatic --noinput && python Main/BackEnd/manage.py migrate"
     startCommand: "gunicorn Main.BackEnd.backend.wsgi:application"
     envVars:
-      - key: DATABASE_URL
-        value: "${DATABASE_URL}" # This will be set in Render dashboard
       - key: SECRET_KEY
         generateValue: true
       - key: WEB_CONCURRENCY
