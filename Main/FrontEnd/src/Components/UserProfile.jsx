@@ -137,7 +137,7 @@ const UserProfile = ({ userId }) => {
             <h2 className="text-[1.5rem] font-bold mb-[4%]">Posts</h2>
             {posts.length > 0 ? (
               posts.map(post => (
-                <div key={post.id} className="p-[1%] rounded-[1rem] m-[4%]" style={{ backgroundColor: '#340087' }}>                  <p style={{ color: '#A0C5EF' }}>{post.content}</p>
+                <div key={post.id} className="p-[1%] rounded-[1rem] m-[4%]" style={{ backgroundColor: '#f7f7f7ff', borderRadius: '10px', color: 'black' }}>                  <p style={{ color: 'black' }}>{post.content}</p>
                 </div>
               ))
             ) : (
@@ -152,9 +152,9 @@ const UserProfile = ({ userId }) => {
           <div>
             <h2 className="text-[1.5rem] font-bold mb-[4%]">Followers</h2>
             {followers.length > 0 ? (
-              <ul style={{ backgroundColor: '#340087' }}>
+              <ul style={{ backgroundColor: '#f7f7f7ff' }}>
                 {followers.map(follower => (
-                  <li key={follower.id} className="p-[1rem] rounded-[1rem] m-[4%]" style={{ color: '#A0C5EF' }}>
+                  <li key={follower.id} className="p-[1rem] m-[4%]" style={{ color: 'black', borderRadius: '16px' }}>
                     {follower.username}
                   </li>
                 ))}
@@ -171,9 +171,9 @@ const UserProfile = ({ userId }) => {
           <div>
             <h2 className="text-[1.5rem] font-bold mb-[4%]">Following</h2>
             {following.length > 0 ? (
-              <ul style={{ backgroundColor: '#340087' }}>
+              <ul style={{ backgroundColor: '#f7f7f7ff' }}>
                 {following.map(followed => (
-                  <li key={followed.id} className="p-[1rem] rounded-[1rem] m-[4%]" style={{ color: '#A0C5EF' }}>
+                  <li key={followed.id} className="p-[1rem] rounded-[1rem] m-[4%]" style={{ color: 'black', borderRadius: '2rem' }}>
                     {followed.username}
                   </li>
                 ))}
@@ -203,16 +203,16 @@ const UserProfile = ({ userId }) => {
   return (
     <div className="container mx-auto p-4 w-[80vw]">
       <div className="flex items-center mb-8">
-        <img src={user.profile_picture || '/Profile-Photo.jpeg'} alt="Profile" className="w-[10rem] h-[10rem] rounded-full mr-8" />
+        <img src={user.profile_picture || '/Profile-Photo.jpeg'} alt="Profile" className="w-[10rem] h-[10rem] rounded-full mr-8"  style={{ boxShadow: 'rgba(167, 167, 167, 0.79) 0px 1px 6px 5px'}}/>
         <div style={{
             backgroundColor: 'white',
-            background: 'transparent',
+            background: '#eaeaeaff',
             backdropFilter: 'blur(10px)',
-            color: '#d8d8d9',
+            color: 'black',
             width: '100%',
             height: '100%',
             padding: '1rem',
-            boxShadow: '8px -4px 10px #350087',
+            boxShadow: '8px -4px 10px #a7a7a7ff',
             borderRadius: '10px',
           }}>
             <h1 className="text-3xl font-bold">{user.username}</h1>
@@ -229,11 +229,11 @@ const UserProfile = ({ userId }) => {
         </div>
 
         <div>
-          <Card>
+          <Card style={{backgroundColor: '#eaeaeaff', borderRadius: '1rem'}}>
             <CardHeader>
               <CardTitle></CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="bg-[#eaeaeaff]" style={{backgroundColor: '#eaeaeaff', color: 'black', padding: '0 1rem', borderRadius: '1rem', boxShadow: 'rgba(51, 51, 51, 0.79) 0px 4px 12px -12px'}}>
               {renderContent()}
             </CardContent>
           </Card>
