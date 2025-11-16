@@ -85,7 +85,7 @@ class PostViewSet(viewsets.ModelViewSet):
     def list_comments(self, request, pk=None):
         post = self.get_object()
         comments = Comment.objects.filter(post=post)
-        serializer = CommentSerializer(comments, many=True)
+        serializer = CommentSerializer(comments, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class LikeViewSet(viewsets.ModelViewSet):

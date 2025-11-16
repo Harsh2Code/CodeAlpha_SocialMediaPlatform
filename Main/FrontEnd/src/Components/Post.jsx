@@ -6,8 +6,8 @@ import { Label } from './ui/label';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { BiSolidLike } from "react-icons/bi";
-import { BiCommentDetail } from "react-icons/bi";
-import { ShareIcon } from '@heroicons/react/24/solid';
+import { TbMessageFilled } from "react-icons/tb";
+import { TbShare } from "react-icons/tb";
 import { IoCloseSharp } from "react-icons/io5";
 import { FollowButton } from './ui/FollowButton';
 import API_BASE_URL from "../lib/apiConfig.js";
@@ -59,14 +59,14 @@ export default function Post(props) {
     }
   }, [props.posts, token]);
 
-  
+
 
   const handleLikeToggle = async (post) => {
     try {
       const isLiked = likedPosts[post.id];
       const url = isLiked ? `${API_BASE_URL}/api/posts/${post.id}/unlike/` : `${API_BASE_URL}/api/likes/`;
       const method = isLiked ? 'POST' : 'POST';
-      
+
       // Optimistic UI update
       setLikedPosts(prev => ({
         ...prev,
@@ -119,7 +119,7 @@ export default function Post(props) {
     setVisibleComments(prev => ({ ...prev, [postId]: !prev[postId] }));
     if (!visibleComments[postId]) {
       try {
-        const response = await fetch(`${API_BASE_URL}/api/comments/?post=${postId}`, {
+        const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/list_comments/`, {
           headers: {
             'Authorization': `Token ${token}`,
           },
@@ -147,7 +147,7 @@ export default function Post(props) {
       ...prev,
       [postId]: value,
     }));
-  }; 
+  };
 
   const handleCommentSubmit = async (postId) => {
     const comment = commentInputs[postId];
@@ -196,103 +196,89 @@ export default function Post(props) {
     <>
       <div className="my-[1em]" >
         {posts.map((post) => (
-          <div key={post.id} style={{ padding: "1em 1em 0em 1em", height: '40%', width: '35%', margin: '1em  auto ', borderRadius: '0.4em', /*backgroundColor: '#F7F7F8'*/ backgroundColor: '#151515ff' }}>
+          <div key={post.id} style={{ padding: "1em 1em 1em 1em", height: '40%', width: '35%', margin: '1em  auto ', borderRadius: '0.4em', /*backgroundColor: '#313131ff'*/ backgroundColor: '#f7f7f7ff', boxShadow: 'rgba(51, 51, 51, 0.79) 0px 4px 24px -12px' }}>
             <div className='flex flex-row justify-start items-center w-[100%]' style={{ padding: '0px 0px', borderRadius: '0.25rem' }}>
               {!hideUserInfo && (
-                <div className='flex flex-row items-center w-full'>
-                  <Avatar square="true" className="mx-auto my-[0.5%]"  >
+                <div className='flex items-center w-full'>
+                  <Avatar square="true" className="mx-auto my-[0.5%]" style={{ boxShadow: 'rgba(167, 167, 167, 0.79) 0px 1px 6px 5px'}}  >
                     <AvatarImage src={post.author.profile_picture || "/Profile-Photo.jpeg"} alt="Profile" style={{ width: '6rem', height: '6rem' }} />
                   </Avatar>
-                  <div className='flex flex-row justify-between items-start mx-auto' style={{ height: '100px', width: '43rem' }}>
-                    <div className="flex flex-col justify-center">
-                      <div className='ml-[2%] font-bold text-[2rem]'><span className='text-2xl w- ml-[2%]'>{post.author.username || "Anonymous"}</span></div>
-                      <span className='text-[1em] w- mt-[10%] ml-[4%]' style={{ color: 'rgba(255, 255, 255, 1)' }}>{post.author.gender || "PNTS"} | {calculateAge(post.author.date_of_birth)} | {post.author.nationality || "Unknown"}</span>
+                  <div className='flex flex-row justify-evenly items-start mx-auto' style={{ height: '100px', width: '43rem' }}>
+                    <div className="flex flex-col justify-evenly items-start w-[70%]">
+                      <div className='ml-[2%] font-extrabold text-[2rem]'><span className='text-2xl text-[#232323ff] ml-[2%]'>{post.author.username || "Anonymous"}</span></div>
+                      <span className='text-[1em] text-[#313131ff] mt-[10%] ml-[4%]' style={{ color: 'rgba(85, 85, 85, 1)' }}>{post.author.gender || "PNTS"} | {calculateAge(post.author.date_of_birth)} | {post.author.nationality || "Unknown"}</span>
                     </div>
 
                     <div className='flex flex-row justify-between items-center w-full'>
                       <div className='ml-[2%]'>
                       </div>
-                      <div className='mr-[0 %] flex flex-col justify-between items-end my-auto' style={({ width: '200px',height : '80px', color: 'rgba(255, 255, 255, 1)' })}>
+                      <div className='mr-[0 %] flex flex-col justify-between items-end my-auto' style={({ width: '200px', height: '80px', color: 'rgba(99, 99, 99, 1)' })}>
                         <span className='text-[0.9em] mt-[2%] mr-[10%]'>{new Date(post.created_at).toLocaleDateString()}</span>
                         {console.log("post.author:", post.author)}
-                        {user && post.author.id !== user.id && <FollowButton userId={post.author.id} style={{backgroundColor: '#1f1e1eff !important', borderRadius: '15px', color: 'white', border: 'none'}}/>}
+                        {user && post.author.id !== user.id && <FollowButton userId={post.author.id} style={{ backgroundColor: '#ffffffff !important', borderRadius: '15px', color: 'black', border: 'none', boxShadow: 'rgba(51, 51, 51, 0.79) 1px 4px 12px 4px'}} />}
                       </div>
                     </div>
                   </div>
                 </div>
               )}
             </div>
-            <Card style={{ marginTop: '10px', backgroundColor: "#f7f7f7ff"}}>
-              <CardContent className="overflow-hidded block rounded-lg" style={{backgroundColor: '#f7f7f7ff' ,backdropFilter: 'blur(20px)', padding: '0px'}}>
+
+            <Card style={{ marginTop: '10px', backgroundColor: "#f7f7f7ff" }}>
+              <CardContent className="overflow-hidded block rounded-lg" style={{ backgroundColor: '#f7f7f7ff', backdropFilter: 'blur(20px)', padding: '0px' }}>
                 {/* {post.title && <h3 style={{color: 'white', margin: '1rem 1rem 0.5rem 1rem', padding: 0, fontWeight: 'bold'}}>{post.title}</h3>} */}
-                <Label className="overflow-hidden">
-                  {post.image && <img className='w-5/6 mx-auto my-[2%] rounded-[2%] block overflow-hidden object-cover' src={post.image} style={{width: '100%' }} alt="" />}
+                <Label className="overflow-hidden w-[100%]">
+                  {post.image && <img className='mx-auto my-[1%] rounded-[2%] block overflow-hidden object-cover' src={post.image} style={{ width: '100%' }} alt="" />}
                 </Label>
-                <div style={{backgroundColor: '#f7f7f7ff',borderRadius: '0.5rem', margin: "1rem 1rem", padding: '0.5rem', color: '#212121ff'}} >
-                  <h4 className='text-left mt-[0.25rem] mb-[1.5rem]' style={{color: 'white'}} >{post.title}</h4>
-                  <p style={{marginTop:'1rem', fontSize: '0.7rem', color: '#212121ff'}}>
+                <div className="flex justify-start gap-[2rem] align-start mx-auto w-[100%]" style={{ margin: '0 0', padding: '10px 0px' }}>
+                  <button
+                    variant="ghost"
+                    className='flex items-end'
+                    onClick={() => handleLikeToggle(post)}
+                    style={{ border: 'none', backgroundColor: '#f7f7f7ff' }}
+                  >
+                    <BiSolidLike style={{ width: 20, height: 20, color: likedPosts[post.id] ? '#fb6d6dff' : '#c8c8c8ff' }} />
+                    <sub style={{ color: '#fb6d6dff', fontWeight: 'bold' }}>{post.likes_count || 0}</sub>
+                  </button>
+                  <button variant="ghost" className='flex items-end' style={{ border: 'none', backgroundColor: '#f7f7f7ff' }} onClick={() => toggleComments(post.id)}>
+                    <TbMessageFilled style={{ width: 20, height: 20, color: commentInputs[post.id] ? '#63cefcff' : '#c8c8c8ff' }} className='hover:text-[#63cefcff]' />
+                    <sub style={{ color: '#646cff', fontWeight: 'bold' }}>{post.comments_count || 0}</sub>
+                  </button>
+                  <button variant="ghost" style={{ border: 'none', backgroundColor: '#f7f7f7ff' }}>
+                    <TbShare style={{ width: 20, height: 20, color: '#c8c8c8ff' }} />
+                  </button>
+                </div>
+                <div style={{ backgroundColor: '#eaeaeaff', borderRadius: '0.5rem', margin: "0.5rem 0.5rem", padding: '1rem 1rem', color: '#212121ff' }} >
+                  <h4 className='text-left mt-[0.25rem] -mb-[1rem]' style={{ color: '#080808ff' }} >{post.title}</h4>
+                  <p style={{ marginTop: '1rem', fontSize: '0.9rem', color: '#595656ff' }}>
                     {post.content}
                   </p>
                 </div>
               </CardContent>
+            
             </Card>
-            <div className="flex justify-around align-center mx-auto w-[100%]" style={{ margin: '0 0', padding: '18px 0px' }}>
-              <button
-                variant="ghost"
-                className='flex items-center'
-                onClick={() => handleLikeToggle(post)}
-                style={{backgroundColor: '#ffffffff', border: 'none'}}
-                >
-                <BiSolidLike style={{ width: 26, height: 26,backgroundColor: '#ffffffff', color: likedPosts[post.id] ? '#212121ff' : '#8e8e8eff' }} />
-                <span style={{ color: '#646cff', fontWeight: 'bold' }}>{post.likes_count || 0}</span>
-              </button>
-              <button variant="ghost" className='flex items-center' style={{backgroundColor: '#151515ff', border: 'none'}} onClick={() => toggleComments(post.id)}>
-                <BiCommentDetail style={{ width: 26, height: 26,backgroundColor : '#ffffffff' , color: commentInputs[post.id]? '#212121ff' : '#8e8e8eff' }} />
-                <span style={{ color: '#646cff', fontWeight: 'bold' }}>{post.comments_count || 0}</span>
-                
-              </button>
-              <button variant="ghost" style={{backgroundColor: '#ffffffff', border: 'none'}}>
-                <ShareIcon style={{ width: 26, height: 26, color: '#1d1d1dff', backgroundColor: '#f7f7f7ff' }} /> 
-              </button>
-            </div>
             {visibleComments[post.id] && (
-              <div style={{ maxHeight: '28rem', overflowY: 'auto', border: '1px solid #efefefff', marginTop: '10px', padding: '10px', borderRadius: '8px', backgroundColor: '#f1f1f1ff' }}>
-                <div className="flex flex-row justify-between items-center">
-                  <span className='text-[1rem]' style={{ color: 'white' }}>
+              <div style={{ maxHeight: '28rem', overflowY: 'auto', border: '1px solid #efefefff', marginTop: '10px', padding: '10px', borderRadius: '8px', backgroundColor: '#dfdede' }}>
+                <div className="flex flex-row py-[0.5rem] justify-between items-center">
+                  <span className='text-[1rem]' style={{ color: 'black' }}>
                     Comments
                   </span>
-                  <div> <button onClick={() => toggleComments(post.id)} style={{backgroundColor: '#200057'}}><IoCloseSharp style={{ width: '0.8rem', height: '0.8rem', color: '#252525ff', backgroundColor: '#fafafaff' }} /></button></div>
+                  <div className='border-none'> <button onClick={() => toggleComments(post.id)} style={{  }}><IoCloseSharp style={{ width: '1rem', height: '1rem', color: '#515151ff',border: 'none' }} /></button></div>
                 </div>
-                <hr className='w-[96%] mx-auto' style={{ color: '#313131ff' }} />
-                <div className="flex justify-around">
-                  <Input
-                    type="text"
-                    placeholder="Add a comment..."
-                    value={commentInputs[post.id] || ''}
-                    onChange={(e) => handleCommentChange(post.id, e.target.value)}
-                    className="w-[70rem] text-[#ffffff] p-2 rounded border border-gray-300"
-                    style={{ width: '35rem', padding: '1rem'}}
-                  />
-                  <Button onClick={() => handleCommentSubmit(post.id)} className="mt-2 mx-[0.5rem] focus:border-[#330087]" style={{ backgroundColor: '#ffffffff ', color: 'black', borderRadius: '2rem', border: 'none', padding: '1rem' }}>
-                    Submit ✔️
-                  </Button>
-                </div>
-                <hr />
                 {post.comments && post.comments.length > 0 ? (
                   post.comments.map((comment) => (
                     <div key={comment.id} style={{ marginBottom: '8px', borderBottom: '1px solid #ccc', paddingBottom: '4px', height: '5em', backgroundColor: '#f7f7f7ff', borderRadius: '0.6em', padding: '0 1em 0 0' }}>
                       <div className="flex flex-row justify-between items-center">
                         <div className='w-[7em]'>
-                          <Avatar square="true" className="mx-[0.5em] my-auto my-[10%]" style={{ marginTop: '0.4rem' }} >
-                            <AvatarImage src="/Profile-Photo.jpeg" alt="Profile" style={{ width: '1.5em', height: '1.5em' }} />
-                            <div className='ml-[8%]'>{comment.user_name}</div>
+                          <Avatar square="true" className="mx-[1em] my-auto my-[10%]" style={{ marginTop: '0.4rem' }} >
+                            <AvatarImage src={comment.user_profile_picture || "/Profile-Photo.jpeg"} alt="Profile" style={{ width: '1.5em', height: '1.5em', borderRadius: '50%' }} />
+                            <div className='ml-[8%] text-[0.7em]' style={{ color: 'rgba(0,0,0,1) ' }}>{comment.user_name || 'Anonymous'}</div>
                           </Avatar>
                         </div>
                         <div className='text-[0.7em]' style={{ color: 'rgba(44, 44, 44, 0.98)', height: '1em' }}>
                           <span>{new Date(comment.created_at).toLocaleString().toUpperCase()}</span>
                         </div>
                       </div>
-                      <p className='w-[85%] mx-auto my-auto' style={{margin: '0', padding: '0', color: '#ffffff' }}>
+                      <p className='w-[85%] mx-auto my-auto text-[#313131ff]' style={{ margin: '0', padding: '0 1rem  ' }}>
                         {comment.content}
                       </p>
                     </div>
@@ -300,8 +286,25 @@ export default function Post(props) {
                 ) : (
                   <p>No comments yet.</p>
                 )}
+
               </div>
             )}
+            <div className="flex justify-around items-center mt-[2%]">
+              <Avatar square="false" className="p-[0.8rem]"  >
+                <AvatarImage src={post.author.profile_picture || "/Profile-Photo.jpeg"} alt="Profile" style={{ width: '2.5rem', height: '2.5rem', borderRadius: '50%', marginRight: '1rem' ,boxShadow: 'rgba(167, 167, 167, 0.79) 0px 1px 6px 3px'}} />
+              </Avatar>
+              <Input
+                type="text"
+                placeholder="Add a comment..."
+                value={commentInputs[post.id] || ''}
+                onChange={(e) => handleCommentChange(post.id, e.target.value)}
+                className="w-[70rem] text-[#ffffff] p-2 border border-gray-300"
+                style={{ width: '35rem', padding: '1rem' }}
+              />
+              <Button onClick={() => handleCommentSubmit(post.id)} className="mt-2 mx-[0.5rem] focus:border-[#330087]" style={{ backgroundColor: '#ffffffff ', color: 'black', borderRadius: '2rem', border: 'none', padding: '1rem' }}>
+                Submit ✔️
+              </Button>
+            </div>
           </div>
         ))}
       </div>

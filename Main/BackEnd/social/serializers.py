@@ -88,10 +88,21 @@ class LikeSerializer(serializers.ModelSerializer):
         read_only_fields = ('user',)
 
 class CommentSerializer(serializers.ModelSerializer):
+    user_name = serializers.ReadOnlyField(source='user.username')
+    user_profile_picture = serializers.SerializerMethodField()
+
     class Meta:
         model = Comment
-        fields = ('id', 'user', 'post', 'content', 'created_at')
+        fields = ('id', 'user', 'user_name', 'user_profile_picture', 'post', 'content', 'created_at')
         read_only_fields = ('user',)
+
+    def get_user_profile_picture(self, obj):
+        if obj.user.profile_picture:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.user.profile_picture)
+            return obj.user.profile_picture
+        return '/Profile-Photo.jpeg'
 
 class FollowSerializer(serializers.ModelSerializer):
     follower_username = serializers.ReadOnlyField(source='follower.username')
