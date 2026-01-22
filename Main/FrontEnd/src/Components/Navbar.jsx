@@ -182,20 +182,16 @@ function Navbar() {
         </Popover>
       </div>
       <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '12px' }}>
-        <Label>
-          <Button href style={{ border: 'none', background: 'transparent' }}>
-            <a href="/" style={{ color: '#646cff', textDecoration: 'none', marginRight: '12px' }}>
-              <House style={{width: 26, height: 26, color: '#646cff'}} />
-            </a>
-          </Button>
-        </Label>
-        <Label>
-          <Button style={{ border: 'none', background: 'transparent' }}>
-            <a href="/create" style={{ color: '#646cff', textDecoration: 'none', marginRight: '12px' }}>
-              <Plus style={{width: 26, height: 26, color: '#646cff'}} />
-            </a>
-          </Button>
-        </Label>
+        <Button asChild style={{ border: 'none', background: 'transparent' }}>
+          <a href="/" style={{ color: '#646cff', textDecoration: 'none', marginRight: '12px' }}>
+            <House style={{width: 26, height: 26, color: '#646cff'}} />
+          </a>
+        </Button>
+        <Button asChild style={{ border: 'none', background: 'transparent' }}>
+          <a href="/create" style={{ color: '#646cff', textDecoration: 'none', marginRight: '12px' }}>
+            <Plus style={{width: 26, height: 26, color: '#646cff'}} />
+          </a>
+        </Button>
         <InboxIcon style={{ width: 26, height: 26, color: '#646cff' }} />
         {!user ? (
           <>
